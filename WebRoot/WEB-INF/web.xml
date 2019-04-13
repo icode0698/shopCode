@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+  <servlet>
+    <servlet-name>Login</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Login</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Register</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Register</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UserInfo</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.UserInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ItemType</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.ItemType</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Recommend</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Recommend</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Details</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Details</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Price</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Price</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Whether</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Whether</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/servlet/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Register</servlet-name>
+    <url-pattern>/servlet/Register</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserInfo</servlet-name>
+    <url-pattern>/servlet/UserInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ItemType</servlet-name>
+    <url-pattern>/servlet/ItemType</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Recommend</servlet-name>
+    <url-pattern>/servlet/Recommend</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Details</servlet-name>
+    <url-pattern>/servlet/Details</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Price</servlet-name>
+    <url-pattern>/servlet/Price</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Whether</servlet-name>
+    <url-pattern>/servlet/Whether</url-pattern>
+  </servlet-mapping>
+
+</web-app>

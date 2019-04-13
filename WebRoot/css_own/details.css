@@ -1,0 +1,51 @@
+body{
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.navbar-brand{
+    font-size: 24px;
+    transition: font-size 0.2s;
+    -moz-transition: font-size 0.2s;	/* Firefox 4 */
+    -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
+    -o-transition: font-size 0.2s;
+}
+.navbar-brand:hover{
+    font-size: 32px;
+}
+.tran{
+    font-size: 16px;
+    transition: font-size 0.2s;
+    -moz-transition: font-size 0.2s;	/* Firefox 4 */
+    -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
+    -o-transition: font-size 0.2s;
+}
+.tran:hover{
+    font-size: 22px;
+}
+.jumbotron_color{
+    color: inherit;
+    background-color: #eee;
+    padding-top: 16px; 
+    border-radius: 6px;
+    padding-bottom: 16px;
+}
+.text_flex{
+    display: flex;
+    flex-direction: column;
+}
+.img_size{
+    width:100%;
+}
+.input_size{
+    width: 50px;
+    display: inline;
+}
+.a_type{
+    width: auto;
+}
+.radio_display{
+    display:none;
+}
+.btn_margin{
+    margin-right: 10px !important;
+}

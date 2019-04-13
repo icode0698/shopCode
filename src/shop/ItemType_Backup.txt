@@ -1,0 +1,197 @@
+package shop;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.jws.soap.SOAPBinding;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
+import bean.ItemTypeBean;
+
+public class ItemType extends HttpServlet {
+
+	/**
+		 * Constructor of the object.
+		 */
+	public ItemType() {
+		super();
+	}
+
+	/**
+		 * Destruction of the servlet. <br>
+		 */
+	public void destroy() {
+		super.destroy(); // Just puts "destroy" string in log
+		// Put your code here
+	}
+
+	/**
+		 * The doGet method of the servlet. <br>
+		 *
+		 * This method is called when a form has its tag value method equals to get.
+		 * 
+		 * @param request the request send by the client to the server
+		 * @param response the response send by the server to the client
+		 * @throws ServletException if an error occurred
+		 * @throws IOException if an error occurred
+		 */
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		doPost(request, response);
+	}
+
+	/**
+		 * The doPost method of the servlet. <br>
+		 *
+		 * This method is called when a form has its tag value method equals to post.
+		 * 
+		 * @param request the request send by the client to the server
+		 * @param response the response send by the server to the client
+		 * @throws ServletException if an error occurred
+		 * @throws IOException if an error occurred
+		 */
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/html");
+		response.setCharacterEncoding("utf-8");
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		PreparedStatement stmt = null;
+		PreparedStatement stmtIn = null;
+		ResultSet rs = null;
+		ResultSet rsIn = null;
+		int goodsID = 0;
+		int brandID = 0;
+		int categoryID = 0;
+		String goodsName;
+		String categoryName;
+		String brandName;
+		ArrayList<ItemTypeBean> itemList = new ArrayList<ItemTypeBean>();
+		int stock;
+		float price;
+		PrintWriter out = response.getWriter();
+		String type = request.getParameter("type");
+		String category = request.getParameter("category");
+		categoryName = category;
+//		System.out.println("type&&category:"+type+"&&"+category);
+		JSONObject json = new JSONObject();
+		try{
+			stmt = conn.prepareStatement("select categoryID from category where categoryName=?");
+			stmt.setString(1, category);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				categoryID = rs.getInt(1);
+//				System.out.println("ItemType_categoryName:"+categoryID);
+			}
+			stmt = conn.prepareStatement("select goodsID, brandID, goodsName,stock from goods where categoryID=?");
+			stmt.setInt(1, categoryID);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				ItemTypeBean itemTypeBean = new ItemTypeBean();
+				itemTypeBean.setCategoryName(category);
+				ArrayList<String> storageList = new ArrayList<String>();
+				ArrayList<String> colorList = new ArrayList<String>();
+				ArrayList<String> screenList = new ArrayList<String>();
+				ArrayList<String> imgList = new ArrayList<String>();
+				goodsID = rs.getInt(1);
+				itemTypeBean.setGoodsID(goodsID);
+				brandID = rs.getInt(2);
+				goodsName = rs.getString(3);
+				itemTypeBean.setGoodsName(goodsName);
+				stock = rs.getInt(4);
+				itemTypeBean.setStock(stock);
+//				System.out.println("goodsID&&brandID&&goodsName&&stock:"+goodsID+brandID+goodsName+stock);
+				stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
+				stmtIn.setInt(1, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					imgList.add(rsIn.getString(1));
+				}
+				itemTypeBean.setImgList(imgList);
+//				System.out.println("imgList:"+imgList);
+				stmtIn = conn.prepareStatement("select brandName from goods,brand "
+						+ "where goods.brandID=brand.brandID and goods.goodsID=?");
+				stmtIn.setInt(1, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					brandName = rsIn.getString(1);
+//					System.out.println("brandName:"+brandName);
+					itemTypeBean.setBrandName(brandName);
+				}
+				/* 
+				 * 获取选中类别中产品的各项规格参数
+				 * 1、获取存储参数
+				 */
+				stmtIn = conn.prepareStatement("select value from parameter,parametervalue,goodsvalue "
+						+ "where parameter.parameterID=parametervalue.parameterID "
+						+ "and goodsvalue.valueID=parametervalue.valueID and parameter.parameterName=? and goodsID=?");
+				stmtIn.setString(1, "存储");
+				stmtIn.setInt(2, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					storageList.add(rsIn.getString(1));
+				}
+				itemTypeBean.setStorageList(storageList);
+//				System.out.println("+++++++++++++++++++++++++++++++");
+				/*
+				 * 2、获取颜色参数
+				 */
+				stmtIn.setString(1, "颜色");
+				stmtIn.setInt(2, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					colorList.add(rsIn.getString(1));
+				}
+				itemTypeBean.setColorList(colorList);
+				/*
+				 * 3、获取尺寸参数
+				 */
+				stmtIn.setString(1, "尺寸");
+				stmtIn.setInt(2, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					screenList.add(rsIn.getString(1));
+				}
+				itemTypeBean.setScreenList(screenList);
+				itemList.add(itemTypeBean);
+//				System.out.println("itemList:"+itemList);
+			}
+			json.put("status","success");
+			json.put("message",itemList);
+			out.write(json.toString());
+			//out.write(JSON.toJSONString(itemList);
+			out.flush();
+			out.close();
+//			System.out.println("itemList:"+itemList);
+//			System.out.println("itemList To JSON:"+json);
+		}catch (SQLException e) {
+			e.getMessage();
+			json.put("status","failed");
+			json.put("message", "服务器异常");
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+	}
+
+	/**
+		 * Initialization of the servlet. <br>
+		 *
+		 * @throws ServletException if an error occurs
+		 */
+	public void init() throws ServletException {
+		// Put your code here
+	}
+
+}

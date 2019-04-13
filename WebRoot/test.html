@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Test HTML</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="pic/shop.png">
+    <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <link rel='stylesheet' href='css/nprogress.css'/>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .tran{
+            font-size: 14px;
+        }
+        .tran:hover{
+            font-size: 20px;
+            transition: font-size 0.2s;
+			-moz-transition: font-size 0.2s;	/* Firefox 4 */
+			-webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
+			-o-transition: font-size 0.2s;
+        }
+        .div_top{
+            position:absolute;
+            left: 0;
+            top: 0;
+            width:100%;
+            height:50px;
+            background-color:white;
+            opacity: 0;
+            transition:opacity 0.5s ease-out;
+            -moz-transition: opacity 0.5s ease-out;	/* Firefox 4 */
+			-webkit-transition: opacity 0.5s ease-out;	/* Safari 和 Chrome */
+			-o-transition: opacity 0.5s ease-out; 
+        }
+        .div_radius{
+            border-radius: 20%;
+        }
+        .img_radius{
+            width:100%;
+            border-radius: 30%;
+        }
+        .back_img{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+        .div1{
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            text-align: center !important;
+        }
+        .div2{
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex !important;
+            align-items: center !important;
+            padding: 1.25rem;
+        }
+        .span_text{
+            font-size: 18px;
+            transition:font-size 0.5s ease-out;
+            -moz-transition: font-size 0.5s ease-out;	/* Firefox 4 */
+			-webkit-transition: font-size 0.5s ease-out;	/* Safari 和 Chrome */
+			-o-transition: font-size 0.5s ease-out; 
+        }
+        .span_text:hover{
+            font-size:50px;
+        }
+        .radio_c{
+            display:none;
+        }
+        .li_color{
+            color: #fff;
+            background-color: #337ab7;
+        }
+    </style>
+</head>
+<body>
+        
+        <label id="label1" class="btn btn-default radio-inline">123
+            <input type="radio" class="radio_c" name="themestyle" id="radio1" value="1" checked="checked"/>
+        </label>
+        <label id="label2" class="btn btn-default radio-inline">123123123
+            <input type="radio" class="radio_c" name="themestyle" id="radio2" value="2" />
+        </label>
+        <label id="label3" class="btn btn-default radio-inline">123
+            <input type="radio" class="radio_c" name="themestyle" id="radio3" value="3" />
+        </label>
+        <ul class="list-inline">
+            <li><label id="label1" class="btn btn-default radio-inline">123
+                    <input type="radio" class="radio_c" name="themestyle" id="radio1" value="1" checked="checked"/>
+                </label></li>
+            <li><label id="label2" class="btn btn-default radio-inline">123123123
+                    <input type="radio" class="radio_c" name="themestyle" id="radio2" value="2" />
+                </label></li>
+            <li><label id="label3" class="btn btn-default radio-inline">123
+                    <input type="radio" class="radio_c" name="themestyle" id="radio3" value="3" />
+                </label></li>
+        </ul>
+        <form >
+            <label for="male">Male</label>
+            <input type="radio" name="sex" id="male" value="male"/>
+            <br />
+            <label for="female">Female</label>
+            <input type="radio" name="sex" id="female" value="female"/>
+            <button id="btn1" type="button">提交
+        </form>
+    
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="assets/js/ie-emulation-modes-warning.js"></script>
+        <script src='js/nprogress.js'></script>
+        <!-- Bootstrap core CSS -->
+        <script src="js/bootstrap.min.js"></script>
+            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+        <script src="js/nprogressapply.js"></script>
+
+        <script >
+            $(function(){
+                $("#btn1").on("click",function(){
+                    console.log($("input:radio[name='sex']:checked").val());
+                    console.log($("input[name='sex']:checked").val());
+                });
+            });
+            // $(function(){
+            //     $("#label1").on("click",function(){
+            //         $(this).removeClass("btn-default");
+            //         $("#label2").removeClass("btn-success");
+            //         $("#label3").removeClass("btn-success");
+            //         $(this).addClass("btn-success");
+            //         $("#label2").addClass("btn-default");
+            //         $("#label3").addClass("btn-default");
+            //         $("#radio1").attr("checked","checked");
+            //         $("#radio2").attr("checked",false);
+            //         $("#radio3").attr("checked",false);
+            //         console.log("+++++++++:"+$(".radio_c").attr("value"));
+            //     });
+            //     $("#label2").on("click",function(){
+            //         $(this).removeClass("btn-default");
+            //         $("#label1").removeClass("btn-success");
+            //         $("#label3").removeClass("btn-success");
+            //         $(this).addClass("btn-success");
+            //         $("#label1").addClass("btn-default");
+            //         $("#label3").addClass("btn-default");
+            //         $("#radio2").attr("checked","checked");
+            //         $("#radio1").attr("checked",false);
+            //         $("#radio3").attr("checked",false);
+            //         console.log("+++++++++:"+$(".radio_c").attr("value"));
+            //     });
+            //     $("#label3").on("click",function(){
+            //         $(this).removeClass("btn-default");
+            //         $("#label2").removeClass("btn-success");
+            //         $("#label1").removeClass("btn-success");
+            //         $(this).addClass("btn-success");
+            //         $("#label2").addClass("btn-default");
+            //         $("#label1").addClass("btn-default");
+            //         $("#radio3").attr("checked","checked");
+            //         $("#radio2").attr("checked",false);
+            //         $("#radio1").attr("checked",false);
+            //         console.log("+++++++++:"+$(".radio_c").attr("value"));
+            //     });
+            //     $("li").on("click",function(){
+            //         $(this).addClass("li_color");
+            //     });
+            // });
+            /*
+            $("#nav_top").hover(function(){
+                $("#nav_top").css("background-color","white");
+            },function(){
+                $("#nav_top").css();
+            });
+            
+            $(function(){
+                $("#dropa").hover(
+                    function(){
+                        $("#list").fadeIn();
+                    },function(){
+                        $("#list").fadeOut();
+                    });
+            });
+            $(function () {
+       $(".dropdown").mouseover(function () {
+           $(this).addClass("open");
+       });
+       $(".dropdown").mouseleave(function(){
+           $(this).removeClass("open");
+       })
+    })
+            $("#span_left").hide();
+            $("#span_right").hide();
+            $(function(){
+                $("#nav_top").hover(function(){
+                    //$(this).removeClass("navbar-transparent");
+                    //$(this).fadeTo("slow",0)
+                },function(){
+                    //$(this).addClass("navbar-transparent");
+                });
+                //处理图片轮播左右箭头
+                $("#a_left").hover(
+                    function(){
+                        $("#span_left").fadeIn();
+                    },function(){
+                        $("#span_left").fadeOut();
+                    }
+                );
+                $("#a_right").hover(
+                    function(){
+                        $("#span_right").fadeIn("fast");
+                    },function(){
+                        $("#span_right").fadeOut("fast");
+                    }
+                );
+            });
+            $(function(){
+                $("#nav_contain").hover(function(){
+                    $(".div_top").css("opacity","1");
+                },function(){
+                    $(".div_top").css("opacity","0");
+                });
+            });*/
+        </script>
+</body>
+</html>
