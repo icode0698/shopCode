@@ -1,5 +1,5 @@
 $(document).ready(function(){
-  sessionStorage.removeItem("user");
+  //sessionStorage.removeItem("user");
     $("#sub").click(function(){
       var user = $("#user").val();
       console.log("user:"+user);
@@ -41,8 +41,8 @@ $(document).ready(function(){
           console.log("json.status:"+data.status);
           console.log("json.user:"+data.user);
           if(data.status=="success"){
-            sessionStorage.setItem("user",data.user);
-            console.log("sessionStorage_user_login:"+sessionStorage.getItem("user"));
+            //sessionStorage.setItem("user",data.user);
+            //console.log("sessionStorage_user_login:"+sessionStorage.getItem("user"));
             $("#error_hide").addClass("hidden");
             $("#div_hide").removeClass("hidden");
             $("#success_hide").removeClass("hidden");

@@ -13,6 +13,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
+import org.omg.PortableInterceptor.SUCCESSFUL;
+
+import api.DataLink;
+import api.GoodsInfo;
 
 public class Price extends HttpServlet {
 
@@ -67,46 +71,25 @@ public class Price extends HttpServlet {
 		String storage = request.getParameter("storage");
 		System.out.println("color&&screen&&storage&&goodsID"+color+screen+storage+goodsID);
 		float price = 0;
-		DataLink dataLink = new DataLink();
-		Connection conn = dataLink.linkData();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 		JSONObject json = new JSONObject();
 		PrintWriter out = response.getWriter();
-		try{
-			stmt = conn.prepareStatement("select price from price where "
-					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
-					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
-					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");
-			stmt.setInt(1, goodsID);
-			stmt.setString(2, storage);
-			stmt.setInt(3, goodsID);
-			stmt.setString(4, color);
-			stmt.setInt(5, goodsID);
-			stmt.setString(6, screen);
-			//System.out.println("+++++++++++++++++++2333");
-			rs = stmt.executeQuery();
-			//System.out.println("+++++++++++++++++++23333333");
-			//System.out.println(rs);
-			while(rs.next()){
-				price = rs.getFloat(1);
-			}
-			System.out.println("price:"+price);
-			if(price!=0){
-				json.put("status", "success");
-				json.put("price", price);
-				out.write(json.toString());
-				out.flush();
-				out.close();
-			}
-			else{
-				json.put("status", "fail");
-				json.put("price", price);
-				out.write(json.toString());
-				out.flush();
-				out.close();
-			}
-		}catch (SQLException e) {e.printStackTrace();}
+		GoodsInfo goodsInfo = new GoodsInfo(goodsID, color, screen, storage);
+		price = goodsInfo.getPrice();
+		System.out.println("price:"+price);
+		if(price!=0){
+			json.put("status", "success");
+			json.put("price", price);
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
+		else{
+			json.put("status", "fail");
+			json.put("price", price);
+			out.write(json.toString());
+			out.flush();
+			out.close();
+		}
 	}
 
 	/**

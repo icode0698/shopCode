@@ -10,6 +10,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css_own/details.css" rel="stylesheet">
+    <link href="css_own/common.css" rel="stylesheet">
     <title></title>
 </head>
 <body>
@@ -65,7 +66,7 @@
             </div>
             <div class="col-md-4">
                 <div class="text_flex">
-                    <h2 id="goodsName"></h2>
+                    <h2><span id="goodsName"></span><small id="brand"></small></h2>
                     <h1><span id="price" class="label label-success"></span></h1>
                     <form>
                         <h3 ><span class="label label-default">选择颜色</span></h3>
@@ -98,6 +99,23 @@
             </div> 
         </div>
     </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+                </div>
+                <div class="modal-body">退出登录后，您需要重新输入登录信息。</div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button id="btn_out" type="button" class="btn btn-primary">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
     <div class="container jumbotron_color">
         <ul id="myTab" class="nav nav-tabs wow bounceInUp">
             <li id="introduce" class="active"><a href="#" data-toggle="tab">商品介绍</a></li>
@@ -114,6 +132,7 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="js_own/details.js"></script>
+    <script src="js_own/common.js"></script>
     <script>
         new WOW().init();
     </script>

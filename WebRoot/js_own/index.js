@@ -47,14 +47,6 @@ $(function () {
     // 处理动画效果
     $("#span_left").hide();
     $("#span_right").hide();
-    // 顶部动态显示登录状态
-    console.log("sessiongStorage_user:" + sessionStorage.getItem("user"));
-    if (sessionStorage.getItem("user") != "" && sessionStorage.getItem("user") != null && sessionStorage.getItem("user") != undefined) {
-        $("#login_no").addClass("hidden");
-        $("#login_yes").removeClass("hidden");
-        //$("#btn_user").text("我("+sessionStorage.getItem("user")+")");
-        $("#span_user").text("我(" + sessionStorage.getItem("user") + ")");
-    }
     $("#a_left").mouseover(function () {
         $("#span_left").stop().fadeIn("fast");
     });
@@ -72,10 +64,6 @@ $(function () {
     });
     $("#top_btn_reg").click(function () {
         location.href = "register.html";
-    });
-    $("#btn_out").click(function () {
-        sessionStorage.removeItem("user");
-        location.href = "index.html";
     });
     // 处理分类的个性推荐
     $("#phone").click(function () {
@@ -182,13 +170,22 @@ $(function () {
             }
         });
     });
+    
     //localStorage.removeItem("times");
     /*
-$("#nav_top").hover(function(){
-    $("#nav_top").css("background-color","white");
-},function(){
-    $("#nav_top").css();
-});
+    // 顶部动态显示登录状态(sessionStorage)
+    // console.log("sessiongStorage_user:" + sessionStorage.getItem("user"));
+    // if (sessionStorage.getItem("user") != "" && sessionStorage.getItem("user") != null && sessionStorage.getItem("user") != undefined) {
+    //     $("#login_no").addClass("hidden");
+    //     $("#login_yes").removeClass("hidden");
+    //     //$("#btn_user").text("我("+sessionStorage.getItem("user")+")");
+    //     $("#span_user").text("我(" + sessionStorage.getItem("user") + ")");
+    // }
+    $("#nav_top").hover(function(){
+        $("#nav_top").css("background-color","white");
+    },function(){
+        $("#nav_top").css();
+    });
  // $("#h2_item1").hide();
     // $("#span_item1").hide();
     // $("#h2_item2").hide();

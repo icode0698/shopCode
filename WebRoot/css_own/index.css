@@ -12,26 +12,6 @@ body {
 .span_align{
     text-align: center;
 }
-.navbar-brand{
-    font-size: 24px;
-    transition: font-size 0.2s;
-    -moz-transition: font-size 0.2s;	/* Firefox 4 */
-    -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
-    -o-transition: font-size 0.2s;
-}
-.navbar-brand:hover{
-    font-size: 32px;
-}
-.tran{
-    font-size: 16px;
-    transition: font-size 0.2s;
-    -moz-transition: font-size 0.2s;	/* Firefox 4 */
-    -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
-    -o-transition: font-size 0.2s;
-}
-.tran:hover{
-    font-size: 22px;
-}
 .div_top{
     position:absolute;
     left: 0;

@@ -21,13 +21,6 @@ $(function(){
     }
     $(document).attr("title",goods);
     $("#goodsName").text(goods);
-    // 顶部动态显示登录状态
-    console.log("sessiongStorage_user:" + sessionStorage.getItem("user"));
-    if (sessionStorage.getItem("user") != "" && sessionStorage.getItem("user") != null && sessionStorage.getItem("user") != undefined) {
-        $("#login_no").addClass("hidden");
-        $("#login_yes").removeClass("hidden");
-        $("#span_user").text("我(" + sessionStorage.getItem("user") + ")");
-    }
     $("#top_btn_login").click(function () {
         location.href = "login.html";
     });
@@ -63,9 +56,9 @@ $(function(){
             goodsID: para.sku
         },
         success:function(data){
-            console.log("ajax_begin")
             console.log(data);
             console.log("data_status:"+data.status);
+            $("#brand").text(data.message[0].brandName);
             // 初始化颜色
             for(var i=0;i<data.message[0].colorList.length;i++){
                 var content = '<label id="label_color'+i+'" for="radio_color'+i+'" class="btn btn-default btn_margin">' + data.message[0].colorList[i]+ '</label>'+
@@ -144,7 +137,7 @@ $(function(){
             console.log("data_status:"+data.status);
         }
     });
-    //ajax获取商品价格
+    //ajax初始化商品价格
     function initPrice() {
         $.ajax({
             type: "post",
@@ -166,7 +159,7 @@ $(function(){
             }
         });
     }
-    
+
     //更新商品价格
     function updatePrice() {
         $("input:radio[name='color']").change(function () {
@@ -206,25 +199,35 @@ $(function(){
             dataType: "json",
             url: "servlet/Whether",
             data: {
-                type: "ajax_whether"
+                type: "ajax_whether",
+                message: "getStatus"
             },success:function(data){
                 console.log(data.message);
-                // if (data.status == "success") {
-                //     $.ajax({
-                //         type: "post",
-                //         url: "servlet/Join",
-                //         dataType: "json",
-                //         data: {
-                //             type: "ajax_join",
+                if (data.status == "success") {
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: "servlet/Join",
+                        data: {
+                            "type": "ajax_join",
+                            "goodsID": para.sku,
+                            "brandName": $("#brand").text(),
+                            "storage": $("input:radio[name='storage']:checked").val(),
+                            "color": $("input:radio[name='color']:checked").val(),
+                            "screen": $("input:radio[name='screen']:checked").val(),
+                            "num": $("#num").val()
+                        }, success: function(data){
 
-                //         },
-                //     });
-                // }
-                // else{
-                //     console.log(data.message);
-                // }
+                        }, error:function(){
+
+                        }
+                    });
+                }
+                else{
+                    console.log(data.message);
+                }
             },error:function(){
-                console.log("servlet_whether_error:");
+                console.log("服务器异常\najax_whether:" + XMLResponse.status);
             }
         });
         

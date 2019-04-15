@@ -2,21 +2,24 @@ package shop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import org.json.JSONObject;
+import api.DataLink;
 
-public class Whether extends HttpServlet {
+public class Join extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Whether() {
+	public Join() {
 		super();
 	}
 
@@ -54,41 +57,28 @@ public class Whether extends HttpServlet {
 		 * @throws IOException if an error occurred
 		 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		HttpSession session = request.getSession();
-		String message = request.getParameter("message");
-		System.out.println("message:"+message);
-		JSONObject json = new JSONObject();
+		int goodsID = Integer.parseInt(request.getParameter("goodsID"));
+		String brandName = request.getParameter("brandName");
+		String storage = request.getParameter("storage");
+		String color = request.getParameter("color");
+		String screen = request.getParameter("screen");
+		int num = Integer.parseInt(request.getParameter("num"));
+		System.out.println("goodsID&&brandName&&storage&&color&&screen&&num"+goodsID+brandName+storage+color+screen+num);
+		DataLink dataLink = new DataLink();
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
 		PrintWriter out = response.getWriter();
-		if("getStatus".equals(message)){
-			if("".equals(session.getAttribute("user"))||session.getAttribute("user")==null){
-				json.put("status", "fail");
-				json.put("message", "用户未登录或登录会话超时");
-				out.write(json.toString());
-				out.flush();
-				out.close();
-			}
-			else {
-				json.put("status", "success");
-				json.put("user", session.getAttribute("user"));
-				json.put("message", "用户已登录");
-				out.write(json.toString());
-				out.flush();
-				out.close();
-			}
+		try {
+			conn = dataLink.linkData();
+			stmt = conn.prepareStatement("");
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
-		else{
-			session.removeAttribute("user");
-			json.put("status", "success");
-			json.put("message", "退出登录");
-			out.write(json.toString());
-			out.flush();
-			out.close();
-		}
-		
 	}
 
 	/**
