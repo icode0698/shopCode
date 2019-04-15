@@ -1,6 +1,6 @@
 $(function(){
-    //拼接href字符串，找出sku
-    var url = window.location.href;//href为......?sku=50000001&&goods=iPhone XS Max
+    //拼接href字符串，找出spu
+    var url = window.location.href;//href为......?spu=50000001&&goods=iPhone XS Max
     //console.log("href:"+url);
     var res = url.split("?")[1].split("&");
     //console.log("res:"+res);
@@ -11,7 +11,7 @@ $(function(){
         arr = res[i].split("=");
         para[arr[0]] = arr[1];//实现key value相对应
     }
-    $("#goodsID").text(para.sku);
+    $("#goodsID").text(para.spu);
     //页面转化url中空格%20为正常空格
     var temp = para.goods.split("%20");
     //console.log("url_split:"+temp);
@@ -53,7 +53,7 @@ $(function(){
         dataType: "json",
         data: {
             type: "ajax_details",
-            goodsID: para.sku
+            goodsID: para.spu
         },
         success:function(data){
             console.log(data);
@@ -144,7 +144,7 @@ $(function(){
             dataType: "json",
             url: "servlet/Price",
             data: {
-                "goodsID": para.sku,
+                "goodsID": para.spu,
                 "color": $("input:radio[name='color']:checked").val(),
                 "screen": $("input:radio[name='screen']:checked").val(),
                 "storage": $("input:radio[name='storage']:checked").val()
@@ -169,7 +169,7 @@ $(function(){
                 dataType: "json",
                 url: "servlet/Price",
                 data: {
-                    goodsID: para.sku,
+                    goodsID: para.spu,
                     color: $("input:radio[name='color']:checked").val(),
                     screen: $("input:radio[name='screen']:checked").val(),
                     storage: $("input:radio[name='storage']:checked").val()
@@ -198,30 +198,34 @@ $(function(){
             type: "post",
             dataType: "json",
             url: "servlet/Whether",
+            async: false,
             data: {
                 type: "ajax_whether",
                 message: "getStatus"
             },success:function(data){
-                console.log(data.message);
+                console.log(data);
                 if (data.status == "success") {
                     $.ajax({
                         type: "post",
                         dataType: "json",
                         url: "servlet/Join",
+                        async: false,
                         data: {
                             "type": "ajax_join",
-                            "goodsID": para.sku,
+                            "goodsID": para.spu,
+                            "goodsName": goodsName,
                             "brandName": $("#brand").text(),
                             "storage": $("input:radio[name='storage']:checked").val(),
                             "color": $("input:radio[name='color']:checked").val(),
                             "screen": $("input:radio[name='screen']:checked").val(),
                             "num": $("#num").val()
-                        }, success: function(data){
-
+                        }, success: function(datain){
+                            console.log("join success!");
                         }, error:function(){
-
+                            console.log("服务器异常\najax_whether:" + XMLResponse.status);
                         }
                     });
+                    break;
                 }
                 else{
                     console.log(data.message);

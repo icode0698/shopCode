@@ -31,7 +31,7 @@ $(function () {
                     '<div id="in'+i+'" class="div_in">' +
                     '<div id="div_text'+i+'" class="div_text">' +
                     '<h2 class="display_commend" id="h2_item'+i+'">'+data.message[i].goodsName+'</h2>' +
-                    '<a href="details.html?sku='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" target="_blank" class="btn_shop btn_light">SHOW NOW</a>' +
+                    '<a href="details.html?spu='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" target="_blank" class="btn_shop btn_light">SHOW NOW</a>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
@@ -87,7 +87,7 @@ $(function () {
                         '<div id="in'+i+'" class="div_in">' +
                         '<div id="div_text'+i+'" class="div_text">' +
                         '<h2 class="display_commend" id="h2_item'+i+'">'+data.message[i].goodsName+'</h2>' +
-                        '<a href="details.html?sku='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
+                        '<a href="details.html?spu='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -121,7 +121,7 @@ $(function () {
                         '<div id="in'+i+'" class="div_in">' +
                         '<div id="div_text'+i+'" class="div_text">' +
                         '<h2 class="display_commend" id="h2_item'+i+'">'+data.message[i].goodsName+'</h2>' +
-                        '<a href="details.html?sku='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
+                        '<a href="details.html?spu='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -156,7 +156,7 @@ $(function () {
                         '<div id="in'+i+'" class="div_in">' +
                         '<div id="div_text'+i+'" class="div_text">' +
                         '<h2 class="display_commend" id="h2_item'+i+'">'+data.message[i].goodsName+'</h2>' +
-                        '<a href="details.html?sku='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
+                        '<a href="details.html?spu='+data.message[i].goodsID+'&goods='+data.message[i].goodsName+'" id="span_item'+i+'" class="btn_shop btn_light">SHOW NOW</a>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
