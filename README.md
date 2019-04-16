@@ -1,3 +1,3 @@
 # shop
-Bootstrap and jQuery
+Bootstrap and jQuery\n
 MySQL
