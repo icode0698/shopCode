@@ -10,7 +10,7 @@ $(document)
       })
       .ajaxStop(function () {
         // NProgress.done();
-        setTimeout(function() { NProgress.done();}, 800);
+        setTimeout(function() { NProgress.done();}, 300);
       })
 $(window).on('load',function() {
     setTimeout(function() { NProgress.done();}, 500);

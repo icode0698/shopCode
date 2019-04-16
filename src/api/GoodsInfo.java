@@ -1,1 +1,104 @@
-package api;import java.sql.Connection;import java.sql.PreparedStatement;import java.sql.ResultSet;import java.sql.SQLException;public class GoodsInfo {	int goodsID;	String color;	String screen;	String storage;	float price = 0f;	int stock = 0;	int sku = 0;	public GoodsInfo(int goodsID, String color, String screen, String storage) {		// TODO Auto-generated constructor stub		this.goodsID = goodsID;		this.color = color;		this.screen = screen;		this.storage = storage;	}	public float getPrice(){		DataLink dataLink = new DataLink();		Connection conn = dataLink.linkData();		PreparedStatement stmt = null;		ResultSet rs = null;		try{			stmt = conn.prepareStatement("select price from price where "					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");			stmt.setInt(1, goodsID);			stmt.setString(2, storage);			stmt.setInt(3, goodsID);			stmt.setString(4, color);			stmt.setInt(5, goodsID);			stmt.setString(6, screen);			rs = stmt.executeQuery();			while(rs.next()){				price = rs.getFloat(1);			}			rs.close();			conn.close();			stmt.close();		}catch (SQLException e) {e.printStackTrace();}		System.out.println("price:"+price);		return price;	}	public int getStock(){		DataLink dataLink = new DataLink();		Connection conn = dataLink.linkData();		PreparedStatement stmt = null;		ResultSet rs = null;		try{			stmt = conn.prepareStatement("select stock from price where "					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");			stmt.setInt(1, goodsID);			stmt.setString(2, storage);			stmt.setInt(3, goodsID);			stmt.setString(4, color);			stmt.setInt(5, goodsID);			stmt.setString(6, screen);			rs = stmt.executeQuery();			while(rs.next()){				stock = rs.getInt(1);			}			rs.close();			conn.close();			stmt.close();		}catch (SQLException e) {e.printStackTrace();}		System.out.println("stock:"+stock);		return stock;	}	public int getSku(){		DataLink dataLink = new DataLink();		Connection conn = dataLink.linkData();		PreparedStatement stmt = null;		ResultSet rs = null;		try{			stmt = conn.prepareStatement("select sku from price where "					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");			stmt.setInt(1, goodsID);			stmt.setString(2, storage);			stmt.setInt(3, goodsID);			stmt.setString(4, color);			stmt.setInt(5, goodsID);			stmt.setString(6, screen);			rs = stmt.executeQuery();			while(rs.next()){				stock = rs.getInt(1);			}			rs.close();			conn.close();			stmt.close();		}catch (SQLException e) {e.printStackTrace();}		System.out.println("sku:"+sku);		return sku;	}}
+package api;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class GoodsInfo {
+	int goodsID;
+	String color;
+	String screen;
+	String storage;
+	float price = 0f;
+	int stock = 0;
+	int sku = 0;
+	public GoodsInfo(int goodsID, String color, String screen, String storage) {
+		// TODO Auto-generated constructor stub
+		this.goodsID = goodsID;
+		this.color = color;
+		this.screen = screen;
+		this.storage = storage;
+	}
+	public float getPrice(){
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			stmt = conn.prepareStatement("select price from price where "
+					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");
+			stmt.setInt(1, goodsID);
+			stmt.setString(2, storage);
+			stmt.setInt(3, goodsID);
+			stmt.setString(4, color);
+			stmt.setInt(5, goodsID);
+			stmt.setString(6, screen);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				price = rs.getFloat(1);
+			}
+			rs.close();
+			conn.close();
+			stmt.close();
+		}catch (SQLException e) {e.printStackTrace();}
+		System.out.println("price:"+price);
+		return price;
+	}
+	public int getStock(){
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			stmt = conn.prepareStatement("select stock from price where "
+					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");
+			stmt.setInt(1, goodsID);
+			stmt.setString(2, storage);
+			stmt.setInt(3, goodsID);
+			stmt.setString(4, color);
+			stmt.setInt(5, goodsID);
+			stmt.setString(6, screen);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				stock = rs.getInt(1);
+			}
+			rs.close();
+			conn.close();
+			stmt.close();
+		}catch (SQLException e) {e.printStackTrace();}
+		System.out.println("stock:"+stock);
+		return stock;
+	}
+	public int getSku(){
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		try{
+			stmt = conn.prepareStatement("select sku from price where "
+					+ "price.spID1 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID2 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?)) "
+					+ "and price.spID3 = (select spID from goodsvalue where goodsID=? and valueID = (select valueID from parametervalue where value=?))");
+			stmt.setInt(1, goodsID);
+			stmt.setString(2, storage);
+			stmt.setInt(3, goodsID);
+			stmt.setString(4, color);
+			stmt.setInt(5, goodsID);
+			stmt.setString(6, screen);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				sku = rs.getInt(1);
+			}
+			rs.close();
+			conn.close();
+			stmt.close();
+		}catch (SQLException e) {e.printStackTrace();}
+		System.out.println("sku:"+sku);
+		return sku;
+	}
+}

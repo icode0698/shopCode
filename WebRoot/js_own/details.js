@@ -191,6 +191,64 @@ $(function(){
                 }
             });
         });
+        $("input:radio[name='screen']").change(function () {
+            console.log("&&&&&&&&&&&&&&&&&radio_change:" + $("input:radio[name='screen']:checked").val() + $("input:radio[name='screen']:checked").val() + $("input:radio[name='storage']:checked").val());
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "servlet/Price",
+                data: {
+                    goodsID: para.spu,
+                    color: $("input:radio[name='color']:checked").val(),
+                    screen: $("input:radio[name='screen']:checked").val(),
+                    storage: $("input:radio[name='storage']:checked").val()
+                },
+                success: function (data) {
+                    //console.log(XMLHttpRequest.responseXML);
+                    console.log(data);
+                    if(data.status=="success"){
+                        $("#price").text("￥"+data.price);
+                    }
+                    else{
+                        $("#price").text("￥?????");
+                    }
+                },
+                error: function (data) {
+                    console.log(data+"&&"+XMLResponse.status);
+                    $("#price").text("￥?????");
+                    
+                }
+            });
+        });
+        $("input:radio[name='storage']").change(function () {
+            console.log("&&&&&&&&&&&&&&&&&radio_change:" + $("input:radio[name='storage']:checked").val() + $("input:radio[name='screen']:checked").val() + $("input:radio[name='storage']:checked").val());
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "servlet/Price",
+                data: {
+                    goodsID: para.spu,
+                    color: $("input:radio[name='color']:checked").val(),
+                    screen: $("input:radio[name='screen']:checked").val(),
+                    storage: $("input:radio[name='storage']:checked").val()
+                },
+                success: function (data) {
+                    //console.log(XMLHttpRequest.responseXML);
+                    console.log(data);
+                    if(data.status=="success"){
+                        $("#price").text("￥"+data.price);
+                    }
+                    else{
+                        $("#price").text("￥?????");
+                    }
+                },
+                error: function (data) {
+                    console.log(data+"&&"+XMLResponse.status);
+                    $("#price").text("￥?????");
+                    
+                }
+            });
+        });
     }
     
     $("#btn_join").on("click",function(){
@@ -198,22 +256,27 @@ $(function(){
             type: "post",
             dataType: "json",
             url: "servlet/Whether",
-            async: false,
             data: {
                 type: "ajax_whether",
                 message: "getStatus"
             },success:function(data){
                 console.log(data);
                 if (data.status == "success") {
+                    console.log(para.spu);
+                    console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
+                    console.log($("#brand").text());
+                    console.log($("input:radio[name='storage']:checked").val());
+                    console.log($("input:radio[name='color']:checked").val());
+                    console.log($("input:radio[name='screen']:checked").val());
+                    console.log($("#num").val());
                     $.ajax({
                         type: "post",
                         dataType: "json",
                         url: "servlet/Join",
-                        async: false,
                         data: {
-                            "type": "ajax_join",
+                            //"type": "ajax_join",
                             "goodsID": para.spu,
-                            "goodsName": goodsName,
+                            "goodsName": goods,
                             "brandName": $("#brand").text(),
                             "storage": $("input:radio[name='storage']:checked").val(),
                             "color": $("input:radio[name='color']:checked").val(),
@@ -225,7 +288,6 @@ $(function(){
                             console.log("服务器异常\najax_whether:" + XMLResponse.status);
                         }
                     });
-                    break;
                 }
                 else{
                     console.log(data.message);
