@@ -9,9 +9,9 @@
     <link rel='stylesheet' href='css/nprogress.css'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
-    <link href="css_own/details.css" rel="stylesheet">
+    <link href="" rel="stylesheet">
     <link href="css_own/common.css" rel="stylesheet">
-    <title></title>
+    <title>我的购物车</title>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top wow slideInDown" role="navigation">
@@ -59,69 +59,9 @@
             </div>
         </div>
     </nav>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title" id="myModalLabel">信息</h4>
-                </div>
-                <div class="modal-body">退出登录后，您需要重新输入登录信息。</div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button id="btn_out" type="button" class="btn btn-primary">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container jumbotron_color">
-        <div class="row">
-            <div class="col-md-6">
-                <img class="img_size" src="pic/XsMAX_one.png" alt="iPhone">
-            </div>
-            <div class="col-md-4">
-                <div class="text_flex">
-                    <h2><span id="goodsName"></span><small id="brand"></small></h2>
-                    <h1><span id="price" class="label label-success"></span></h1>
-                    <form>
-                        <h3 ><span class="label label-default">选择颜色</span></h3>
-                        <p id="color">
-
-                        </p>
-                        <h3><span class="label label-default">选择尺寸</span></h3>
-                        <p id="screen">
-
-                        </p>
-                        <h3><span class="label label-default">选择存储容量</span></h3>
-                        <p id="storage">
-
-                        </p>
-                        <h3>
-                            <span class="label label-default">购买数量</span>
-                            <button id="num_minus" type="button" class="btn btn-default" disabled="true"><span class="glyphicon glyphicon-minus"></span></button>
-                            <input id="num" type="text" class="form-control input_size" value='1'>
-                            <button id="num_plus" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
-                        </h3>
-                        <h3>
-                            <div id="ready">
-                                <button id="btn_join" type="button" class="btn btn-lg btn-warning">加入购物车</button>
-                                <button id="btn_purchase" type="button" class="btn btn-lg btn-success">立即购买</button>
-                            </div>
-                        </h3>
-                    </form>
-                    
-                </div>
-            </div> 
-        </div>
-    </div>
     
-    <div class="container jumbotron_color">
-        <ul id="myTab" class="nav nav-tabs wow bounceInUp">
-            <li id="introduce" class="active"><a href="#" data-toggle="tab">商品介绍</a></li>
-            <li id="evaluate"><a href="#" data-toggle="tab">商品评价</a></li>
-            <li id="new"><a href="#" data-toggle="tab">New</a></li>
-        </ul>
+    <div>
+
     </div>
     <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
@@ -131,8 +71,7 @@
     <script src="js/bootstrap.min.js"></script>
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="layer/layer.js"></script>
-    <script src="js_own/details.js"></script>
+    <script src=""></script>
     <script src="js_own/common.js"></script>
     <script>
         new WOW().init();

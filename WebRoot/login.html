@@ -18,34 +18,73 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css_own/login.css" rel="stylesheet">
-    
+    <style>
+    </style>
   </head>
 
   <body>
-    <div class="container">
-      <form class="form-signin" onsubmit="return false">
-        <h2 class="form-signin-heading wow bounceInDown">Sign In</h2>
-        <label class="sr-only ">用户名</label>
-        <input type="text" id="user" class="form-control wow bounceInLeft" placeholder="UserID" required autofocus>
-        <label class="sr-only ">密码</label>
-        <input type="password" id="password" class="form-control wow bounceInRight" placeholder="Password" required>
-        <div class="checkbox wow bounceInLeft">
-          <label>
-            <input type="checkbox" value="remember-me"> 记住我
-          </label>
+    <div class="body_div">
+        <div class="container-fluid">
+            <div class="row visible-on">
+                <div class="col-md-9">
+                    <div class="div_in">
+    
+                    </div>
+                </div>
+                <div class="col-md-3 visible-lg">
+                    <div class="div_in">
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row visible-on">
+                <div class="col-md-4 visible-lg">
+                    
+                </div>
+                <div class="col-md-8">
+                    <div sytle="width:100%;height:100%;">
+                        <form class="form-signin form_size wow bounceIn" onsubmit="return false">
+                            <h2 class="form-signin-heading wow bounceInDown">登录</h2>
+                            <div class="content">
+                                <div  class="wow bounceInLeft">
+                                    <label id="user_label" for="user">用户名或者电子邮箱</label>
+                                    <input id="user" name="user" type="text" />
+                                </div>
+                                <div id="user_line" class="div_line"></div>
+                            </div>
+                            <div class="content">
+                                <label class="sr-only">密码</label>
+                                <div class="wow bounceInRight">
+                                    <label id="password_label" for="password">密码</label>
+                                    <input id="password" type="password" name="password" />
+                                </div>
+                                <div id="password_line" class="div_line"></div>
+                            </div>
+                            <div class="div_padding checkbox wow bounceInLeft">
+                                <label>
+                                    <input type="checkbox" value="remember-me"> 记住我
+                                </label>
+                            </div>
+                            <button id="sub" class="btn btn-lg btn-primary btn-block wow bounceInUp" type="submit">Sign in</button><br>
+                            <div id="div_hide" class="hidden">
+                                <div id="success_hide" class="alert alert-success hidden" role="alert">
+                                    <strong id="success_tip"></strong><span id="span_success_tip"></span>
+                                </div>
+                                <div id="error_hide" class="alert alert-danger hidden" role="alert">
+                                    <strong id="error_tip"></strong><span id="span_error_tip"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row visible-on">
+                <div class="div_in">
+                    
+                </div>
+            </div>
         </div>
-        <button id="sub" class="btn btn-lg btn-primary btn-block wow bounceInUp" type="submit">Sign in</button><br>
-        <div id="div_hide" class="hidden">
-          <div id="success_hide" class="alert alert-success hidden" role="alert">
-            <strong id="success_tip"></strong><span id="span_success_tip"></span>
-          </div>
-          <div id="error_hide" class="alert alert-danger hidden" role="alert">
-              <strong id="error_tip"></strong><span id="span_error_tip"></span>
-          </div>
-        </div>
-        </div>
-      </form>
-    </div> <!-- /container -->
+    </div>
 
     <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>

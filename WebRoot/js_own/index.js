@@ -253,7 +253,7 @@ $(this).removeClass("open");
     //         console.log("see servlet.");
     //     }
     // });
-    // 监听浏览器返回事件并清除html的sessionstorage
+    // 监听浏览器返回事件并清楚html的sessionstorage
     // pushHistory();
     // window.addEventListener("popstate", function(e) {
     //     sessionStorage.removeItem("user");

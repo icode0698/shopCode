@@ -15,7 +15,7 @@ $(function(){
     //页面转化url中空格%20为正常空格
     var temp = para.goods.split("%20");
     //console.log("url_split:"+temp);
-    var goods = "";//不定义为""累加时第一个会出现undefined
+    var goods = "";//如果不定义为""累加时第一个会出现undefined
     for(var i=0;i<temp.length;i++){
         goods = goods+temp[i]+" ";
     }
@@ -284,12 +284,21 @@ $(function(){
                             "num": $("#num").val()
                         }, success: function(datain){
                             console.log("join success!");
+                            layer.alert({
+                                icon: 1,
+                                content:"商品成功加入购物车" 
+                            });
                         }, error:function(){
                             console.log("服务器异常\najax_whether:" + XMLResponse.status);
                         }
                     });
                 }
                 else{
+                    layer.confirm(data.message,{
+                        icon: 3,
+                        btn: ["前往登录","继续浏览"]},function(){
+                            location.href = 'login.html';
+                        },function(){});
                     console.log(data.message);
                 }
             },error:function(){

@@ -30,10 +30,10 @@
             height:50px;
             background-color:white;
             opacity: 0;
-            transition:opacity 0.5s ease-out;
-            -moz-transition: opacity 0.5s ease-out;	/* Firefox 4 */
-			-webkit-transition: opacity 0.5s ease-out;	/* Safari 和 Chrome */
-			-o-transition: opacity 0.5s ease-out; 
+            transition:opacity 0.2s ease-out;
+            -moz-transition: opacity 0.2s ease-out;	/* Firefox 4 */
+			-webkit-transition: opacity 0.2s ease-out;	/* Safari 和 Chrome */
+			-o-transition: opacity 0.2s ease-out; 
         }
         .div_radius{
             border-radius: 20%;
@@ -67,10 +67,10 @@
         }
         .span_text{
             font-size: 18px;
-            transition:font-size 0.5s ease-out;
-            -moz-transition: font-size 0.5s ease-out;	/* Firefox 4 */
-			-webkit-transition: font-size 0.5s ease-out;	/* Safari 和 Chrome */
-			-o-transition: font-size 0.5s ease-out; 
+            transition:font-size 0.2s ease-out;
+            -moz-transition: font-size 0.2s ease-out;	/* Firefox 4 */
+			-webkit-transition: font-size 0.2s ease-out;	/* Safari 和 Chrome */
+			-o-transition: font-size 0.2s ease-out; 
         }
         .span_text:hover{
             font-size:50px;
@@ -82,11 +82,51 @@
             color: #fff;
             background-color: #337ab7;
         }
+        .user_text{
+            border: none;
+            outline:none;
+            border-bottom: 1px solid #c3c3c3; 
+        }
+        .pass_text{
+            border: none;
+            border-bottom: 1px solid #c3c3c3; 
+        }
+        .div_line{
+            width: 0;
+            height: 1px;
+            background-color :red; 
+            transition:width 0.2s linear;
+            -moz-transition: width 0.2s linear;	/* Firefox 4 */
+            -webkit-transition: width 0.2ss linear;	/* Safari 和 Chrome */
+            -o-transition: width 0.2s linear; 
+        }
+        .user_label{
+            position:absolute;
+            bottom: -1px;
+            color: #c3c3c3;
+            font-size: 16px;
+            font-weight: normal;
+            transition:bottom 0.2s linear,font-size 0.2s linear,color 0.2s linear;
+            -moz-transition: bottom 0.2s linear,font-size 0.2s linear,color 0.2s linear;	/* Firefox 4 */
+            -webkit-transition: bottom 0.2s linear,font-size 0.2s linear,color 0.2s linear;	/* Safari 和 Chrome */
+            -o-transition: bottom 0.2s linear,font-size 0.2s linear,color 0.2s linear; 
+        }
+        .pass_label{
+            position:absolute;
+            bottom: 0px;
+            color: #c3c3c3;
+            font-size: 16px;
+            font-weight: normal;
+        }
+        .size{
+            position: relative;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
         
-        <label id="label1" class="btn btn-default radio-inline">123
+        <!-- <label id="label1" class="btn btn-default radio-inline">123
             <input type="radio" class="radio_c" name="themestyle" id="radio1" value="1" checked="checked"/>
         </label>
         <label id="label2" class="btn btn-default radio-inline">123123123
@@ -105,15 +145,22 @@
             <li><label id="label3" class="btn btn-default radio-inline">123
                     <input type="radio" class="radio_c" name="themestyle" id="radio3" value="3" />
                 </label></li>
-        </ul>
-        <form >
-            <label for="male">Male</label>
-            <input type="radio" name="sex" id="male" value="male"/>
-            <br />
-            <label for="female">Female</label>
-            <input type="radio" name="sex" id="female" value="female"/>
-            <button id="btn1" type="button">提交
-        </form>
+        </ul> -->
+            <div class="container">
+                <div class="size">
+                    <label id="label1" class="user_label" for="user">123</label>
+                    <input id="text1" type="password" name="user" id="user" class="user_text" />
+                    <div id="line1" class="div_line"></div>
+                </div>
+                <div class="size">
+                    <label id="label2" class="pass_label" for="password">456</label>
+                    <input id="text2" type="password" name="password" id="password" class="pass_text" />
+                    <div id="line2" class="div_line"></div>
+                </div>
+            
+            
+            </div>
+
     
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -125,6 +172,20 @@
         <script src="js/nprogressapply.js"></script>
 
         <script >
+            $(function(){
+                $("#text1").focus(function(){
+                    $("#label1").css("bottom",$("#text1").height());
+                    $("#label1").css("font-size","15px");
+                    $("#label1").css("color","black");
+                    $("#line1").css("width",$("#text1").width());
+                });
+                $("#text1").blur(function(){
+                    $("#label1").css("bottom","0px");
+                    $("#label1").css("font-size","16px");
+                    $("#label1").css("color","#c3c3c3");
+                    $("#line1").css("width","0px");
+                });
+            });
             $(function(){
                 $("#btn1").on("click",function(){
                     console.log($("input:radio[name='sex']:checked").val());
