@@ -11,7 +11,13 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="layer/layui/css/layui.css" rel="stylesheet">
     <style>
+        body{
+            background-image:url('../pic/background.png');
+            background-repeat:no-repeat;
+            background-position:center;
+        }
         .tran{
             font-size: 14px;
         }
@@ -153,11 +159,11 @@
                     <div id="line1" class="div_line"></div>
                 </div>
                 <div class="size">
+                    <i class="layui-icon layui-icon-face-smile" style="font-size: 30px; color: #1E9FFF;"></i> 
                     <label id="label2" class="pass_label" for="password">456</label>
                     <input id="text2" type="password" name="password" id="password" class="pass_text" />
                     <div id="line2" class="div_line"></div>
                 </div>
-            
             
             </div>
 
@@ -170,7 +176,7 @@
             <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
         <script src="js/nprogressapply.js"></script>
-
+        <script src="layer/layer.js"></script>
         <script >
             $(function(){
                 $("#text1").focus(function(){
