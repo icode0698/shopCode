@@ -1,5 +1,6 @@
 .navbar-brand{
     font-size: 24px;
+    z-index: 100;
     transition: font-size 0.2s;
     -moz-transition: font-size 0.2s;	/* Firefox 4 */
     -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
@@ -10,6 +11,7 @@
 }
 .tran{
     font-size: 16px;
+    z-index: 100;
     transition: font-size 0.2s;
     -moz-transition: font-size 0.2s;	/* Firefox 4 */
     -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */

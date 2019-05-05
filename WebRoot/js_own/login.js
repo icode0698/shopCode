@@ -1,5 +1,12 @@
 $(document).ready(function () {
   //sessionStorage.removeItem("user");
+  //$.cookie("user",null);
+  //清空cookie的某个值
+  $.removeCookie("user");
+  console.log($.cookie("user"));
+  if($.cookie("user")!=undefined&&$.cookie("user")!=null&&$.cookie("user")!=""){
+    $("#user").val($.cookie("user"));
+  }
   if($("#user").val() != ""){
     $("#user_label").css("bottom", $("#user").height());
     $("#user_label").css("font-size", "15px");
@@ -77,6 +84,10 @@ $(document).ready(function () {
           if(data.status=="success"){
             //sessionStorage.setItem("user",data.user);
             //console.log("sessionStorage_user_login:"+sessionStorage.getItem("user"));
+            console.log($("#rememberme").is(":checked"));
+            if($("#rememberme").is(":checked")){
+              $.cookie("user",data.user,{expires: 2});
+            }
             $("#error_hide").addClass("hidden");
             $("#div_hide").removeClass("hidden");
             $("#success_hide").removeClass("hidden");

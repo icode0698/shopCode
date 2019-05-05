@@ -8,6 +8,7 @@ $(function () {
             type: "ajax_whether",
             message: "getStatus"
         }, success: function (data) {
+            console.log("session:"+data.user);
             if (data.status == "success") {
                 $("#login_no").addClass("hidden");
                 $("#login_yes").removeClass("hidden");

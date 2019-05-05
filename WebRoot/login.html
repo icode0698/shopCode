@@ -11,7 +11,7 @@
     
     <!-- Custom styles for this template -->
     <link href="css/signin.css" rel="stylesheet">
-    <link rel="icon" href="pic/shop.png">
+    <link rel="icon" href="shop.png">
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css'/>
     <!-- Bootstrap core CSS -->
@@ -68,13 +68,10 @@
                             </div>
                             <div class="div_padding checkbox wow bounceInLeft">
                                 <label>
-                                    <input type="checkbox" value="remember-me"> 记住我
+                                    <input type="checkbox" value="remember-me" id="rememberme" name="rememberme"> 记住我
                                 </label>
                             </div>
                             <button id="sub" class="btn btn-lg btn-primary btn-block wow bounceInUp" type="submit">Sign in</button><br>
-                            <div>
-                                 <a href="reset.html">忘记密码?</a><a href="register.html" style="position: absolute;right:20px">没有账号?去注册<span class="glyphicon glyphicon-chevron-right"></span></a>
-                            </div>
                             <div id="div_hide" class="hidden">
                                 <div id="success_hide" class="alert alert-success hidden" role="alert">
                                     <strong id="success_tip"></strong><span id="span_success_tip"></span>
@@ -83,12 +80,26 @@
                                     <strong id="error_tip"></strong><span id="span_error_tip"></span>
                                 </div>
                             </div>
+                            <div>
+                                 <a href="reset.html">忘记密码?</a><a href="register.html" style="position: absolute;right:20px">没有账号?去注册<span class="glyphicon glyphicon-chevron-right"></span></a>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="row visible-on visible-lg div_help"></div>
-            <div class="row text-center wow rollIn" style="margin-top:30px;">
+            <div class="row text-center wow rollIn visible-md visible-lg" style="margin-top:30px;position: absolute;bottom: 60px;width: 100%;">
+                <p>
+                    <a href="https://jquery.com/" target="_blank"> JQuery </a>|<a href="http://www.bootcss.com/" target="_blank"> Bootstrap </a>|
+                    <a href="https://git-scm.com/" target="_blank"> Git </a>|<a href="https://github.com/" target="_blank"> GitHub </a>|
+                    <a href="https://www.layui.com/" target="_blank"> Layui </a>|<a href="https://element.eleme.cn/#/zh-CN" target="_blank"> Element </a>|
+                    <a href="https://glyphicons.com/" target="_blank"> Glyphicons </a>|<a href="https://www.w3cschool.cn/" target="_blank"> Vue.js </a>
+                </p>
+                <p>
+                    Copyright © 2019 by liuwei.All Rights Reserved.
+                </p>
+            </div>
+            <div class="row visible-on visible-xs visible-sm text-center wow rollIn" style="margin-top:30px;">
                 <p>
                     <a href="https://jquery.com/" target="_blank"> JQuery </a>|<a href="http://www.bootcss.com/" target="_blank"> Bootstrap </a>|
                     <a href="https://git-scm.com/" target="_blank"> Git </a>|<a href="https://github.com/" target="_blank"> GitHub </a>|
@@ -101,9 +112,9 @@
             </div>
         </div>
     </div>
-
-    <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery.cookie.js"></script>
+    <script src="js/wow.min.js"></script>
     <script src="js/jquery.color-2.1.2.min.js"></script>
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
     <script src='js/nprogress.js'></script>

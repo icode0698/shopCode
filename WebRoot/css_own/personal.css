@@ -1,0 +1,13 @@
+.checkbox_goods{
+    float: left;
+    margin-right: 10px !important;
+}
+.img_goods{
+    width: 60px;
+    height: 60px;
+    border-radius: 2px;
+}
+.input_size{
+    width: 50px;
+    display: inline;
+}

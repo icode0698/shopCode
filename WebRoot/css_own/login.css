@@ -9,9 +9,10 @@ body{
   padding: 0px;
 }
 .body_div{
+  position: relative;
   width:100%;
   min-height: 100% !important;
-  max-height: auto;
+  /* max-height: auto; */
   position: absolute;
   background-image:url('../pic/background.png');
   background-repeat:no-repeat;

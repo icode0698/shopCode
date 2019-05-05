@@ -82,6 +82,7 @@ public class Whether extends HttpServlet {
 		}
 		else{
 			session.removeAttribute("user");
+			session.invalidate();
 			json.put("status", "success");
 			json.put("message", "退出登录");
 			out.write(json.toString());

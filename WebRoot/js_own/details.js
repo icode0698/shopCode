@@ -1,9 +1,9 @@
 $(function(){
     //拼接href字符串，找出spu
-    var url = window.location.href;//href为......?spu=50000001&&goods=iPhone XS Max
-    //console.log("href:"+url);
+    var url = decodeURI(window.location.href);//href为......?spu=50000001&&goods=iPhone XS Max
+    console.log("href:"+url);
     var res = url.split("?")[1].split("&");
-    //console.log("res:"+res);
+    console.log("res:"+res);
     //console.log("res_length:"+res.length);
     var para = {}; //定义key value的模型
     var arr = [];  //定义key value的来源
@@ -13,14 +13,14 @@ $(function(){
     }
     $("#goodsID").text(para.spu);
     //页面转化url中空格%20为正常空格
-    var temp = para.goods.split("%20");
-    //console.log("url_split:"+temp);
-    var goods = "";//如果不定义为""累加时第一个会出现undefined
-    for(var i=0;i<temp.length;i++){
-        goods = goods+temp[i]+" ";
-    }
-    $(document).attr("title",goods);
-    $("#goodsName").text(goods);
+    // var temp = para.goods.split("%20");
+    // console.log("url_split:"+temp);
+    // var goods = "";//如果不定义为""累加时第一个会出现undefined
+    // for(var i=0;i<temp.length;i++){
+    //     goods = goods+temp[i]+" ";
+    // }
+    $(document).attr("title",para.goods);
+    $("#goodsName").text(para.goods);
     $("#top_btn_login").click(function () {
         location.href = "login.html";
     });
@@ -33,7 +33,7 @@ $(function(){
         if(number>1){
             $("#num").val(--number);
             if(number==1){
-                $("#num_minus").attr("disabled",true); 
+                $("#num_minus").attr("disabled",true);
             }
         }
         console.log("num_minus:"+$("#num").val());
@@ -58,7 +58,7 @@ $(function(){
         success:function(data){
             console.log(data);
             console.log("data_status:"+data.status);
-            $("#brand").text(data.message[0].brandName);
+            $("#brand").text(" "+data.message[0].brandName);
             // 初始化颜色
             for(var i=0;i<data.message[0].colorList.length;i++){
                 var content = '<label id="label_color'+i+'" for="radio_color'+i+'" class="btn btn-default btn_margin">' + data.message[0].colorList[i]+ '</label>'+
@@ -276,7 +276,7 @@ $(function(){
                         data: {
                             //"type": "ajax_join",
                             "goodsID": para.spu,
-                            "goodsName": goods,
+                            "goodsName": para.goods,
                             "brandName": $("#brand").text(),
                             "storage": $("input:radio[name='storage']:checked").val(),
                             "color": $("input:radio[name='color']:checked").val(),
@@ -284,7 +284,7 @@ $(function(){
                             "num": $("#num").val()
                         }, success: function(datain){
                             console.log("join success!");
-                            layer.alert({
+                            layer.open({
                                 icon: 1,
                                 content:"商品成功加入购物车" 
                             });
