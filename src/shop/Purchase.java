@@ -2,11 +2,22 @@ package shop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
+import api.DataLink;
+import api.GoodsInfo;
 
 public class Purchase extends HttpServlet {
 
@@ -55,7 +66,64 @@ public class Purchase extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		
+		int goodsID = Integer.parseInt(request.getParameter("goodsID"));
+		String goodsName = request.getParameter("goodsName");
+		String brandName = request.getParameter("brandName");
+		String storage = request.getParameter("storage");
+		String color = request.getParameter("color");
+		String screen = request.getParameter("screen");
+		int num = Integer.parseInt(request.getParameter("num"));
+		GoodsInfo goodsInfo = new GoodsInfo(goodsID, color, screen, storage);
+		String categoryName = "";
+		String user = request.getSession().getAttribute("user").toString();
+		int sku = goodsInfo.getSku();
+		float price = goodsInfo.getPrice();
+		System.out.println("goodsID&&brandName&&storage&&color&&screen&&num&&sku"+goodsID+brandName+storage+color+screen+num+sku);
+		DataLink dataLink = new DataLink();
+		Connection conn = null;
+		ResultSet rs = null;
+		PreparedStatement stmt = null;
+		PrintWriter out = response.getWriter();
+		JSONObject json = new JSONObject();
+		try {
+			conn = dataLink.linkData();
+			stmt = conn.prepareStatement("select categoryName from goods, category where goods.categoryID=category.categoryID and goods.goodsID=?");
+			stmt.setInt(1, goodsID);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				categoryName = rs.getString(1);
+			}
+			stmt = conn.prepareStatement("insert into shop(id, user, sku, goodsName, categoryName, brandName, storage, "
+					+ "color, screen, num, unitPrice, totalPrice, isPay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+			String id = df.format(new Date());
+			stmt.setString(1, id);
+			stmt.setString(2, user);
+			stmt.setInt(3, sku);
+			stmt.setString(4, goodsName);
+			stmt.setString(5, categoryName);
+			stmt.setString(6, brandName);
+			stmt.setString(7, storage);
+			stmt.setString(8, color);
+			stmt.setString(9, screen);
+			stmt.setInt(10, num);
+			stmt.setFloat(11, price);
+			stmt.setFloat(12, num*price);
+			stmt.setBoolean(13, true);
+			stmt.executeUpdate();
+			json.put("status", "success");
+			json.put("message", "购买成功，感谢您的支持");
+			out.write(json.toString());
+			rs.close();
+			stmt.close();
+			conn.close();
+			out.flush();
+			out.close();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 	}
 
 	/**

@@ -2,7 +2,7 @@ $(document).ready(function () {
   //sessionStorage.removeItem("user");
   //$.cookie("user",null);
   //清空cookie的某个值
-  $.removeCookie("user");
+  //$.removeCookie("user");
   console.log($.cookie("user"));
   if($.cookie("user")!=undefined&&$.cookie("user")!=null&&$.cookie("user")!=""){
     $("#user").val($.cookie("user"));

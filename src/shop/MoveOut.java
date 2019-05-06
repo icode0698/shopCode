@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,17 +15,16 @@ import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import api.DataLink;
-import api.GoodsImg;
-import api.SkuToSpu;
-import bean.PersonalBean;
+import com.sun.mail.handlers.message_rfc822;
 
-public class Personal extends HttpServlet {
+import api.DataLink;
+
+public class MoveOut extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Personal() {
+	public MoveOut() {
 		super();
 	}
 
@@ -69,64 +66,40 @@ public class Personal extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		DataLink dataLink = new DataLink();
-		Connection conn;
-		ResultSet rs;
-		PreparedStatement stmt;
-		ArrayList<PersonalBean> itemList = new ArrayList<PersonalBean>();
-		PrintWriter out = response.getWriter();
-		JSONObject json = new JSONObject();
+		String id = request.getParameter("id");
 		HttpSession session = request.getSession();
 		String user = (String)session.getAttribute("user");
-		System.out.println(user);
-		if("".equals(user)||user==null){
-			json.put("status", "fail");
-			json.put("code", "0");
-			json.put("message", "用户未登录或登录会话已超时");
-			out.write(json.toString());
-			out.flush();
-			out.close();
-			return;
-		}
+		System.out.println("id&&user:"+id+"&&"+user);
+		DataLink dataLink = new DataLink();
+		Connection conn;
+		PreparedStatement stmt;
+		JSONObject json = new JSONObject();
+		PrintWriter out = response.getWriter();
 		conn = dataLink.linkData();
 		try{
-			stmt = conn.prepareStatement("select id, user, sku, storage, color, screen, num, isPay, unitPrice, totalPrice, goodsName from shop where user=? and isPay=0");
-			stmt.setString(1, user);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				PersonalBean personalBean = new PersonalBean();
-				personalBean.setId(rs.getString(1));
-				personalBean.setUser(rs.getString(2));
-				personalBean.setSku(rs.getInt(3));
-				SkuToSpu skuToSpu = new SkuToSpu(rs.getInt(3));
-				GoodsImg goodsImg = new GoodsImg(skuToSpu.getSpu());
-				personalBean.setImgList(goodsImg.getImg());
-				personalBean.setStorage(rs.getString(4));
-				personalBean.setColor(rs.getString(5));
-				personalBean.setScreen(rs.getString(6));
-				personalBean.setNum(rs.getInt(7));
-				personalBean.setPay(rs.getBoolean(8));
-				personalBean.setUnitPrice(rs.getFloat(9));
-				personalBean.setTotalPrice(rs.getFloat(10));
-				personalBean.setGoodsName(rs.getString(11));
-				//System.out.println(personalBean.toString());
-				itemList.add(personalBean);
+			stmt = conn.prepareStatement("delete from shop where id=? and user=?");
+			stmt.setString(1, id);
+			stmt.setString(2, user);
+			int index = stmt.executeUpdate();
+			System.out.println("index:"+index);
+			if(index>0){
+				json.put("status", "success");
+				json.put("message", "已将商品移出我的购物车");
+				out.write(json.toString());
 			}
-			//System.out.println(itemList);
-			json.put("status", "success");
-			json.put("code", "1");
-			json.put("message", itemList);
-			out.write(json.toString());
+			else{
+				json.put("status", "fail");
+				json.put("message", "商品不存在，请刷新页面后重试");
+				out.write(json.toString());
+			}
 			out.flush();
 			out.close();
-			rs.close();
 			stmt.close();
 			conn.close();
 		}catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**

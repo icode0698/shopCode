@@ -262,13 +262,13 @@ $(function(){
             },success:function(data){
                 console.log(data);
                 if (data.status == "success") {
-                    console.log(para.spu);
-                    console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
-                    console.log($("#brand").text());
-                    console.log($("input:radio[name='storage']:checked").val());
-                    console.log($("input:radio[name='color']:checked").val());
-                    console.log($("input:radio[name='screen']:checked").val());
-                    console.log($("#num").val());
+                    // console.log(para.spu);
+                    // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
+                    // console.log($("#brand").text());
+                    // console.log($("input:radio[name='storage']:checked").val());
+                    // console.log($("input:radio[name='color']:checked").val());
+                    // console.log($("input:radio[name='screen']:checked").val());
+                    // console.log($("#num").val());
                     $.ajax({
                         type: "post",
                         dataType: "json",
@@ -286,7 +286,7 @@ $(function(){
                             console.log("join success!");
                             layer.open({
                                 icon: 1,
-                                content:"商品成功加入购物车" 
+                                content: datain.message
                             });
                         }, error:function(){
                             console.log("服务器异常\najax_whether:" + XMLResponse.status);
@@ -309,5 +309,57 @@ $(function(){
     });
     $("#btn_purchase").on("click",function(){
         console.log("&&&&&&&&&&&&&&&&&:"+$("input:radio[name='color']:checked").val()+$("input:radio[name='screen']:checked").val()+$("input:radio[name='storage']:checked").val());
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "servlet/Whether",
+            data: {
+                type: "ajax_whether",
+                message: "getStatus"
+            },success:function(data){
+                console.log(data);
+                if (data.status == "success") {
+                    // console.log(para.spu);
+                    // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
+                    // console.log($("#brand").text());
+                    // console.log($("input:radio[name='storage']:checked").val());
+                    // console.log($("input:radio[name='color']:checked").val());
+                    // console.log($("input:radio[name='screen']:checked").val());
+                    // console.log($("#num").val());
+                    $.ajax({
+                        type: "post",
+                        dataType: "json",
+                        url: "servlet/Purchase",
+                        data: {
+                            "goodsID": para.spu,
+                            "goodsName": para.goods,
+                            "brandName": $("#brand").text(),
+                            "storage": $("input:radio[name='storage']:checked").val(),
+                            "color": $("input:radio[name='color']:checked").val(),
+                            "screen": $("input:radio[name='screen']:checked").val(),
+                            "num": $("#num").val()
+                        }, success: function(datain){
+                            console.log("purchase success!");
+                            layer.open({
+                                icon: 1,
+                                content: datain.message
+                            });
+                        }, error:function(){
+                            console.log("服务器异常\najax_whether:" + XMLResponse.status);
+                        }
+                    });
+                }
+                else{
+                    layer.confirm(data.message,{
+                        icon: 3,
+                        btn: ["前往登录","继续浏览"]},function(){
+                            location.href = 'login.html';
+                        },function(){});
+                    console.log(data.message);
+                }
+            },error:function(){
+                console.log("服务器异常\najax_whether:" + XMLResponse.status);
+            }
+        });        
     });
 });
