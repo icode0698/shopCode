@@ -12,7 +12,7 @@ $(function(){
         para[arr[0]] = arr[1];//实现key value相对应
     }
     $("#goodsID").text(para.spu);
-    //页面转化url中空格%20为正常空格
+    // 页面转化url中空格%20为正常空格
     // var temp = para.goods.split("%20");
     // console.log("url_split:"+temp);
     // var goods = "";//如果不定义为""累加时第一个会出现undefined
@@ -64,7 +64,7 @@ $(function(){
                 var content = '<label id="label_color'+i+'" for="radio_color'+i+'" class="btn btn-default btn_margin">' + data.message[0].colorList[i]+ '</label>'+
                     '<input type="radio" class="radio_display" name="color" id="radio_color'+i+'" value="'+data.message[0].colorList[i]+'" />';
                 $("#color").append(content);
-                //console.log("i"+i);
+                // console.log("i"+i);
             }
             // 默认第一个选中
             $("#radio_color0").attr("checked","checked");

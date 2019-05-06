@@ -58,8 +58,10 @@ body{
   -o-transition: bottom .15s ease-in-out,font-size .15s ease-in-out,color .15s ease-in-out; 
 }
 .div_line{
+  position: absolute;
   width: 0;
   height: 1px;
+  bottom: -1px;
   background-color :#1E9FFF; 
   transition:width .15s ease-in-out;
   -moz-transition: width .15s ease-in-out;	/* Firefox 4 */

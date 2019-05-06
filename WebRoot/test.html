@@ -166,7 +166,7 @@
                 </div>
             
             </div>
-
+            <button value="20190506" id="btntest"></button>
     
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -197,6 +197,8 @@
                     console.log($("input:radio[name='sex']:checked").val());
                     console.log($("input[name='sex']:checked").val());
                 });
+                console.log($("#btntest").val());
+                $("#btntest").text($("#btntest").val());
             });
             // $(function(){
             //     $("#label1").on("click",function(){
