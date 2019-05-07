@@ -1,13 +1,13 @@
-$(function(){
+$(function () {
     //拼接href字符串，找出spu
     var url = decodeURI(window.location.href);//href为......?spu=50000001&&goods=iPhone XS Max
-    console.log("href:"+url);
+    console.log("href:" + url);
     var res = url.split("?")[1].split("&");
-    console.log("res:"+res);
+    console.log("res:" + res);
     //console.log("res_length:"+res.length);
     var para = {}; //定义key value的模型
     var arr = [];  //定义key value的来源
-    for(var i=0;i<res.length;i++){
+    for (var i = 0; i < res.length; i++) {
         arr = res[i].split("=");
         para[arr[0]] = arr[1];//实现key value相对应
     }
@@ -19,7 +19,7 @@ $(function(){
     // for(var i=0;i<temp.length;i++){
     //     goods = goods+temp[i]+" ";
     // }
-    $(document).attr("title",para.goods);
+    $(document).attr("title", para.goods);
     $("#goodsName").text(para.goods);
     $("#top_btn_login").click(function () {
         location.href = "login.html";
@@ -27,25 +27,7 @@ $(function(){
     $("#top_btn_reg").click(function () {
         location.href = "register.html";
     });
-    // 加减按钮控制input的num
-    $("#num_minus").on("click",function(){
-        var number = $("#num").val();
-        if(number>1){
-            $("#num").val(--number);
-            if(number==1){
-                $("#num_minus").attr("disabled",true);
-            }
-        }
-        console.log("num_minus:"+$("#num").val());
-    });
-    $("#num_plus").on("click",function(){
-        var number = $("#num").val();
-        if(number>=1){
-            $("#num_minus").attr("disabled",false);
-        }
-        $("#num").val(++number);
-        console.log("num_plus:"+$("#num").val());
-    });
+    let stock;
     //ajax获取商品参数信息
     $.ajax({
         type: "post",
@@ -55,19 +37,19 @@ $(function(){
             type: "ajax_details",
             goodsID: para.spu
         },
-        success:function(data){
+        success: function (data) {
             console.log(data);
-            console.log("data_status:"+data.status);
-            $("#brand").text(" "+data.message[0].brandName);
+            console.log("data_status:" + data.status);
+            $("#brand").text(" " + data.message[0].brandName);
             // 初始化颜色
-            for(var i=0;i<data.message[0].colorList.length;i++){
-                var content = '<label id="label_color'+i+'" for="radio_color'+i+'" class="btn btn-default btn_margin">' + data.message[0].colorList[i]+ '</label>'+
-                    '<input type="radio" class="radio_display" name="color" id="radio_color'+i+'" value="'+data.message[0].colorList[i]+'" />';
+            for (var i = 0; i < data.message[0].colorList.length; i++) {
+                var content = '<label id="label_color' + i + '" for="radio_color' + i + '" class="btn btn-default btn_margin">' + data.message[0].colorList[i] + '</label>' +
+                    '<input type="radio" class="radio_display" name="color" id="radio_color' + i + '" value="' + data.message[0].colorList[i] + '" />';
                 $("#color").append(content);
                 // console.log("i"+i);
             }
             // 默认第一个选中
-            $("#radio_color0").attr("checked","checked");
+            $("#radio_color0").attr("checked", "checked");
             $("#label_color0").addClass("btn-primary");
             // 初始化组件完成后为每个radio设置click事件
             for (var i = 0; i < data.message[0].colorList.length; i++) {
@@ -86,20 +68,20 @@ $(function(){
                 });
             }
             // 初始化尺寸
-            for(var i=0;i<data.message[0].screenList.length;i++){
-                var content = '<label id="label_screen'+i+'" for="radio_screen'+i+'" class="btn btn-default btn_margin">' + data.message[0].screenList[i]+'</label>'+
-                    '<input type="radio" class="radio_display" name="screen" id="radio_screen'+i+'" value="'+data.message[0].screenList[i]+'" />';
+            for (var i = 0; i < data.message[0].screenList.length; i++) {
+                var content = '<label id="label_screen' + i + '" for="radio_screen' + i + '" class="btn btn-default btn_margin">' + data.message[0].screenList[i] + '</label>' +
+                    '<input type="radio" class="radio_display" name="screen" id="radio_screen' + i + '" value="' + data.message[0].screenList[i] + '" />';
                 $("#screen").append(content);
             }
             // 默认第一个选中
-            $("#radio_screen0").attr("checked","checked");
+            $("#radio_screen0").attr("checked", "checked");
             $("#label_screen0").addClass("btn-primary");
             // 初始化组件完成后为每个radio设置click事件
-            for(var i=0;i<data.message[0].screenList.length;i++){
-                $("#label_screen"+i).on("click",function(){
-                    for(var j=0;j<data.message[0].screenList.length;j++){
+            for (var i = 0; i < data.message[0].screenList.length; i++) {
+                $("#label_screen" + i).on("click", function () {
+                    for (var j = 0; j < data.message[0].screenList.length; j++) {
                         //$("#radio_screen"+j).attr("checked",false);
-                        $("#label_screen"+j).removeClass("btn-primary");
+                        $("#label_screen" + j).removeClass("btn-primary");
                     }
                     //$("#radio_screen"+i).attr("checked","checked");
                     $(this).addClass("btn-primary");
@@ -108,20 +90,20 @@ $(function(){
                 });
             }
             // 初始化存储容量
-            for(var i=0;i<data.message[0].storageList.length;i++){
-                var content = '<label id="label_storage'+i+'" for="radio_storage'+i+'" class="btn btn-default btn_margin">' + data.message[0].storageList[i]+'</label>'+
-                    '<input type="radio" class="radio_display" name="storage" id="radio_storage'+i+'" value="'+data.message[0].storageList[i]+'" />';
+            for (var i = 0; i < data.message[0].storageList.length; i++) {
+                var content = '<label id="label_storage' + i + '" for="radio_storage' + i + '" class="btn btn-default btn_margin">' + data.message[0].storageList[i] + '</label>' +
+                    '<input type="radio" class="radio_display" name="storage" id="radio_storage' + i + '" value="' + data.message[0].storageList[i] + '" />';
                 $("#storage").append(content);
             }
             // 默认第一个选中
-            $("#radio_storage0").attr("checked","checked");
+            $("#radio_storage0").attr("checked", "checked");
             $("#label_storage0").addClass("btn-primary");
             // 初始化组件完成后为每个radio设置click事件
-            for(var i=0;i<data.message[0].storageList.length;i++){
-                $("#label_storage"+i).on("click",function(){
-                    for(var j=0;j<data.message[0].storageList.length;j++){
+            for (var i = 0; i < data.message[0].storageList.length; i++) {
+                $("#label_storage" + i).on("click", function () {
+                    for (var j = 0; j < data.message[0].storageList.length; j++) {
                         //$("#radio_storage"+j).attr("checked",false);
-                        $("#label_storage"+j).removeClass("btn-primary");
+                        $("#label_storage" + j).removeClass("btn-primary");
                     }
                     //$("#radio_storage"+i).attr("checked","checked");
                     $(this).addClass("btn-primary");
@@ -132,9 +114,35 @@ $(function(){
             //确定组件加载完成后动态显示Price
             initPrice();
             updatePrice();
+            // 加减按钮控制input的num
+            $("#num_minus").on("click", function () {
+                var number = $("#num").val();
+                if (number > 1) {
+                    $("#num").val(--number);
+                    if (number == 1) {
+                        $("#num_minus").attr("disabled", true);
+                    }
+                    if (number < stock) {
+                        $("#num_plus").attr("disabled", false);
+                    }
+                }
+                console.log("num_minus:" + $("#num").val());
+            });
+            $("#num_plus").on("click", function () {
+                var number = $("#num").val();
+                console.log("stock:" + stock);
+                if (number >= 1) {
+                    $("#num_minus").attr("disabled", false);
+                }
+                $("#num").val(++number);
+                console.log("num_plus:" + $("#num").val());
+                if (number >= stock) {
+                    $("#num_plus").attr("disabled", true);
+                }
+            });
         },
-        error:function(data){
-            console.log("data_status:"+data.status);
+        error: function (data) {
+            console.log("data_status:" + data.status);
         }
     });
     //ajax初始化商品价格
@@ -151,11 +159,20 @@ $(function(){
             },
             success: function (data) {
                 console.log(data);
-                $("#price").text("￥"+data.price);
+                stock = data.stock;
+                $("#price").text(data.price);
+                $("#stock").text(data.stock);
+                if ($("#num").val() >= stock) {
+                    $("#num_plus").attr("disabled", true);
+                }
+                else {
+                    $("#num_plus").attr("disabled", false);
+                }
             },
             error: function (data) {
                 console.log($("input:radio[name='color']:checked").val());
                 $("#price").text("￥?????");
+                $("#stock").text("????");
             }
         });
     }
@@ -175,19 +192,28 @@ $(function(){
                     storage: $("input:radio[name='storage']:checked").val()
                 },
                 success: function (data) {
-                    //console.log(XMLHttpRequest.responseXML);
+                    stock = data.stock;
                     console.log(data);
-                    if(data.status=="success"){
-                        $("#price").text("￥"+data.price);
+                    if (data.status == "success") {
+                        stock = data.stock;
+                        $("#price").text(data.price);
+                        $("#stock").text(data.stock);
+                        if ($("#num").val() >= stock) {
+                            $("#num_plus").attr("disabled", true);
+                        }
+                        else {
+                            $("#num_plus").attr("disabled", false);
+                        }
                     }
-                    else{
+                    else {
                         $("#price").text("￥?????");
+                        $("#stock").text("????");
                     }
                 },
                 error: function (data) {
-                    console.log(data+"&&"+XMLResponse.status);
+                    console.log(data + "&&" + XMLResponse.status);
                     $("#price").text("￥?????");
-                    
+                    $("#stock").text("????");
                 }
             });
         });
@@ -204,19 +230,27 @@ $(function(){
                     storage: $("input:radio[name='storage']:checked").val()
                 },
                 success: function (data) {
-                    //console.log(XMLHttpRequest.responseXML);
                     console.log(data);
-                    if(data.status=="success"){
-                        $("#price").text("￥"+data.price);
+                    if (data.status == "success") {
+                        stock = data.stock;
+                        $("#price").text(data.price);
+                        $("#stock").text(data.stock);
+                        if ($("#num").val() >= stock) {
+                            $("#num_plus").attr("disabled", true);
+                        }
+                        else {
+                            $("#num_plus").attr("disabled", false);
+                        }
                     }
-                    else{
+                    else {
                         $("#price").text("￥?????");
+                        $("#stock").text("????");
                     }
                 },
                 error: function (data) {
-                    console.log(data+"&&"+XMLResponse.status);
+                    console.log(data + "&&" + XMLResponse.status);
                     $("#price").text("￥?????");
-                    
+                    $("#stock").text("????");
                 }
             });
         });
@@ -233,133 +267,165 @@ $(function(){
                     storage: $("input:radio[name='storage']:checked").val()
                 },
                 success: function (data) {
-                    //console.log(XMLHttpRequest.responseXML);
                     console.log(data);
-                    if(data.status=="success"){
-                        $("#price").text("￥"+data.price);
+                    if (data.status == "success") {
+                        stock = data.stock;
+                        $("#price").text(data.price);
+                        $("#stock").text(data.stock);
+                        if ($("#num").val() >= stock) {
+                            $("#num_plus").attr("disabled", true);
+                        }
+                        else {
+                            $("#num_plus").attr("disabled", false);
+                        }
                     }
-                    else{
+                    else {
                         $("#price").text("￥?????");
+                        $("#stock").text("????");
                     }
                 },
                 error: function (data) {
-                    console.log(data+"&&"+XMLResponse.status);
+                    console.log(data + "&&" + XMLResponse.status);
                     $("#price").text("￥?????");
-                    
+                    $("#stock").text("????");
                 }
             });
         });
     }
-    
-    $("#btn_join").on("click",function(){
-        $.ajax({
-            type: "post",
-            dataType: "json",
-            url: "servlet/Whether",
-            data: {
-                type: "ajax_whether",
-                message: "getStatus"
-            },success:function(data){
-                console.log(data);
-                if (data.status == "success") {
-                    // console.log(para.spu);
-                    // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
-                    // console.log($("#brand").text());
-                    // console.log($("input:radio[name='storage']:checked").val());
-                    // console.log($("input:radio[name='color']:checked").val());
-                    // console.log($("input:radio[name='screen']:checked").val());
-                    // console.log($("#num").val());
-                    $.ajax({
-                        type: "post",
-                        dataType: "json",
-                        url: "servlet/Join",
-                        data: {
-                            //"type": "ajax_join",
-                            "goodsID": para.spu,
-                            "goodsName": para.goods,
-                            "brandName": $("#brand").text(),
-                            "storage": $("input:radio[name='storage']:checked").val(),
-                            "color": $("input:radio[name='color']:checked").val(),
-                            "screen": $("input:radio[name='screen']:checked").val(),
-                            "num": $("#num").val()
-                        }, success: function(datain){
-                            console.log("join success!");
-                            layer.open({
-                                icon: 1,
-                                content: datain.message
-                            });
-                        }, error:function(){
-                            console.log("服务器异常\najax_whether:" + XMLResponse.status);
-                        }
-                    });
-                }
-                else{
-                    layer.confirm(data.message,{
-                        icon: 3,
-                        btn: ["前往登录","继续浏览"]},function(){
+
+    $("#btn_join").on("click", function () {
+        if ($("#num").val() > stock) {
+            layer.msg("购买数量超过库存量");
+            return;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "servlet/Whether",
+                data: {
+                    type: "ajax_whether",
+                    message: "getStatus"
+                }, success: function (data) {
+                    console.log(data);
+                    if (data.status == "success") {
+                        // console.log(para.spu);
+                        // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
+                        // console.log($("#brand").text());
+                        // console.log($("input:radio[name='storage']:checked").val());
+                        // console.log($("input:radio[name='color']:checked").val());
+                        // console.log($("input:radio[name='screen']:checked").val());
+                        // console.log($("#num").val());
+                        $.ajax({
+                            type: "post",
+                            dataType: "json",
+                            url: "servlet/Join",
+                            data: {
+                                //"type": "ajax_join",
+                                "goodsID": para.spu,
+                                "goodsName": para.goods,
+                                "brandName": $("#brand").text(),
+                                "storage": $("input:radio[name='storage']:checked").val(),
+                                "color": $("input:radio[name='color']:checked").val(),
+                                "screen": $("input:radio[name='screen']:checked").val(),
+                                "num": $("#num").val()
+                            }, success: function (datain) {
+                                console.log("join success!");
+                                layer.open({
+                                    icon: 1,
+                                    content: datain.message
+                                });
+                            }, error: function () {
+                                console.log("服务器异常\najax_whether:" + XMLResponse.status);
+                            }
+                        });
+                    }
+                    else {
+                        layer.confirm(data.message, {
+                            icon: 3,
+                            btn: ["前往登录", "继续浏览"]
+                        }, function () {
                             location.href = 'login.html';
-                        },function(){});
-                    console.log(data.message);
+                        }, function () { });
+                        console.log(data.message);
+                    }
+                }, error: function () {
+                    console.log("服务器异常\najax_whether:" + XMLResponse.status);
                 }
-            },error:function(){
-                console.log("服务器异常\najax_whether:" + XMLResponse.status);
-            }
-        });
-        
+            });
+        }
     });
-    $("#btn_purchase").on("click",function(){
-        console.log("&&&&&&&&&&&&&&&&&:"+$("input:radio[name='color']:checked").val()+$("input:radio[name='screen']:checked").val()+$("input:radio[name='storage']:checked").val());
-        $.ajax({
-            type: "post",
-            dataType: "json",
-            url: "servlet/Whether",
-            data: {
-                type: "ajax_whether",
-                message: "getStatus"
-            },success:function(data){
-                console.log(data);
-                if (data.status == "success") {
-                    // console.log(para.spu);
-                    // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
-                    // console.log($("#brand").text());
-                    // console.log($("input:radio[name='storage']:checked").val());
-                    // console.log($("input:radio[name='color']:checked").val());
-                    // console.log($("input:radio[name='screen']:checked").val());
-                    // console.log($("#num").val());
-                    $.ajax({
-                        type: "post",
-                        dataType: "json",
-                        url: "servlet/Purchase",
-                        data: {
-                            "goodsID": para.spu,
-                            "goodsName": para.goods,
-                            "brandName": $("#brand").text(),
-                            "storage": $("input:radio[name='storage']:checked").val(),
-                            "color": $("input:radio[name='color']:checked").val(),
-                            "screen": $("input:radio[name='screen']:checked").val(),
-                            "num": $("#num").val()
-                        }, success: function(datain){
-                            console.log("purchase success!");
-                            layer.open({
-                                icon: 1,
-                                content: datain.message
+    $("#btn_purchase").on("click", function () {
+        console.log("&&&&&&&&&&&&&&&&&:" + $("input:radio[name='color']:checked").val() + $("input:radio[name='screen']:checked").val() + $("input:radio[name='storage']:checked").val());
+        if ($("#num").val() > stock) {
+            layer.msg("购买数量超过库存量");
+            return;
+        }
+        else {
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "servlet/Whether",
+                data: {
+                    type: "ajax_whether",
+                    message: "getStatus"
+                }, success: function (data) {
+                    console.log(data);
+                    if (data.status == "success") {
+                        // console.log(para.spu);
+                        // console.log($("#goodsName").text()+"&&"+$("#goodsName").val());
+                        // console.log($("#brand").text());
+                        // console.log($("input:radio[name='storage']:checked").val());
+                        // console.log($("input:radio[name='color']:checked").val());
+                        // console.log($("input:radio[name='screen']:checked").val());
+                        // console.log($("#num").val());
+                        var layerContent = "商品名称：" + para.goods + "<br>" + "品牌：" + $("#brand").text() + "<br>" + "存储容量：" + $("input:radio[name='storage']:checked").val() + "<br>"
+                            + "颜色：" + $("input:radio[name='color']:checked").val() + "<br>" + "屏幕尺寸：" + $("input:radio[name='screen']:checked").val() + "<br>"
+                            + "购买数量：" + $("#num").val() + "<br>" + "价格：￥" + $("#price").text()+ "<br>" + "小计：￥" + (parseFloat($("#price").text())*parseFloat($("#num").val())).toFixed(2);
+                        layer.confirm(layerContent, {
+                            anim: 1,
+                            title: "确认订单",
+                            btn: ["提交订单", "再看看"]
+                        }, function () {
+                            $.ajax({
+                                type: "post",
+                                dataType: "json",
+                                url: "servlet/Purchase",
+                                data: {
+                                    "goodsID": para.spu,
+                                    "goodsName": para.goods,
+                                    "brandName": $("#brand").text(),
+                                    "storage": $("input:radio[name='storage']:checked").val(),
+                                    "color": $("input:radio[name='color']:checked").val(),
+                                    "screen": $("input:radio[name='screen']:checked").val(),
+                                    "num": $("#num").val()
+                                }, success: function (datain) {
+                                    console.log("purchase success!");
+                                    stock = stock - $("#num").val();
+                                    $("#stock").text(stock);
+                                    layer.open({
+                                        icon: 1,
+                                        content: datain.message
+                                    });
+                                }, error: function () {
+                                    console.log("服务器异常\najax_whether:" + XMLResponse.status);
+                                }
                             });
-                        }, error:function(){
-                            console.log("服务器异常\najax_whether:" + XMLResponse.status);
-                        }
-                    });
-                }
-                else{
-                    layer.confirm(data.message,{
-                        icon: 3,
-                        btn: ["前往登录","继续浏览"]},function(){
+                        }, function () { });
+                    }
+                    else {
+                        layer.confirm(data.message, {
+                            icon: 3,
+                            btn: ["前往登录", "继续浏览"]
+                        }, function () {
                             location.href = 'login.html';
-                        },function(){});
-                    console.log(data.message);
+                        }, function () { });
+                        console.log(data.message);
+                    }
+                }, error: function () {
+                    console.log("服务器异常\najax_whether:" + XMLResponse.status);
                 }
-            },error:function(){
-                console.log("服务器异常\najax_whether:" + XMLResponse.status);
-            }
-        });        
+            });
+        }
     });
 });

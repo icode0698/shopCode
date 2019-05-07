@@ -84,7 +84,7 @@
             <div class="col-md-4">
                 <div class="text_flex">
                     <h2><span id="goodsName"></span><small id="brand"></small></h2>
-                    <h1><span id="price" class="label label-success"></span></h1>
+                    <h1><div class="label label-success"><span>￥</span><span id="price" ></span></div></h1>
                     <form>
                         <h3 ><span class="label label-default">选择颜色</span></h3>
                         <p id="color">
@@ -114,6 +114,9 @@
                                 <button id="btn_purchase" type="button" class="btn btn-lg btn-success">立即购买</button>
                             </div>
                         </h3>
+                        <p>
+                            库存 <mark id="stock"></mark> 件
+                        </p>
                     </form>
                 </div>
             </div> 
@@ -141,6 +144,6 @@
     <script>
         new WOW().init();
     </script>
-    <script src="js/nprogressapply.js"></script>
+    <script src="js_own/nprogressapply.js"></script>
 </body>
 </html>

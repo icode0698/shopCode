@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import api.DataLink;
 import api.GoodsImg;
+import api.SkuStock;
 import api.SkuToSpu;
 import bean.PersonalBean;
 
@@ -97,8 +98,11 @@ public class Personal extends HttpServlet {
 				PersonalBean personalBean = new PersonalBean();
 				personalBean.setId(rs.getString(1));
 				personalBean.setUser(rs.getString(2));
-				personalBean.setSku(rs.getInt(3));
-				SkuToSpu skuToSpu = new SkuToSpu(rs.getInt(3));
+				int sku = rs.getInt(3);
+				personalBean.setSku(sku);
+				SkuStock skuStock = new SkuStock(sku);
+				personalBean.setStock(skuStock.getStock());
+				SkuToSpu skuToSpu = new SkuToSpu(sku);
 				GoodsImg goodsImg = new GoodsImg(skuToSpu.getSpu());
 				personalBean.setImgList(goodsImg.getImg());
 				personalBean.setStorage(rs.getString(4));

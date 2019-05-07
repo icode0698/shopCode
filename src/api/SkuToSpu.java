@@ -16,8 +16,7 @@ public class SkuToSpu {
 		Connection conn = dataLink.linkData();
 		ResultSet rs;
 		try{
-			PreparedStatement stmt = conn.prepareStatement("select goodsID from "
-					+ "price where sku=?");
+			PreparedStatement stmt = conn.prepareStatement("select goodsID from price where sku=?");
 			stmt.setInt(1, sku);
 			rs = stmt.executeQuery();
 			while(rs.next()){

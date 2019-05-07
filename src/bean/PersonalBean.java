@@ -15,6 +15,7 @@ public class PersonalBean {
 	float unitPrice;
 	float totalPrice;
 	String goodsName;
+	int stock;
 	public String getId() {
 		return id;
 	}
@@ -86,6 +87,12 @@ public class PersonalBean {
 	}
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
+	}
+	public int getStock() {
+		return stock;
+	}
+	public void setStock(int stock) {
+		this.stock = stock;
 	}
 	
 }

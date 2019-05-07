@@ -93,27 +93,38 @@ public class Purchase extends HttpServlet {
 			while(rs.next()){
 				categoryName = rs.getString(1);
 			}
-			stmt = conn.prepareStatement("insert into shop(id, user, sku, goodsName, categoryName, brandName, storage, "
-					+ "color, screen, num, unitPrice, totalPrice, isPay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-			SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
-			String id = df.format(new Date());
-			stmt.setString(1, id);
-			stmt.setString(2, user);
-			stmt.setInt(3, sku);
-			stmt.setString(4, goodsName);
-			stmt.setString(5, categoryName);
-			stmt.setString(6, brandName);
-			stmt.setString(7, storage);
-			stmt.setString(8, color);
-			stmt.setString(9, screen);
-			stmt.setInt(10, num);
-			stmt.setFloat(11, price);
-			stmt.setFloat(12, num*price);
-			stmt.setBoolean(13, true);
-			stmt.executeUpdate();
-			json.put("status", "success");
-			json.put("message", "购买成功，感谢您的支持");
-			out.write(json.toString());
+			stmt = conn.prepareStatement("update price set stock=stock-? where sku=?");
+			stmt.setInt(1, num);
+			stmt.setInt(2, sku);
+			int index = stmt.executeUpdate();
+			if(index>0){
+				stmt = conn.prepareStatement("insert into shop(id, user, sku, goodsName, categoryName, brandName, storage, "
+						+ "color, screen, num, unitPrice, totalPrice, isPay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
+				String id = df.format(new Date());
+				stmt.setString(1, id);
+				stmt.setString(2, user);
+				stmt.setInt(3, sku);
+				stmt.setString(4, goodsName);
+				stmt.setString(5, categoryName);
+				stmt.setString(6, brandName);
+				stmt.setString(7, storage);
+				stmt.setString(8, color);
+				stmt.setString(9, screen);
+				stmt.setInt(10, num);
+				stmt.setFloat(11, price);
+				stmt.setFloat(12, num*price);
+				stmt.setBoolean(13, true);
+				stmt.executeUpdate();
+				json.put("status", "success");
+				json.put("message", "购买成功，感谢您的支持");
+				out.write(json.toString());
+			}
+			else{
+				json.put("status", "fail");
+				json.put("message", "数据库操作异常");
+				out.write(json.toString());
+			}
 			rs.close();
 			stmt.close();
 			conn.close();
