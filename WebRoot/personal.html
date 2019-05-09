@@ -34,10 +34,10 @@
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="mtTab" class="nav navbar-nav navbar-right">
-                    <li><a href="#info" data-toggle="tab">我的信息</a></li>
-                    <li class="active"><a href="#trolley" data-toggle="tab">我的购物车</a></li>
-                    <li><a href="#order" data-toggle="tab">我的订单</a></li>
-                    <li><a href="#about" data-toggle="tab">关于</a></li>
+                    <li id="li_info"><a href="#info" data-toggle="tab">我的信息</a></li>
+                    <li id="li_trolley" class="active"><a href="#trolley" data-toggle="tab">我的购物车</a></li>
+                    <li id="li_order"><a href="#order" data-toggle="tab">我的订单</a></li>
+                    <li id="li_about"><a href="#about" data-toggle="tab">关于</a></li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <input type="text" class="form-control" placeholder="Search...">
@@ -58,13 +58,13 @@
                                 <tr>
                                     <th><div class="checkbox checkbox-primary" style="display: inline;"><input id="allgoods" type="checkbox" name="all" value="" class="checkbox_goods"><label></label></div>选择</th>
                                     <th>商品</th>
-                                    <th>单价</th>
+                                    <th>价格</th>
                                     <th>数量</th>
                                     <th>小计</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
-                            <tbody id="trs">
+                            <tbody id="trolley_trs">
                                 
                             </tbody>
                         </table>
@@ -73,37 +73,57 @@
             </div>
         </div>
         <div class="tab-pane fade in" id="order">
+            <div class="container">
+                <form action="">
+                    <div class="">
+                        <table class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>图片</th>
+                                    <th>商品</th>
+                                    <th>价格</th>
+                                    <th>数量</th>
+                                    <th>小计</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="order_trs">
+        
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="tab-pane fade in" id="about">
             <div class="container-fluid">
                 <div class="row">
                     <div class="main">
                         <h1 class="page-header">数据统计</h1>
                         <div class="row placeholders">
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                         </div>
-
+        
                         <h2 class="sub-header">订单信息</h2>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -131,17 +151,13 @@
                                         <td>adipiscing</td>
                                         <td>elit</td>
                                     </tr>
-
+        
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="tab-pane fade in" id="about">
-
         </div>
 
     </div>

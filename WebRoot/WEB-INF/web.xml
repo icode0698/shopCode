@@ -66,10 +66,10 @@
     <servlet-class>shop.Purchase</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>Personal</servlet-name>
+    <servlet-name>Trolley</servlet-name>
     <display-name>This is the display name of my J2EE component</display-name>
     <description>This is the description of my J2EE component</description>
-    <servlet-class>shop.Personal</servlet-class>
+    <servlet-class>shop.Trolley</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>MoveOut</servlet-name>
@@ -83,6 +83,13 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>shop.Settlement</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Order</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Order</servlet-class>
+  </servlet>
+
 
 
 
@@ -137,8 +144,8 @@
     <url-pattern>/servlet/Purchase</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>Personal</servlet-name>
-    <url-pattern>/servlet/Personal</url-pattern>
+    <servlet-name>Trolley</servlet-name>
+    <url-pattern>/servlet/Trolley</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>MoveOut</servlet-name>
@@ -147,6 +154,10 @@
   <servlet-mapping>
     <servlet-name>Settlement</servlet-name>
     <url-pattern>/servlet/Settlement</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Order</servlet-name>
+    <url-pattern>/servlet/Order</url-pattern>
   </servlet-mapping>
 
 </web-app>

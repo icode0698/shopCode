@@ -11,6 +11,7 @@ $(function () {
         arr = res[i].split("=");
         para[arr[0]] = arr[1];//实现key value相对应
     }
+   // console.log(para);
     $("#goodsID").text(para.spu);
     // 页面转化url中空格%20为正常空格
     // var temp = para.goods.split("%20");

@@ -30,4 +30,50 @@ public class SkuStock {
 		}
 		return stock;
 	}
+	public int reduceStock(int num){
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		int index = 0;
+		try {
+			PreparedStatement stmt = conn.prepareStatement("update price set stock=stock-? where sku=?");
+			stmt.setInt(1, num);
+			stmt.setInt(2, sku);
+			index = stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		System.out.println("stockIndex:"+index);
+		if(index>0){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
+	public int increaseStock(int num){
+		DataLink dataLink = new DataLink();
+		Connection conn = dataLink.linkData();
+		int index = 0;
+		try {
+			PreparedStatement stmt = conn.prepareStatement("update price set stock=stock+? where sku=?");
+			stmt.setInt(1, num);
+			stmt.setInt(2, sku);
+			index = stmt.executeUpdate();
+			stmt.close();
+			conn.close();
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		System.out.println("stockIndex:"+index);
+		if(index>0){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+	}
 }

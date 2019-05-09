@@ -1,6 +1,7 @@
 $(function () {
     // 声明购物车全局变量
-    var purchase = [];
+    var idList= [];
+    var purchase = {};
     var lengthIndex = 0;
     // 判断登录状态
     $.ajax({
@@ -13,7 +14,19 @@ $(function () {
         }, success: function (data) {
             console.log(data);
             if (data.status == "success") {
-                goodsList();
+                trolleyList();
+                $("#li_info").on("click",function(){
+                    info();
+                });
+                $("#li_trolley").on("click",function(){
+                    trolleyList();
+                });
+                $("#li_order").on("click",function(){
+                    orderList();
+                });
+                $("#li_about").on("click",function(){
+                    about();
+                });
             }
             else {
                 layer.confirm(data.message, {
@@ -29,23 +42,24 @@ $(function () {
             console.log("服务器异常\najax_whether:" + XMLResponse.status);
         }
     });
-    function goodsList() {
+    function trolleyList() {
         $.ajax({
             type: "post",
-            url: "servlet/Personal",
+            url: "servlet/Trolley",
             dataType: "json",
             data: {
-                type: "ajax_personal"
+                type: "ajax_trolley"
             }, success: function (data) {
                 console.log(data);
                 console.log(data.status);
                 console.log(data.message.length);
                 // 生成购物车列表
+                $("#trolley_trs").empty();
                 for (var i = 0; i < data.message.length; i++) {
                     var content = '<tr><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
-                        + '<label for="' + i + '"><img src="' + data.message[i].imgList[0] + '" alt="" class="img_goods"></label></div>'
-                        + '</td><td><strong>' + data.message[i].goodsName + '</strong><br>'
-                        + '<p>' + data.message[i].color + data.message[i].screen + data.message[i].storage + '</p>'
+                        + '<label for="' + i + '"><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods"></label></div>'
+                        + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
+                        + '<p id="p'+i+'"><span id="color' + i + '">' + data.message[i].color + '</span><span id="screen' + i + '">' + data.message[i].screen +'</span><span id="storage' + i + '">'+ data.message[i].storage + '</span></p>'
                         + '</td><td>￥<span id="unit' + i + '">' + data.message[i].unitPrice + '</span>'
                         + '</td><td><div class="btn-group"><button id="num_minus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>'
                         + '<div class="btn-group"><input id="num' + i + '" type="text" class="form-control input_size text-center" value="' + data.message[i].num + '"></div>'
@@ -53,7 +67,7 @@ $(function () {
                         + '</div><p class="p_margin">库存 <mark id="stock' + i + '">' + data.message[i].stock + '</mark> 件</p>'
                         + '</td><td>￥<span id="total' + i + '">' + data.message[i].totalPrice + '</span>'
                         + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-danger" value="' + data.message[i].id + '">移出购物车</button></td></tr>';
-                    $("#trs").append(content);
+                    $("#trolley_trs").append(content);
                     // 初始化按钮的disabled
                     if ($("#num" + i).val() <= 1) {
                         //console.log("if_i:"+i);
@@ -67,7 +81,7 @@ $(function () {
                         $("#" + i).prop("disabled", true);
                     }
                 }
-                $("#trs").append('<tr><td></td><td></td><td></td><td></td><td><strong>总计:</strong>￥<span id="amount">0.00</span></td>'
+                $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td><strong>总计:</strong>￥<span id="amount">0.00</span></td>'
                     + '<td><button type="button" id="settlement" class="btn btn-success">去结算<span class="glyphicon glyphicon-chevron-right"></span></button></td></tr>');
                 // 统计购物车列表能够结算的商品的数量
                 $.each($("input:checkbox[name='goods']"), function () {
@@ -116,16 +130,22 @@ $(function () {
                         console.log("i:" + i);
                         console.log("num_plus:" + $("#num" + i).val());
                     });
-                    // // 处理数量变化
-                    // $("#num"+i).on("change",function(){
-                    //     console.log("++++++++++++change");
-                    // });
+                    // 处理数量变化
+                    // input绑定oninput和propertychange
                     $("#num"+i).bind("input propertychange",function(event){
                         console.log($("#num"+i).val());
+                        if(isNaN($("#num"+i).val())||$("#num"+i).val()<0){
+                            $("#total"+i).text("0");
+                        }
+                        else if($("#num"+i).val()>parseInt($("#stock"+i).text())){
+                            $("#num"+i).val(parseInt($("#stock"+i).text()));
+                        }
+                        else {
+                            // 更新tr小计
+                            $("#total" + i).text($("#unit" + i).text() * $("#num" + i).val());
+                        }
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
-                            // 更新tr小计
-                            $("#total"+i).text($("#unit"+i).text()*$("#num"+i).val());
                             // 更新table总计
                             // console.log(this);
                             if($(this).prop("checked")){
@@ -141,6 +161,10 @@ $(function () {
                             $("#amount").text(amount);
                         }
                     });
+                    // input绑定onchange
+                    // $("#num"+i).on("change",function(){
+                    //     console.log("++++++++++++change");
+                    // });
                     // 处理checkbox的点击
                     $("#" + i).on("click", function () {
                         // console.log($(this).prop("disabled"));
@@ -183,8 +207,7 @@ $(function () {
                                 }, success: function (data) {
                                     if (data.status == "success") {
                                         layer.msg(data.message, { icon: 1 });
-                                        $("#trs").empty();
-                                        goodsList();
+                                        trolleyList();
                                     }
                                     else {
                                         layer.msg(data.message, { icon: 2 });
@@ -196,6 +219,7 @@ $(function () {
                         }, function () { });
                     });
                 }
+
                 // 处理checkbox的全选
                 $("input:checkbox[name='all']").on("click", function () {
                     if (this.checked) {
@@ -222,42 +246,127 @@ $(function () {
                         $("#amount").text("0.00");
                     }
                 });
-                //结算
+                // 结算
                 $("#settlement").on("click", function () {
-                    purchase = [];
-                    let j = 0;
+                    // 汇总选中商品的信息
+                    let index = 0;
+                    idList = [];
+                    let layerContent = '';
                     $.each($("input:checkbox[name='goods']:checked"), function () {
-                        let id = $(this).attr("id");
-                        purchase[j] = $("#"+id).val();
-                        purchase[j+1] = $("#num"+id).val();
-                        j=j+2
+                        purchase = {};
+                        let i = $(this).attr("id");
+                        purchase.id = $("#"+i).val();
+                        purchase.num = $("#num"+i).val();
+                        purchase.sku = $("#img"+i).attr("value");
+                        console.log("img"+i+":"+$("#img"+i).attr("value"));
+                        if(isNaN(purchase.num)){
+                            index = 1;
+                            return false;
+                        }
+                        if(purchase.num<0){
+                            index = 1;
+                            return false;
+                        }
+                        console.log(purchase);
+                        idList.push(purchase);
+                        console.log(idList);
+                        layerContent = layerContent + '<tr><td><strong>' + $("#goodsName"+i).text() + '</strong><br>'+$("#p"+i).text() +'</td>'+ '<td>' 
+                            +"￥"+ $("#unit"+i).text() +'</td>'+ '<td>' +$("#num"+i).val() +'</td>'+'<td>' +"￥"+ $("#total"+i).text()+'</td></tr>';
                     });
-                    console.log(purchase);
-                    if (purchase.length == 0) {
+                    console.log(idList);
+                    if(index==1){
+                        layer.open({
+                            icon: 2,
+                            content: "数量输入存在非法字符"
+                        });
+                    }
+                    else if (idList.length == 0) {
                         layer.open({
                             icon: 2,
                             content: "要先选择商品哦"
                         });
                     }
                     else{
-                        $.ajax({
-                            type: "post",
-                            dataType: "json",
-                            url: "servlet/Settlement",
-                            data: {
-                                idList: JSON.stringify(purchase),
-                            },success: function(){
-
-                            },error: function(){
-
-                            }
-                        });
+                        layerContent = '<table class="table"><thead><tr><th>商品</th><th>价格</th><th>数量</th><th>小计</th></tr></thead><tbody>' 
+                            + layerContent + '<tr><td></td><td></td><td><strong>总计:</strong></td><td>￥'+ $("#amount").text()+'</td></tr></tbody></table>';
+                        // console.log(layerContent);
+                        layer.confirm(layerContent,{
+                            anim: 1,
+                            area: ['auto', 'auto'],
+                            title: "结算购物车",
+                            btn: ["确认结算", "再看看"]
+                        },function(){
+                            $.ajax({
+                                type: "post",
+                                dataType: "json",
+                                url: "servlet/Settlement",
+                                data: {
+                                    idList: JSON.stringify(idList),
+                                },success: function(data){
+                                    if (data.status == "success") {
+                                        layer.msg(data.message, { icon: 1 });
+                                        trolleyList();
+                                    }
+                                    else {
+                                        layer.msg(data.message, { icon: 2 });
+                                    }
+                                },error: function(){
+                                    layer.msg('抱歉，服务器异常，请稍后再试', { icon: 2 });
+                                }
+                            });
+                        },function(){});
                     }
                 });
             }, error: function (data) {
-                console.log("ajax_personal:" + data);
+                console.log("ajax_trolley:" + data);
             }
         });
     }
+    function info(){
 
+    }
+    function orderList(){
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "servlet/Order",
+            data: {
+                type: "ajax_order",
+            },success: function(data){
+                console.log(data);
+                console.log(data.status);
+                console.log(data.message.length);
+                // 生成购物车列表
+                $("#order_trs").empty();
+                for (var i = 0; i < data.message.length; i++) {
+                    var content = '<tr><td><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
+                        + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
+                        + '<p id="p'+i+'"><span id="color' + i + '">' + data.message[i].color + '</span><span id="screen' + i + '">' + data.message[i].screen +'</span><span id="storage' + i + '">'+ data.message[i].storage + '</span></p>'
+                        + '</td><td>￥<span id="unit' + i + '">' + data.message[i].unitPrice + '</span>'
+                        + '</td><td>'+ data.message[i].num
+                        + '</td><td>￥<span id="total' + i + '">' + data.message[i].totalPrice + '</span>'
+                        + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-success" value="' + data.message[i].id + '">再次购买</button></td></tr>';
+                    $("#order_trs").append(content);
+                    // 初始化按钮的disabled
+                    if ($("#num" + i).val() <= 1) {
+                        //console.log("if_i:"+i);
+                        $("#num_minus" + i).attr("disabled", true);
+                    }
+                    if ($("#num" + i).val() >= parseInt($("#stock" + i).text())) {
+                        $("#num_plus" + i).attr("disabled", true);
+                    }
+                    // 初始化checkbox的disabled
+                    if ($("#stock" + i).text() == 0 || $("#num" + i).val() > parseInt($("#stock" + i).text())) {
+                        $("#" + i).prop("disabled", true);
+                    }
+                }
+                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td><strong>总计:</strong>￥<span id="amount">0.00</span></td><td></td></tr>');
+            },error: function(){
+                console.log("ajax_order:" + data);
+            }
+        });
+    }
+    function about(){
+
+    }
 });
