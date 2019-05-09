@@ -20,8 +20,8 @@ $(function () {
     // for(var i=0;i<temp.length;i++){
     //     goods = goods+temp[i]+" ";
     // }
-    $(document).attr("title", para.goods);
-    $("#goodsName").text(para.goods);
+    // $(document).attr("title", para.goods);
+    // $("#goodsName").text(para.goods);
     $("#top_btn_login").click(function () {
         location.href = "login.html";
     });
@@ -41,6 +41,9 @@ $(function () {
         success: function (data) {
             console.log(data);
             console.log("data_status:" + data.status);
+            console.log(data.message[0].goodsName);
+            $(document).attr("title", data.message[0].goodsName);
+            $("#goodsName").text(data.message[0].goodsName);
             $("#brand").text(" " + data.message[0].brandName);
             // 初始化颜色
             for (var i = 0; i < data.message[0].colorList.length; i++) {

@@ -15,3 +15,19 @@
 .p_margin{
     margin-top: 10px !important;
 }
+.font_color{
+    color: #FF5722;
+    font-size: 18px;
+}
+.body_color{
+    background-color: #eee;
+}
+.table_border{
+    border-radius: 6px;
+}
+.table tr{
+    border-radius: 6px !important;
+}
+.tdradius{
+    border-radius: 6px;
+}

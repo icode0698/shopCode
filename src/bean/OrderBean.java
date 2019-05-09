@@ -6,6 +6,7 @@ public class OrderBean {
 	String id;
 	String user;
 	int sku;
+	int spu;
 	ArrayList<String> imgList;
 	String storage;
 	String color;
@@ -32,6 +33,12 @@ public class OrderBean {
 	}
 	public void setSku(int sku) {
 		this.sku = sku;
+	}
+	public int getSpu() {
+		return spu;
+	}
+	public void setSpu(int spu) {
+		this.spu = spu;
 	}
 	public ArrayList<String> getImgList() {
 		return imgList;

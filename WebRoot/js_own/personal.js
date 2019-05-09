@@ -15,6 +15,7 @@ $(function () {
             console.log(data);
             if (data.status == "success") {
                 trolleyList();
+                // orderList();
                 $("#li_info").on("click",function(){
                     info();
                 });
@@ -51,23 +52,26 @@ $(function () {
                 type: "ajax_trolley"
             }, success: function (data) {
                 console.log(data);
-                console.log(data.status);
-                console.log(data.message.length);
+                // console.log(data.status);
+                // console.log(data.message.length);
                 // 生成购物车列表
                 $("#trolley_trs").empty();
                 for (var i = 0; i < data.message.length; i++) {
-                    var content = '<tr><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
+                    let content = '<tr id="trolleytr'+i+'"><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
                         + '<label for="' + i + '"><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods"></label></div>'
                         + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
                         + '<p id="p'+i+'"><span id="color' + i + '">' + data.message[i].color + '</span><span id="screen' + i + '">' + data.message[i].screen +'</span><span id="storage' + i + '">'+ data.message[i].storage + '</span></p>'
-                        + '</td><td>￥<span id="unit' + i + '">' + data.message[i].unitPrice + '</span>'
-                        + '</td><td><div class="btn-group"><button id="num_minus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>'
+                        + '</td><td>￥<span id="unit' + i + '"></span>'
+                        + '</td><td id="numtd'+i+'"><div class="btn-group"><button id="num_minus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>'
                         + '<div class="btn-group"><input id="num' + i + '" type="text" class="form-control input_size text-center" value="' + data.message[i].num + '"></div>'
                         + '<button id="num_plus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>'
                         + '</div><p class="p_margin">库存 <mark id="stock' + i + '">' + data.message[i].stock + '</mark> 件</p>'
-                        + '</td><td>￥<span id="total' + i + '">' + data.message[i].totalPrice + '</span>'
+                        + '</td><td><strong>￥<span id="total' + i + '"></span></strong>'
                         + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-danger" value="' + data.message[i].id + '">移出购物车</button></td></tr>';
                     $("#trolley_trs").append(content);
+                    $("#unit"+i).text(data.message[i].unitPrice.toFixed(2));
+                    $("#total"+i).text(data.message[i].totalPrice.toFixed(2));
+                    console.log($("#img"+i).attr("id")+"??????????"+$("#img"+i).attr("value"));
                     // 初始化按钮的disabled
                     if ($("#num" + i).val() <= 1) {
                         //console.log("if_i:"+i);
@@ -79,13 +83,14 @@ $(function () {
                     // 初始化checkbox的disabled
                     if ($("#stock" + i).text() == 0 || $("#num" + i).val() > parseInt($("#stock" + i).text())) {
                         $("#" + i).prop("disabled", true);
+                        $("#trolleytr" + i).addClass("danger");
                     }
                 }
-                $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td><strong>总计:</strong>￥<span id="amount">0.00</span></td>'
+                $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<strong class="font_color">￥<span id="amount">0.00</span></strong></td>'
                     + '<td><button type="button" id="settlement" class="btn btn-success">去结算<span class="glyphicon glyphicon-chevron-right"></span></button></td></tr>');
                 // 统计购物车列表能够结算的商品的数量
                 $.each($("input:checkbox[name='goods']"), function () {
-                    console.log($(this).prop("disabled"));
+                    // console.log($(this).prop("disabled"));
                     if($(this).prop("disabled")==false){
                         lengthIndex++;
                     }
@@ -109,10 +114,10 @@ $(function () {
                                 $("#" + i).prop("disabled", false);
                             }
                             if($("#"+i).prop("checked")){
-                                $("#amount").text(parseFloat($("#amount").text())-parseFloat($("#unit"+i).text()));
+                                $("#amount").text((parseFloat($("#amount").text())-parseFloat($("#unit"+i).text())).toFixed(2));
                             }
                         }
-                        console.log("num_minus:" + $("#num" + i).val());
+                        // console.log("num_minus:" + $("#num" + i).val());
                     });
                     $("#num_plus" + i).on("click", function () {
                         var number = $("#num" + i).val();
@@ -125,17 +130,19 @@ $(function () {
                         }
                         $("#total" + i).text($("#unit" + i).text() * number);
                         if($("#"+i).prop("checked")){
-                            $("#amount").text(parseFloat($("#amount").text())+parseFloat($("#unit"+i).text()));
+                            $("#amount").text((parseFloat($("#amount").text())+parseFloat($("#unit"+i).text())).toFixed(2));
                         }
-                        console.log("i:" + i);
-                        console.log("num_plus:" + $("#num" + i).val());
+                        // console.log("i:" + i);
+                        // console.log("num_plus:" + $("#num" + i).val());
                     });
                     // 处理数量变化
                     // input绑定oninput和propertychange
                     $("#num"+i).bind("input propertychange",function(event){
-                        console.log($("#num"+i).val());
-                        if(isNaN($("#num"+i).val())||$("#num"+i).val()<0){
+                        // console.log($("#num"+i).val());
+                        if(isNaN($("#num"+i).val())||$("#num"+i).val()<=0){
                             $("#total"+i).text("0");
+                            $("#numtd"+i).addClass("danger");
+                            $("#numtd"+i).addClass("tdradius");
                         }
                         else if($("#num"+i).val()>parseInt($("#stock"+i).text())){
                             $("#num"+i).val(parseInt($("#stock"+i).text()));
@@ -143,6 +150,8 @@ $(function () {
                         else {
                             // 更新tr小计
                             $("#total" + i).text($("#unit" + i).text() * $("#num" + i).val());
+                            $("#numtd"+i).removeClass("danger");
+                            $("#numtd"+i).removeClass("tdradius");
                         }
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
@@ -158,7 +167,7 @@ $(function () {
                             // console.log("amount:"+amount);
                         });
                         if(amount!=0){
-                            $("#amount").text(amount);
+                            $("#amount").text(amount.toFixed(2));
                         }
                     });
                     // input绑定onchange
@@ -175,6 +184,15 @@ $(function () {
                         else {
                             $("input:checkbox[name='all']").prop("checked", true);
                         }
+                        // 处理单选交互效果
+                        console.log("++++++:"+$(this).prop("checked"));
+                        if($(this).prop("checked")){
+                            console.log("i:"+i);
+                            $("#trolleytr"+i).addClass("info");
+                        }
+                        else{
+                            $("#trolleytr"+i).removeClass("info");
+                        }
                         // 先清零再累计
                         $("#amount").text("0.00");
                         // 遍历选中的checkbox
@@ -188,12 +206,12 @@ $(function () {
                             //console.log(parseFloat($("#total"+id).text()));
                             //console.log(parseFloat($("#amount").text())+parseFloat($("#total"+id).text()));
                             // 对JQuery text()方法取得的String进行数学相加
-                            $("#amount").text(parseFloat($("#amount").text()) + parseFloat($("#total" + id).text()));
+                            $("#amount").text((parseFloat($("#amount").text()) + parseFloat($("#total" + id).text())).toFixed(2));
                         });
                     });
                     // 移出购物车
                     $("#moveout" + i).on("click", function () {
-                        console.log($(this).val());
+                        // console.log($(this).val());
                         layer.confirm("确定将此商品移出购物车吗？", {
                             icon: 3,
                             btn: ["确定", "再看看"]
@@ -227,22 +245,32 @@ $(function () {
                         // console.log($(this).prop("disabled"));
                         $.each($("input:checkbox[name='goods']"), function () {
                             var id = $(this).attr("id");
-                            console.log(this);
-                            console.log($(this).prop("disabled"));
+                            // console.log(this);
+                            // console.log($(this).prop("disabled"));
                             if ($(this).prop("disabled")==false) {
                                 //console.log($("input:checkbox[name='goods']:checked"));
                                 $(this).prop("checked", true);
+                                // 处理全选交互效果
+                                $("#trolleytr"+id).addClass("info");
                                 //console.log($("input:checkbox[name='goods']:checked"));
                             }
                         });
                         $("#amount").text("0.00");
                         $.each($("input:checkbox[name='goods']:checked"), function () {
                             var id = $(this).attr("id");
-                            $("#amount").text(parseFloat($("#amount").text()) + parseFloat($("#total" + id).text()));
+                            $("#amount").text((parseFloat($("#amount").text()) + parseFloat($("#total" + id).text())).toFixed(2));
                         });
                     }
                     else {
-                        $("input:checkbox[name='goods']").prop("checked", false);
+                        // $("input:checkbox[name='goods']").prop("checked", false);
+                        // 处理全选交互效果
+                        $.each($("input:checkbox[name='goods']"), function () {
+                            var id = $(this).attr("id");
+                            if ($(this).prop("disabled")==false) {
+                                $(this).prop("checked", false);
+                                $("#trolleytr"+id).removeClass("info");
+                            }
+                        });
                         $("#amount").text("0.00");
                     }
                 });
@@ -263,17 +291,17 @@ $(function () {
                             index = 1;
                             return false;
                         }
-                        if(purchase.num<0){
+                        if(purchase.num<=0){
                             index = 1;
                             return false;
                         }
-                        console.log(purchase);
+                        // console.log(purchase);
                         idList.push(purchase);
-                        console.log(idList);
+                        // console.log(idList);
                         layerContent = layerContent + '<tr><td><strong>' + $("#goodsName"+i).text() + '</strong><br>'+$("#p"+i).text() +'</td>'+ '<td>' 
                             +"￥"+ $("#unit"+i).text() +'</td>'+ '<td>' +$("#num"+i).val() +'</td>'+'<td>' +"￥"+ $("#total"+i).text()+'</td></tr>';
                     });
-                    console.log(idList);
+                    // console.log(idList);
                     if(index==1){
                         layer.open({
                             icon: 2,
@@ -287,7 +315,7 @@ $(function () {
                         });
                     }
                     else{
-                        layerContent = '<table class="table"><thead><tr><th>商品</th><th>价格</th><th>数量</th><th>小计</th></tr></thead><tbody>' 
+                        layerContent = '<table class="table table-bordered"><thead><tr><th>商品</th><th>价格</th><th>数量</th><th>小计</th></tr></thead><tbody>' 
                             + layerContent + '<tr><td></td><td></td><td><strong>总计:</strong></td><td>￥'+ $("#amount").text()+'</td></tr></tbody></table>';
                         // console.log(layerContent);
                         layer.confirm(layerContent,{
@@ -334,33 +362,37 @@ $(function () {
                 type: "ajax_order",
             },success: function(data){
                 console.log(data);
-                console.log(data.status);
-                console.log(data.message.length);
-                // 生成购物车列表
+                // console.log(data.status);
+                // console.log(data.message.length);
+                // 生成订单列表
                 $("#order_trs").empty();
-                for (var i = 0; i < data.message.length; i++) {
-                    var content = '<tr><td><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
-                        + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
-                        + '<p id="p'+i+'"><span id="color' + i + '">' + data.message[i].color + '</span><span id="screen' + i + '">' + data.message[i].screen +'</span><span id="storage' + i + '">'+ data.message[i].storage + '</span></p>'
-                        + '</td><td>￥<span id="unit' + i + '">' + data.message[i].unitPrice + '</span>'
-                        + '</td><td>'+ data.message[i].num
-                        + '</td><td>￥<span id="total' + i + '">' + data.message[i].totalPrice + '</span>'
-                        + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-success" value="' + data.message[i].id + '">再次购买</button></td></tr>';
+                for (let i = 0; i < data.message.length; i++) {
+                    let content = '<tr><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
+                        + '</td><td><strong id="strong'+i+'" value="success"><span value="'+data.message[i].spu+'" id="order_goodsName'+i+'">' + data.message[i].goodsName + '</span></strong><br>'
+                        + '<p id="p'+i+'"><span id="order_color' + i + '">' + data.message[i].color + '</span><span id="order_screen' + i + '">' + data.message[i].screen +'</span><span id="order_storage' + i + '">'+ data.message[i].storage + '</span></p>'
+                        + '</td><td>￥<span id="order_unit' + i + '"></span>'
+                        + '</td><td><span id="num'+i+'">'+ data.message[i].num+'</span>'
+                        + '</td><td><strong>￥<span id="order_total' + i + '"></span></strong>'
+                        + '</td><td><button id="again' + i + '"type="button" class="btn btn-success" value="' + data.message[i].id + '">再次购买</button></td></tr>';
                     $("#order_trs").append(content);
-                    // 初始化按钮的disabled
-                    if ($("#num" + i).val() <= 1) {
-                        //console.log("if_i:"+i);
-                        $("#num_minus" + i).attr("disabled", true);
-                    }
-                    if ($("#num" + i).val() >= parseInt($("#stock" + i).text())) {
-                        $("#num_plus" + i).attr("disabled", true);
-                    }
-                    // 初始化checkbox的disabled
-                    if ($("#stock" + i).text() == 0 || $("#num" + i).val() > parseInt($("#stock" + i).text())) {
-                        $("#" + i).prop("disabled", true);
-                    }
+                    $("#order_unit"+i).text(data.message[i].unitPrice.toFixed(2));
+                    $("#order_total"+i).text(data.message[i].totalPrice.toFixed(2));
+                    // console.log(i);
+                    // console.log($("#num"+i).attr("id"));
+                    // console.log($("#order_goodsName"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value")+'&goods='+$("#order_goodsName"+i).text());
+                    // console.log($("#order_unit"+i).attr("id"));
+                    $("#again"+i).on("click",function(){
+                        // console.log(i);
+                        // console.log($("#num"+i).attr("id"))
+                        // console.log($("#order_img"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value"));
+                        // console.log(this);
+                        console.log($("#strong"+i).attr("value"));
+                        var url = 'details.html?spu='+$("#order_goodsName"+i).attr("value");
+                        console.log(url);
+                        window.open(url);
+                    });
                 }
-                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td><strong>总计:</strong>￥<span id="amount">0.00</span></td><td></td></tr>');
+                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<strong class="font_color">￥<span id="order_amount">0.00</span></strong></td><td></td></tr>');
             },error: function(){
                 console.log("ajax_order:" + data);
             }
@@ -369,4 +401,5 @@ $(function () {
     function about(){
 
     }
+
 });

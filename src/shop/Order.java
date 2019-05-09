@@ -99,7 +99,9 @@ public class Order extends HttpServlet {
 				int sku = rs.getInt(3);
 				orderBean.setSku(sku);
 				SkuToSpu skuToSpu = new SkuToSpu(sku);
-				GoodsImg goodsImg = new GoodsImg(skuToSpu.getSpu());
+				int spu = skuToSpu.getSpu();
+				orderBean.setSpu(spu);
+				GoodsImg goodsImg = new GoodsImg(spu);
 				orderBean.setImgList(goodsImg.getImg());
 				orderBean.setStorage(rs.getString(4));
 				orderBean.setColor(rs.getString(5));
