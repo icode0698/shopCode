@@ -8,7 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +17,7 @@ import org.json.JSONObject;
 
 import api.DataLink;
 import api.GoodsInfo;
+import api.SkuStock;
 
 public class Purchase extends HttpServlet {
 
@@ -93,13 +93,11 @@ public class Purchase extends HttpServlet {
 			while(rs.next()){
 				categoryName = rs.getString(1);
 			}
-			stmt = conn.prepareStatement("update price set stock=stock-? where sku=?");
-			stmt.setInt(1, num);
-			stmt.setInt(2, sku);
-			int index = stmt.executeUpdate();
-			if(index>0){
+			SkuStock skuStock = new SkuStock(sku);
+			int reduceStockIndex = skuStock.reduceStock(num);
+			if(reduceStockIndex==1){
 				stmt = conn.prepareStatement("insert into shop(id, user, sku, goodsName, categoryName, brandName, storage, "
-						+ "color, screen, num, unitPrice, totalPrice, isPay) values(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+						+ "color, screen, num, unitPrice, totalPrice, isPay, paymentTime) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 				SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");
 				String id = df.format(new Date());
 				stmt.setString(1, id);
@@ -115,14 +113,32 @@ public class Purchase extends HttpServlet {
 				stmt.setFloat(11, price);
 				stmt.setFloat(12, num*price);
 				stmt.setBoolean(13, true);
-				stmt.executeUpdate();
-				json.put("status", "success");
-				json.put("message", "购买成功，感谢您的支持");
-				out.write(json.toString());
+				df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				String paymentTime = df.format(new Date());
+				stmt.setString(14, paymentTime);
+				int payIndex = stmt.executeUpdate();
+				if(payIndex>0){
+					json.put("status", "success");
+					json.put("message", "购买成功，感谢您的支持");
+					out.write(json.toString());
+				}
+				else{
+					int increaseStockIndex = skuStock.increaseStock(num);
+					if(increaseStockIndex==1){
+						json.put("status", "fail");
+						json.put("message", "支付时数据库操作异常，库存数量已回退");
+						out.write(json.toString());
+					}
+					if(increaseStockIndex==0){
+						json.put("status", "fail");
+						json.put("message", "结算时数据库操作异常，回退库存数量时数据库操作异常");
+						out.write(json.toString());
+					}
+				}
 			}
 			else{
 				json.put("status", "fail");
-				json.put("message", "数据库操作异常");
+				json.put("message", "计算库存时数据库操作异常");
 				out.write(json.toString());
 			}
 			rs.close();

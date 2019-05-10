@@ -14,6 +14,7 @@
     <link href="layer/layui/css/layui.css" rel="stylesheet">
     <link href="css/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/aos.css">
     <style>
         body{
             background-image:url('../pic/background.png');
@@ -154,7 +155,7 @@
                     <input type="radio" class="radio_c" name="themestyle" id="radio3" value="3" />
                 </label></li>
         </ul> -->
-            <div class="container">
+            <!-- <div class="container">
                 <div class="size">
                     <label id="label1" class="user_label" for="user">123</label>
                     <input id="text1" type="password" name="user" id="user" class="user_text" />
@@ -174,9 +175,32 @@
                 <label for="checkbox1">
                     Check me out
                 </label>
-              </div>
-
+            </div> -->
+            
+            
+            <div id="divtest" class="code code--small code--left" aos="slide-left" >
+                <pre><code class="html">&lt;div aos="fade-up">&lt;/div></code></pre>
+            </div>
+            <table class="table" data-aos="slide-left" >
+                <thead >
+                    <tr>
+                        <th>
+                            <div class="checkbox checkbox-primary" style="display: inline;"><input id="allgoods" type="checkbox"
+                                    name="all" value="" class="checkbox_goods"><label></label></div>全选
+                        </th>
+                        <th>商品</th>
+                        <th>价格</th>
+                        <th>数量</th>
+                        <th>小计</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="trolley_trs">
+                    
+                </tbody>
+            </table>
         <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/aos.js"></script>
         <script src="assets/js/ie-emulation-modes-warning.js"></script>
         <script src='js/nprogress.js'></script>
         <!-- Bootstrap core CSS -->
@@ -185,8 +209,20 @@
         <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
         <script src="js_own/nprogressapply.js"></script>
         <script src="layer/layer.js"></script>
+        <script>
+
+        AOS.init();
+        </script>
         <script >
             $(function(){
+                var contentDiv = '<div data-aos="slide-left" data-aos-anchor="divtest" style="width: 200px;height: 200px;background-color:yellow;"></div>';
+                $("#divtest").append(contentDiv);
+
+                // var content = '<tr data-aos="slide-left"><td>商品</td><td>价格</td><td>数量</td><td>小计</td><td>操作</td></tr>';
+                // console.log(content);
+                // $("#trolley_trs").html(content);
+                
+                
                 $("#text1").focus(function(){
                     $("#label1").css("bottom",$("#text1").height());
                     $("#label1").css("font-size","15px");

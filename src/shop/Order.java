@@ -89,7 +89,7 @@ public class Order extends HttpServlet {
 		}
 		conn = dataLink.linkData();
 		try{
-			stmt = conn.prepareStatement("select id, user, sku, storage, color, screen, num, isPay, unitPrice, totalPrice, goodsName from shop where user=? and isPay=1");
+			stmt = conn.prepareStatement("select id, user, sku, storage, color, screen, num, isPay, unitPrice, totalPrice, goodsName, createTime, paymentTime, brandName, categoryName from shop where user=? and isPay=1");
 			stmt.setString(1, user);
 			rs = stmt.executeQuery();
 			while(rs.next()){
@@ -111,6 +111,10 @@ public class Order extends HttpServlet {
 				orderBean.setUnitPrice(rs.getFloat(9));
 				orderBean.setTotalPrice(rs.getFloat(10));
 				orderBean.setGoodsName(rs.getString(11));
+				orderBean.setCreateTime(rs.getString(12));
+				orderBean.setPaymentTime(rs.getString(13));
+				orderBean.setBrandName(rs.getString(14));
+				orderBean.setCategoryName(rs.getString(15));
 				//System.out.println(orderBean.toString());
 				itemList.add(orderBean);
 			}

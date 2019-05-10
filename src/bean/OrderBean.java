@@ -16,6 +16,10 @@ public class OrderBean {
 	float unitPrice;
 	float totalPrice;
 	String goodsName;
+	String createTime;
+	String paymentTime;
+	String brandName;
+	String categoryName;
 	public String getId() {
 		return id;
 	}
@@ -93,6 +97,30 @@ public class OrderBean {
 	}
 	public void setGoodsName(String goodsName) {
 		this.goodsName = goodsName;
+	}
+	public String getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+	public String getPaymentTime() {
+		return paymentTime;
+	}
+	public void setPaymentTime(String paymentTime) {
+		this.paymentTime = paymentTime;
+	}
+	public String getBrandName() {
+		return brandName;
+	}
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
 	}
 	
 }

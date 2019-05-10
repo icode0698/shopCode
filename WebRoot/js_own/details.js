@@ -40,8 +40,10 @@ $(function () {
         },
         success: function (data) {
             console.log(data);
-            console.log("data_status:" + data.status);
-            console.log(data.message[0].goodsName);
+            // console.log("data_status:" + data.status);
+            // console.log(data.message[0].goodsName);
+            para.goods = data.message[0].goodsName;
+            // console.log(para.goods);
             $(document).attr("title", data.message[0].goodsName);
             $("#goodsName").text(data.message[0].goodsName);
             $("#brand").text(" " + data.message[0].brandName);
@@ -165,7 +167,7 @@ $(function () {
                 console.log(data);
                 stock = data.stock;
                 $("#price").text(data.price);
-                $("#stock").text(data.stock);
+                $("#stock").text(' '+data.stock+' ');
                 if ($("#num").val() >= stock) {
                     $("#num_plus").attr("disabled", true);
                 }
@@ -383,6 +385,7 @@ $(function () {
                         // console.log($("input:radio[name='color']:checked").val());
                         // console.log($("input:radio[name='screen']:checked").val());
                         // console.log($("#num").val());
+                        // console.log(para.goods);
                         var layerContent = "商品名称：" + para.goods + "<br>" + "品牌：" + $("#brand").text() + "<br>" + "存储容量：" + $("input:radio[name='storage']:checked").val() + "<br>"
                             + "颜色：" + $("input:radio[name='color']:checked").val() + "<br>" + "屏幕尺寸：" + $("input:radio[name='screen']:checked").val() + "<br>"
                             + "购买数量：" + $("#num").val() + "<br>" + "价格：￥" + $("#price").text()+ "<br>" + "小计：￥" + (parseFloat($("#price").text())*parseFloat($("#num").val())).toFixed(2);

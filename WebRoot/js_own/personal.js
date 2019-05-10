@@ -44,6 +44,7 @@ $(function () {
         }
     });
     function trolleyList() {
+        $("#trolley_trs").empty();
         $.ajax({
             type: "post",
             url: "servlet/Trolley",
@@ -55,9 +56,8 @@ $(function () {
                 // console.log(data.status);
                 // console.log(data.message.length);
                 // 生成购物车列表
-                $("#trolley_trs").empty();
                 for (var i = 0; i < data.message.length; i++) {
-                    let content = '<tr id="trolleytr'+i+'"><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
+                    let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="trolleytr'+i+'"><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
                         + '<label for="' + i + '"><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods"></label></div>'
                         + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
                         + '<p id="p'+i+'"><span id="color' + i + '">' + data.message[i].color + '</span><span id="screen' + i + '">' + data.message[i].screen +'</span><span id="storage' + i + '">'+ data.message[i].storage + '</span></p>'
@@ -65,13 +65,13 @@ $(function () {
                         + '</td><td id="numtd'+i+'"><div class="btn-group"><button id="num_minus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>'
                         + '<div class="btn-group"><input id="num' + i + '" type="text" class="form-control input_size text-center" value="' + data.message[i].num + '"></div>'
                         + '<button id="num_plus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>'
-                        + '</div><p class="p_margin">库存 <mark id="stock' + i + '">' + data.message[i].stock + '</mark> 件</p>'
+                        + '</div><p class="p_margin">库存<mark id="stock' + i + '"> ' + data.message[i].stock + ' </mark>件</p>'
                         + '</td><td><strong>￥<span id="total' + i + '"></span></strong>'
                         + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-danger" value="' + data.message[i].id + '">移出购物车</button></td></tr>';
                     $("#trolley_trs").append(content);
                     $("#unit"+i).text(data.message[i].unitPrice.toFixed(2));
                     $("#total"+i).text(data.message[i].totalPrice.toFixed(2));
-                    console.log($("#img"+i).attr("id")+"??????????"+$("#img"+i).attr("value"));
+                    $("#trolleytr"+i).attr("data-wow-delay",0.05*(i%11)+"s");
                     // 初始化按钮的disabled
                     if ($("#num" + i).val() <= 1) {
                         //console.log("if_i:"+i);
@@ -86,7 +86,7 @@ $(function () {
                         $("#trolleytr" + i).addClass("danger");
                     }
                 }
-                $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<strong class="font_color">￥<span id="amount">0.00</span></strong></td>'
+                $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<span class="span_font">￥</span><strong class="strong_font" id="amount">0.00</strong></td>'
                     + '<td><button type="button" id="settlement" class="btn btn-success">去结算<span class="glyphicon glyphicon-chevron-right"></span></button></td></tr>');
                 // 统计购物车列表能够结算的商品的数量
                 $.each($("input:checkbox[name='goods']"), function () {
@@ -140,7 +140,7 @@ $(function () {
                     $("#num"+i).bind("input propertychange",function(event){
                         // console.log($("#num"+i).val());
                         if(isNaN($("#num"+i).val())||$("#num"+i).val()<=0){
-                            $("#total"+i).text("0");
+                            $("#total"+i).text("0.00");
                             $("#numtd"+i).addClass("danger");
                             $("#numtd"+i).addClass("tdradius");
                         }
@@ -149,7 +149,7 @@ $(function () {
                         }
                         else {
                             // 更新tr小计
-                            $("#total" + i).text($("#unit" + i).text() * $("#num" + i).val());
+                            $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
                             $("#numtd"+i).removeClass("danger");
                             $("#numtd"+i).removeClass("tdradius");
                         }
@@ -316,7 +316,7 @@ $(function () {
                     }
                     else{
                         layerContent = '<table class="table table-bordered"><thead><tr><th>商品</th><th>价格</th><th>数量</th><th>小计</th></tr></thead><tbody>' 
-                            + layerContent + '<tr><td></td><td></td><td><strong>总计:</strong></td><td>￥'+ $("#amount").text()+'</td></tr></tbody></table>';
+                            + layerContent + '<tr><td></td><td></td><td>总计:</td><td><span class="span_font">￥</span><strong class="strong_font">'+ $("#amount").text()+'</strong></td></tr></tbody></table>';
                         // console.log(layerContent);
                         layer.confirm(layerContent,{
                             anim: 1,
@@ -354,6 +354,7 @@ $(function () {
 
     }
     function orderList(){
+        $("#order_trs").empty();
         $.ajax({
             type: "post",
             dataType: "json",
@@ -365,9 +366,8 @@ $(function () {
                 // console.log(data.status);
                 // console.log(data.message.length);
                 // 生成订单列表
-                $("#order_trs").empty();
                 for (let i = 0; i < data.message.length; i++) {
-                    let content = '<tr><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
+                    let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
                         + '</td><td><strong id="strong'+i+'" value="success"><span value="'+data.message[i].spu+'" id="order_goodsName'+i+'">' + data.message[i].goodsName + '</span></strong><br>'
                         + '<p id="p'+i+'"><span id="order_color' + i + '">' + data.message[i].color + '</span><span id="order_screen' + i + '">' + data.message[i].screen +'</span><span id="order_storage' + i + '">'+ data.message[i].storage + '</span></p>'
                         + '</td><td>￥<span id="order_unit' + i + '"></span>'
@@ -377,22 +377,40 @@ $(function () {
                     $("#order_trs").append(content);
                     $("#order_unit"+i).text(data.message[i].unitPrice.toFixed(2));
                     $("#order_total"+i).text(data.message[i].totalPrice.toFixed(2));
+                    $("#order_tr"+i).attr("data-wow-delay",0.05*(i%11)+"s");
+                    $("#order_tr"+i).on("click",function(){
+                        var orderInfo = "订单编号：" + data.message[i].id + "<br>" +"商品名称：" + data.message[i].goodsName + "<br>" + "品牌：" + data.message[i].brandName + "<br>" + "商品SKU：" + data.message[i].sku + "<br>" 
+                            + "存储容量：" + data.message[i].storage + "<br>" + "颜色：" + data.message[i].color + "<br>" + "屏幕尺寸：" + data.message[i].screen + "<br>" + "购买数量：" + data.message[i].num + "<br>" 
+                            + "价格：￥" + data.message[i].unitPrice.toFixed(2) + "<br>" + "小计：￥" + data.message[i].totalPrice.toFixed(2)+ "<br>"+ "已支付：￥"+data.message[i].totalPrice.toFixed(2)+"<br>"
+                            + "创建时间：" + data.message[i].createTime + "<br>"+ "支付时间：" + data.message[i].paymentTime + "<br>" ;
+                        layer.confirm(orderInfo, {
+                            title: "订单信息",
+                            btn: ["再次购买","确定"]
+                        },function(){
+                            var url = 'details.html?spu='+$("#order_goodsName"+i).attr("value");
+                            window.open(url);
+                        },function(){});
+                    });
                     // console.log(i);
                     // console.log($("#num"+i).attr("id"));
                     // console.log($("#order_goodsName"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value")+'&goods='+$("#order_goodsName"+i).text());
                     // console.log($("#order_unit"+i).attr("id"));
-                    $("#again"+i).on("click",function(){
+                    $("#again"+i).on("click",function(e){
                         // console.log(i);
-                        // console.log($("#num"+i).attr("id"))
+                        // console.log($("#num"+i).attr("id"));
                         // console.log($("#order_img"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value"));
                         // console.log(this);
-                        console.log($("#strong"+i).attr("value"));
+                        //阻止click事件冒泡
+                        e.stopPropagation();
+                        // console.log($("#strong"+i).attr("value"));
                         var url = 'details.html?spu='+$("#order_goodsName"+i).attr("value");
-                        console.log(url);
+                        // console.log(url);
                         window.open(url);
                     });
                 }
-                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<strong class="font_color">￥<span id="order_amount">0.00</span></strong></td><td></td></tr>');
+                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td>'
+                    + '总计:<span class="span_font">￥</span><strong class="strong_font"><span id="order_amount">0.00</span></strong>'
+                    + '</td><td></td></tr>');
             },error: function(){
                 console.log("ajax_order:" + data);
             }

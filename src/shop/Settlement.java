@@ -5,7 +5,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -79,14 +81,18 @@ public class Settlement extends HttpServlet {
 			String id = jsonIndex.get("id").toString();
 			int num = Integer.parseInt(jsonIndex.get("num").toString());
 			int sku = Integer.parseInt(jsonIndex.get("sku").toString());
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
 				SkuStock skuStock = new SkuStock(sku);
 				int reduceStockIndex = skuStock.reduceStock(num);
 				if(reduceStockIndex==1){
-					PreparedStatement stmt = conn.prepareStatement("update shop set isPay=?, num=? where id=?");
+					PreparedStatement stmt = conn.prepareStatement("update shop set isPay=?, num=?, paymentTime=? where id=?");
 					stmt.setBoolean(1, true);
 					stmt.setInt(2, num);
-					stmt.setString(3, id);
+					String paymentTime = df.format(new Date());
+					System.out.println(paymentTime);
+					stmt.setString(3, paymentTime);
+					stmt.setString(4, id);
 					int index = stmt.executeUpdate();
 					if(index>0){
 						json.put("status", "success");

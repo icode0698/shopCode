@@ -13,6 +13,7 @@
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/awesome-bootstrap-checkbox.css" rel="stylesheet">
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/aos.css">
     <link href="css_own/trollry.css" rel="stylesheet">
     <link href="css_own/common.css" rel="stylesheet">
     <link href="css_own/personal.css" rel="stylesheet">
@@ -51,48 +52,48 @@
         </div>
         <div class="tab-pane fade in active" id="trolley">
             <div class="container">
-                <form action="">
-                    <div class="table-responsive table_border">
-                        <table class="table">
-                            <thead >
-                                <tr>
-                                    <th><div class="checkbox checkbox-primary" style="display: inline;"><input id="allgoods" type="checkbox" name="all" value="" class="checkbox_goods"><label></label></div>全选</th>
-                                    <th>商品</th>
-                                    <th>价格</th>
-                                    <th>数量</th>
-                                    <th>小计</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="trolley_trs">
-                                
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                <div class="table-responsive table_border">
+                    <table class="table">
+                        <thead aos="zoom-in">
+                            <tr>
+                                <th>
+                                    <div class="checkbox checkbox-primary" style="display: inline;"><input id="allgoods"
+                                            type="checkbox" name="all" value="" class="checkbox_goods"><label></label>
+                                    </div>全选
+                                </th>
+                                <th>商品</th>
+                                <th>价格</th>
+                                <th>数量</th>
+                                <th>小计</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="trolley_trs">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="tab-pane fade in" id="order">
             <div class="container">
-                <form action="">
-                    <div class="table-responsive table_border">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>图片</th>
-                                    <th>商品</th>
-                                    <th>价格</th>
-                                    <th>数量</th>
-                                    <th>小计</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody id="order_trs">
-        
-                            </tbody>
-                        </table>
-                    </div>
-                </form>
+                <div class="table-responsive table_border">
+                    <table class="table table-hover">
+                        <thead aos="zoom-in">
+                            <tr>
+                                <th>图片</th>
+                                <th>商品</th>
+                                <th>价格</th>
+                                <th>数量</th>
+                                <th>已支付</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order_trs">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -103,27 +104,31 @@
                         <h1 class="page-header">数据统计</h1>
                         <div class="row placeholders">
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive"
+                                    alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive"
+                                    alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive"
+                                    alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                             <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+                                <img src="" width="200" height="200" class="img-responsive"
+                                    alt="Generic placeholder thumbnail">
                                 <h4>Label</h4>
                                 <span class="text-muted">Something else</span>
                             </div>
                         </div>
-        
+
                         <h2 class="sub-header">订单信息</h2>
                         <div class="table-responsive">
                             <table class="table table-striped">
@@ -151,7 +156,7 @@
                                         <td>adipiscing</td>
                                         <td>elit</td>
                                     </tr>
-        
+
                                 </tbody>
                             </table>
                         </div>
@@ -162,7 +167,6 @@
 
     </div>
 
-
     <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -172,11 +176,16 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="layer/layer.js"></script>
-    <script src=""></script>
+    <script src="js/aos.js"></script>
     <!-- <script src="js_own/common.js"></script> -->
     <script src="js_own/personal.js"></script>
     <script>
-        new WOW().init();
+        new WOW({mobile: false}).init();
+    </script>
+    <script>
+        AOS.init({
+            easing: 'ease-in-out-sine',
+        });
     </script>
     <script src="js_own/nprogressapply.js"></script>
 </body>

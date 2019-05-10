@@ -15,9 +15,12 @@
 .p_margin{
     margin-top: 10px !important;
 }
-.font_color{
+.strong_font{
     color: #FF5722;
     font-size: 18px;
+}
+.span_font{
+    color: #FF5722;
 }
 .body_color{
     background-color: #eee;
@@ -25,8 +28,19 @@
 .table_border{
     border-radius: 6px;
 }
-.table tr{
+@media (max-width:375px){
+    .table{
+        overflow: visible !important;
+    }
+}
+.table{
+    overflow:hidden;
+}   
+.table tbody tr{
     border-radius: 6px !important;
+}
+.table-hover tbody tr{
+    cursor: pointer;
 }
 .tdradius{
     border-radius: 6px;
