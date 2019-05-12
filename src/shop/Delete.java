@@ -4,29 +4,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
 import api.DataLink;
-import api.GoodsImg;
-import api.SkuToSpu;
-import bean.OrderBean;
 
-public class Order extends HttpServlet {
+public class Delete extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Order() {
+	public Delete() {
 		super();
 	}
 
@@ -68,67 +62,30 @@ public class Order extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
+		String id = request.getParameter("id");
+		System.out.println(id);
 		DataLink dataLink = new DataLink();
 		Connection conn;
-		ResultSet rs;
 		PreparedStatement stmt;
-		ArrayList<OrderBean> itemList = new ArrayList<OrderBean>();
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		HttpSession session = request.getSession();
-		String user = (String)session.getAttribute("user");
-		System.out.println(user);
-		if("".equals(user)||user==null){
-			json.put("status", "fail");
-			json.put("code", "0");
-			json.put("message", "用户未登录或登录会话已超时");
-			out.write(json.toString());
-			out.flush();
-			out.close();
-			return;
-		}
 		conn = dataLink.linkData();
-		try{
-			stmt = conn.prepareStatement("select id, user, sku, storage, color, screen, num, isPay, unitPrice, totalPrice, goodsName, createTime, paymentTime, brandName, categoryName from shop where user=? and isPay=1 order by paymentTime desc");
-			stmt.setString(1, user);
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				OrderBean orderBean = new OrderBean();
-				orderBean.setId(rs.getString(1));
-				orderBean.setUser(rs.getString(2));
-				int sku = rs.getInt(3);
-				orderBean.setSku(sku);
-				SkuToSpu skuToSpu = new SkuToSpu(sku);
-				int spu = skuToSpu.getSpu();
-				orderBean.setSpu(spu);
-				GoodsImg goodsImg = new GoodsImg(spu);
-				orderBean.setImgList(goodsImg.getImg());
-				orderBean.setStorage(rs.getString(4));
-				orderBean.setColor(rs.getString(5));
-				orderBean.setScreen(rs.getString(6));
-				orderBean.setNum(rs.getInt(7));
-				orderBean.setPay(rs.getBoolean(8));
-				orderBean.setUnitPrice(rs.getFloat(9));
-				orderBean.setTotalPrice(rs.getFloat(10));
-				orderBean.setGoodsName(rs.getString(11));
-				orderBean.setCreateTime(rs.getString(12));
-				orderBean.setPaymentTime(rs.getString(13));
-				orderBean.setBrandName(rs.getString(14));
-				orderBean.setCategoryName(rs.getString(15));
-				//System.out.println(orderBean.toString());
-				itemList.add(orderBean);
+		try {
+			stmt = conn.prepareStatement("delete from shop where id=?");
+			stmt.setString(1, id);
+			int index = stmt.executeUpdate();
+			if(index>0){
+				json.put("status", "success");
+				json.put("message", "订单信息删除成功");
 			}
-			//System.out.println(itemList);
-			json.put("status", "success");
-			json.put("code", "1");
-			json.put("message", itemList);
+			else{
+				json.put("status", "fail");
+				json.put("message", "订单数据库操作异常");
+			}
 			out.write(json.toString());
 			out.flush();
 			out.close();
-			rs.close();
-			stmt.close();
-			conn.close();
-		}catch (SQLException e) {
+		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

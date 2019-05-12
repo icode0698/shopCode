@@ -167,7 +167,11 @@ $(function () {
                 console.log(data);
                 stock = data.stock;
                 $("#price").text(data.price);
-                $("#stock").text(' '+data.stock+' ');
+                $("#stock").text(data.stock);
+                if(stock<10){
+                    $("#stock").removeClass("text-primary");
+                    $("#stock").addClass("text-danger");
+                }
                 if ($("#num").val() >= stock) {
                     $("#num_plus").attr("disabled", true);
                 }
@@ -204,6 +208,10 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
+                        if(stock<10){
+                            $("#stock").removeClass("text-primary");
+                            $("#stock").addClass("text-danger");
+                        }
                         if ($("#num").val() >= stock) {
                             $("#num_plus").attr("disabled", true);
                         }
@@ -241,6 +249,10 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
+                        if(stock<10){
+                            $("#stock").removeClass("text-primary");
+                            $("#stock").addClass("text-danger");
+                        }
                         if ($("#num").val() >= stock) {
                             $("#num_plus").attr("disabled", true);
                         }
@@ -278,6 +290,10 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
+                        if(stock<10){
+                            $("#stock").removeClass("text-primary");
+                            $("#stock").addClass("text-danger");
+                        }
                         if ($("#num").val() >= stock) {
                             $("#num_plus").attr("disabled", true);
                         }

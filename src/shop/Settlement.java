@@ -82,8 +82,18 @@ public class Settlement extends HttpServlet {
 			int num = Integer.parseInt(jsonIndex.get("num").toString());
 			int sku = Integer.parseInt(jsonIndex.get("sku").toString());
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SkuStock skuStock = new SkuStock(sku);
+			int stock = skuStock.getStock();
+			if(stock==0||stock<num){
+				json.put("status", "fail");
+				json.put("message", "抱歉，页面数据已超时!");
+				json.put("tip", "可能是其他用户同时购买了该商品，导致库存的数据已发生改变，不足以购买选中数量，建议刷新页面后重试。");
+				out.write(json.toString());
+				out.flush();
+				out.close();
+				return;
+			}
 			try {
-				SkuStock skuStock = new SkuStock(sku);
 				int reduceStockIndex = skuStock.reduceStock(num);
 				if(reduceStockIndex==1){
 					PreparedStatement stmt = conn.prepareStatement("update shop set isPay=?, num=?, paymentTime=? where id=?");

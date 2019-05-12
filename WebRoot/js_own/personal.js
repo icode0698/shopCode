@@ -65,7 +65,7 @@ $(function () {
                         + '</td><td id="numtd'+i+'"><div class="btn-group"><button id="num_minus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-minus"></span></button>'
                         + '<div class="btn-group"><input id="num' + i + '" type="text" class="form-control input_size text-center" value="' + data.message[i].num + '"></div>'
                         + '<button id="num_plus' + i + '" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>'
-                        + '</div><p class="p_margin">库存<mark id="stock' + i + '"> ' + data.message[i].stock + ' </mark>件</p>'
+                        + '</div><p class="p_margin">库存<span class="stock_size text-primary" id="stock' + i + '"> ' + data.message[i].stock + ' </span>件</p>'
                         + '</td><td><strong>￥<span id="total' + i + '"></span></strong>'
                         + '</td><td><button id="moveout' + i + '"type="button" class="btn btn-danger" value="' + data.message[i].id + '">移出购物车</button></td></tr>';
                     $("#trolley_trs").append(content);
@@ -74,7 +74,6 @@ $(function () {
                     $("#trolleytr"+i).attr("data-wow-delay",0.05*(i%11)+"s");
                     // 初始化按钮的disabled
                     if ($("#num" + i).val() <= 1) {
-                        //console.log("if_i:"+i);
                         $("#num_minus" + i).attr("disabled", true);
                     }
                     if ($("#num" + i).val() >= parseInt($("#stock" + i).text())) {
@@ -84,6 +83,15 @@ $(function () {
                     if ($("#stock" + i).text() == 0 || $("#num" + i).val() > parseInt($("#stock" + i).text())) {
                         $("#" + i).prop("disabled", true);
                         $("#trolleytr" + i).addClass("danger");
+                    }
+                    // 初始化input text的disabled
+                    if ($("#stock" + i).text() == 0) {
+                        $("#num" + i).prop("disabled", true);
+                    }
+                    // 初始化库存字体颜色
+                    if ($("#stock" + i).text() < 10) {
+                        $("#stock" + i).removeClass("text-primary");
+                        $("#stock" + i).addClass("text-danger");
                     }
                 }
                 $("#trolley_trs").append('<tr><td></td><td></td><td></td><td></td><td>总计:<span class="span_font">￥</span><strong class="strong_font" id="amount">0.00</strong></td>'
@@ -103,7 +111,7 @@ $(function () {
                         var number = $("#num" + i).val();
                         if (number > 1) {
                             $("#num" + i).val(--number);
-                            $("#total" + i).text($("#unit" + i).text() * number);
+                            $("#total" + i).text(($("#unit" + i).text() * number).toFixed(2));
                             if (number == 1) {
                                 $("#num_minus" + i).attr("disabled", true);
                             }
@@ -112,6 +120,7 @@ $(function () {
                             }
                             if(number <= parseInt($("#stock" + i).text())){
                                 $("#" + i).prop("disabled", false);
+                                $("#trolleytr" + i).removeClass("danger");
                             }
                             if($("#"+i).prop("checked")){
                                 $("#amount").text((parseFloat($("#amount").text())-parseFloat($("#unit"+i).text())).toFixed(2));
@@ -128,7 +137,7 @@ $(function () {
                         if (number >= parseInt($("#stock" + i).text())) {
                             $("#num_plus" + i).attr("disabled", true);
                         }
-                        $("#total" + i).text($("#unit" + i).text() * number);
+                        $("#total" + i).text(($("#unit" + i).text() * number).toFixed(2));
                         if($("#"+i).prop("checked")){
                             $("#amount").text((parseFloat($("#amount").text())+parseFloat($("#unit"+i).text())).toFixed(2));
                         }
@@ -138,7 +147,7 @@ $(function () {
                     // 处理数量变化
                     // input绑定oninput和propertychange
                     $("#num"+i).bind("input propertychange",function(event){
-                        // console.log($("#num"+i).val());
+                        console.log($("#num"+i).val());
                         if(isNaN($("#num"+i).val())||$("#num"+i).val()<=0){
                             $("#total"+i).text("0.00");
                             $("#numtd"+i).addClass("danger");
@@ -146,12 +155,17 @@ $(function () {
                         }
                         else if($("#num"+i).val()>parseInt($("#stock"+i).text())){
                             $("#num"+i).val(parseInt($("#stock"+i).text()));
+                            $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
+                            $("#numtd"+i).removeClass("danger");
+                            $("#numtd"+i).removeClass("tdradius");
+                            $("#trolleytr" + i).removeClass("danger");
                         }
                         else {
                             // 更新tr小计
                             $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
                             $("#numtd"+i).removeClass("danger");
                             $("#numtd"+i).removeClass("tdradius");
+                            $("#trolleytr" + i).removeClass("danger");
                         }
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
@@ -305,13 +319,13 @@ $(function () {
                     if(index==1){
                         layer.open({
                             icon: 2,
-                            content: "数量输入存在非法字符"
+                            content: "数量输入存在非法字符！"
                         });
                     }
                     else if (idList.length == 0) {
                         layer.open({
                             icon: 2,
-                            content: "要先选择商品哦"
+                            content: "要先选择商品哦！"
                         });
                     }
                     else{
@@ -336,7 +350,11 @@ $(function () {
                                         trolleyList();
                                     }
                                     else {
-                                        layer.msg(data.message, { icon: 2 });
+                                        var contentError = '<p>'+data.message+'</p><p class="tips_size text-muted">Tips：'+data.tip+'</p>'
+                                        layer.open({
+                                            icon: 2,
+                                            content: contentError
+                                        });
                                     }
                                 },error: function(){
                                     layer.msg('抱歉，服务器异常，请稍后再试', { icon: 2 });
@@ -354,7 +372,8 @@ $(function () {
 
     }
     function orderList(){
-        $("#order_trs").empty();
+        $("#ordertab").empty();
+        $("#pageul").empty();
         $.ajax({
             type: "post",
             dataType: "json",
@@ -366,36 +385,101 @@ $(function () {
                 // console.log(data.status);
                 // console.log(data.message.length);
                 // 生成订单列表
+                let contentHeader = '';
+                let contentSum = '';
+                let itemNum = 14;
+                let pageNum = Math.ceil(data.message.length/itemNum);
+                let pageNow = 0;
+                let pageTotal = 0;
+                console.log(pageNum);
+                $("#pageul").append('<li id="liPrevious"><a href="#pagePrevious">&laquo;</a></li>');
+                $("#liPrevious").on("click",function(){
+                    if(pageNow==0){
+                        layer.msg("已经是第一页了");
+                    }
+                    else {
+                        $("#orderPage" + pageNow).removeClass("active");
+                        $("#orderPage" + (pageNow - 1)).addClass("active");
+                        $("#orderPage"+(pageNow-1)).addClass("in");
+                        $("#pageli"+pageNow).removeClass("active");
+                        $("#pageli"+(pageNow-1)).addClass("active");
+                        pageNow = pageNow-1;
+                        window.scrollTo(0, 0);
+                    }
+                });
+                for(let j=0; j<pageNum; j++){
+                    contentHeader = '<div class="tab-pane fade in" id="orderPage'+j+'"><div class="table-responsive table_border"><table id="orderTable'+j+'" class="table table-hover tab-pane fade in">'
+                        +'<thead data-aos="zoom-in"><tr><th>图片</th><th>商品</th><th>价格</th><th>数量</th><th>已支付</th><th>操作</th></tr></thead><tbody id="order_trs'+j+'">';
+                    contentSum = '';
+                    for (let i = itemNum*j; i < itemNum*(j+1)&&i<data.message.length; i++) {
+                        let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
+                            + '</td><td><strong id="strong'+i+'" value="success"><span value="'+data.message[i].spu+'" id="order_goodsName'+i+'">' + data.message[i].goodsName + '</span></strong><br>'
+                            + '<p id="p'+i+'"><span id="order_color' + i + '">' + data.message[i].color + '</span><span id="order_screen' + i + '">' + data.message[i].screen +'</span><span id="order_storage' + i + '">'+ data.message[i].storage + '</span></p>'
+                            + '</td><td>￥<span id="order_unit' + i + '"></span>'
+                            + '</td><td><span id="num'+i+'">'+ data.message[i].num+'</span>'
+                            + '</td><td><strong>￥<span id="order_total' + i + '"></span></strong>'
+                            + '</td><td><button id="delete' + i + '"type="button" class="btn btn-danger btn_margin" value="' + data.message[i].id + '">删除订单</button>'
+                            + '<button id="again' + i + '"type="button" class="btn btn-success btn_margin" value="' + data.message[i].id + '">再次购买</button></td></tr>';
+                        contentSum = contentSum + content;
+                        // console.log(content);
+                        // $("#ordertab").append(content);
+                    }
+                    contentSum = contentHeader + contentSum + '</tbody></table></div></div>';
+                    // console.log(contentSum);
+                    $("#ordertab").append(contentSum);
+                    if(j==0){
+                        $("#pageul").append('<li id="pageli'+j+'" value="'+j+'" class="active"><a href="#orderPage'+j+'" data-toggle="tab" onclick="javascript:window.scrollTo(0, 0);">'+(j+1)+'</a></li>');
+                        $("#orderPage"+j).addClass("active");
+                    }
+                    else{
+                        $("#pageul").append('<li id="pageli'+j+'" value="'+j+'"><a href="#orderPage'+j+'" data-toggle="tab" onclick="javascript:window.scrollTo(0, 0);">'+(j+1)+'</a></li>');
+                    }
+                    $("#pageli"+j).on("click",function(){
+                        pageNow = parseInt($(this).attr("value"));
+                        // console.log(pageNow);
+                    });
+                    pageTotal = j;
+                }
+                $("#pageul").append('<li id="liNext"><a href="#pageNext">&raquo;</a></li>');
+                $("#liNext").on("click",function(){
+                    console.log("pageTotal:"+pageTotal);
+                    console.log("pageNow:"+pageNow);
+                    if(pageNow==pageTotal){
+                        layer.msg("已经是最后一页了");
+                    }
+                    else{
+                        $("#orderPage"+pageNow).removeClass("active");
+                        $("#orderPage"+(pageNow+1)).addClass("in");
+                        $("#orderPage"+(pageNow+1)).addClass("active");
+                        $("#pageli"+pageNow).removeClass("active");
+                        $("#pageli"+(pageNow+1)).addClass("active");
+                        pageNow = pageNow+1;
+                        window.scrollTo(0, 0);
+                    }
+                });
                 for (let i = 0; i < data.message.length; i++) {
-                    let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
-                        + '</td><td><strong id="strong'+i+'" value="success"><span value="'+data.message[i].spu+'" id="order_goodsName'+i+'">' + data.message[i].goodsName + '</span></strong><br>'
-                        + '<p id="p'+i+'"><span id="order_color' + i + '">' + data.message[i].color + '</span><span id="order_screen' + i + '">' + data.message[i].screen +'</span><span id="order_storage' + i + '">'+ data.message[i].storage + '</span></p>'
-                        + '</td><td>￥<span id="order_unit' + i + '"></span>'
-                        + '</td><td><span id="num'+i+'">'+ data.message[i].num+'</span>'
-                        + '</td><td><strong>￥<span id="order_total' + i + '"></span></strong>'
-                        + '</td><td><button id="again' + i + '"type="button" class="btn btn-success" value="' + data.message[i].id + '">再次购买</button></td></tr>';
-                    $("#order_trs").append(content);
-                    $("#order_unit"+i).text(data.message[i].unitPrice.toFixed(2));
-                    $("#order_total"+i).text(data.message[i].totalPrice.toFixed(2));
-                    $("#order_tr"+i).attr("data-wow-delay",0.05*(i%11)+"s");
-                    $("#order_tr"+i).on("click",function(){
-                        var orderInfo = "订单编号：" + data.message[i].id + "<br>" +"商品名称：" + data.message[i].goodsName + "<br>" + "品牌：" + data.message[i].brandName + "<br>" + "商品SKU：" + data.message[i].sku + "<br>" 
-                            + "存储容量：" + data.message[i].storage + "<br>" + "颜色：" + data.message[i].color + "<br>" + "屏幕尺寸：" + data.message[i].screen + "<br>" + "购买数量：" + data.message[i].num + "<br>" 
-                            + "价格：￥" + data.message[i].unitPrice.toFixed(2) + "<br>" + "小计：￥" + data.message[i].totalPrice.toFixed(2)+ "<br>"+ "已支付：￥"+data.message[i].totalPrice.toFixed(2)+"<br>"
-                            + "创建时间：" + data.message[i].createTime + "<br>"+ "支付时间：" + data.message[i].paymentTime + "<br>" ;
+                    $("#order_unit" + i).text(data.message[i].unitPrice.toFixed(2));
+                    $("#order_total" + i).text(data.message[i].totalPrice.toFixed(2));
+                    $("#order_tr" + i).attr("data-wow-delay", 0.05 * (i % itemNum) + "s");
+                    $("#order_tr" + i).on("click", function () {
+                        var orderInfo = "订单编号：" + data.message[i].id + "<br>" + "商品名称：" + data.message[i].goodsName + "<br>" + "品牌：" + data.message[i].brandName + "<br>" + "商品SKU：" + data.message[i].sku + "<br>"
+                            + "存储容量：" + data.message[i].storage + "<br>" + "颜色：" + data.message[i].color + "<br>" + "屏幕尺寸：" + data.message[i].screen + "<br>" + "购买数量：" + data.message[i].num + "<br>"
+                            + "价格：￥" + data.message[i].unitPrice.toFixed(2) + "<br>" + "小计：￥" + data.message[i].totalPrice.toFixed(2) + "<br>" + "已支付：￥" + data.message[i].totalPrice.toFixed(2) + "<br>"
+                            + "创建时间：" + data.message[i].createTime + "<br>" + "支付时间：" + data.message[i].paymentTime + "<br>";
                         layer.confirm(orderInfo, {
                             title: "订单信息",
-                            btn: ["再次购买","确定"]
-                        },function(){
-                            var url = 'details.html?spu='+$("#order_goodsName"+i).attr("value");
+                            btn: ["再次购买", "确定"]
+                        }, function () {
+                            var url = 'details.html?spu=' + $("#order_goodsName" + i).attr("value");
                             window.open(url);
-                        },function(){});
+                        }, function () {});
                     });
                     // console.log(i);
                     // console.log($("#num"+i).attr("id"));
                     // console.log($("#order_goodsName"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value")+'&goods='+$("#order_goodsName"+i).text());
                     // console.log($("#order_unit"+i).attr("id"));
-                    $("#again"+i).on("click",function(e){
+                    // 再次购买
+                    $("#again" + i).on("click", function (e) {
                         // console.log(i);
                         // console.log($("#num"+i).attr("id"));
                         // console.log($("#order_img"+i).attr("id")+":"+$("#order_goodsName"+i).attr("value"));
@@ -403,14 +487,40 @@ $(function () {
                         //阻止click事件冒泡
                         e.stopPropagation();
                         // console.log($("#strong"+i).attr("value"));
-                        var url = 'details.html?spu='+$("#order_goodsName"+i).attr("value");
+                        var url = 'details.html?spu=' + $("#order_goodsName" + i).attr("value");
                         // console.log(url);
                         window.open(url);
                     });
+                    // 删除订单
+                    $("#delete" + i).on("click", function (e) {
+                        e.stopPropagation();
+                        var contentDelte = "订单编号：" + data.message[i].id;
+                        layer.confirm(contentDelte, {
+                            title: "删除订单",
+                            btn: ["确定删除", "再看看"]
+                        },function(){
+                            $.ajax({
+                                type: "post",
+                                dataType: "json",
+                                url: "servlet/Delete",
+                                data: {
+                                    type: "ajax_delete",
+                                    id: data.message[i].id
+                                },success:function(data){
+                                    if(data.status=="success"){
+                                        layer.msg(data.message,{icon:1});
+                                        orderList();
+                                    }
+                                    else{
+                                        layer.msg(data.message,{icon:1});
+                                    }
+                                },error:function(){
+                                    layer.msg('抱歉，服务器异常，请稍后再试', { icon: 2 });
+                                }
+                            });
+                        },function(){});
+                    });
                 }
-                $("#order_trs").append('<tr><td></td><td></td><td></td><td></td><td>'
-                    + '总计:<span class="span_font">￥</span><strong class="strong_font"><span id="order_amount">0.00</span></strong>'
-                    + '</td><td></td></tr>');
             },error: function(){
                 console.log("ajax_order:" + data);
             }

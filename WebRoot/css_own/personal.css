@@ -45,3 +45,12 @@
 .tdradius{
     border-radius: 6px;
 }
+.stock_size{
+    font-size: 16px;
+}
+.tips_size{
+    font-size: 12px;
+}
+.btn_margin{
+    margin-right: 5px;
+}
