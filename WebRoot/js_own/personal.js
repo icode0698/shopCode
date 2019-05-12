@@ -392,7 +392,7 @@ $(function () {
                 let pageNow = 0;
                 let pageTotal = 0;
                 console.log(pageNum);
-                $("#pageul").append('<li id="liPrevious"><a href="#pagePrevious">&laquo;</a></li>');
+                $("#pageul").append('<li id="liPrevious"><a href="#pagePrevious"><i class="fa fa-arrow-left" aria-hidden="true"></i> 上一页</a></li>');
                 $("#liPrevious").on("click",function(){
                     if(pageNow==0){
                         layer.msg("已经是第一页了");
@@ -440,7 +440,7 @@ $(function () {
                     });
                     pageTotal = j;
                 }
-                $("#pageul").append('<li id="liNext"><a href="#pageNext">&raquo;</a></li>');
+                $("#pageul").append('<li id="liNext"><a href="#pageNext">下一页 <i class="fa fa-arrow-right" aria-hidden="true"></i></a></li>');
                 $("#liNext").on("click",function(){
                     console.log("pageTotal:"+pageTotal);
                     console.log("pageNow:"+pageNow);
