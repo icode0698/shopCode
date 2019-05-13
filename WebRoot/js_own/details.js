@@ -28,6 +28,16 @@ $(function () {
     $("#top_btn_reg").click(function () {
         location.href = "register.html";
     });
+    // 判断整数
+    function isInteger(num){
+        console.log("++++++"+num);
+        if(isNaN(num)){
+            return false;
+        }
+        else {
+            return num%1 == 0;
+        }
+    }
     let stock;
     //ajax获取商品参数信息
     $.ajax({
@@ -314,7 +324,24 @@ $(function () {
             });
         });
     }
-
+    // 防止num输入非数字字符
+    $("#num").bind("input propertychange",function(){
+        // console.log(isInteger($("#num").val()));
+        if(isNaN($("#num").val())||$("#num").val()<0){
+            $("#num").val(1);
+        }
+    });
+    // 防止num输入0和小数
+    $("#num").blur(function(){
+        if($("#num").val()==0){
+            $("#num").val(1);
+        }
+        var reg = new RegExp("\\.");
+        if(reg.test($("#num").val())){
+            layer.msg("请不要输入小数", {time: 1200, shift: 6}, function(){});
+            $("#num").val(1);
+        }
+    });
     $("#btn_join").on("click", function () {
         if ($("#num").val() > stock) {
             layer.msg("购买数量超过库存量");

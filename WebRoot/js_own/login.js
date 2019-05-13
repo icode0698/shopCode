@@ -48,16 +48,20 @@ $(document).ready(function () {
       console.log(user=="");
       console.log($("#password").val()=="");
       if(user==""){
-        $("#div_hide").removeClass("hidden");
         $("#error_hide").removeClass("hidden");
+        // $("#error_hide").css("width","100%");
+        // $("#error_hide").css("height","100%");
+        // $("#error_hide").css("font-size", "14px");
         //$("#div_hide").addClass("wow shake");
         //$("#div_hide").fadeToggle();
         $("#error_tip").text("用户名或者电子邮箱不可为空");
         return;
       }
       if($("#password").val()==""){
-        $("#div_hide").removeClass("hidden");
         $("#error_hide").removeClass("hidden");
+        // $("#error_hide").css("width","100%");
+        // $("#error_hide").css("height","100%");
+        // $("#error_hide").css("font-size", "14px");
         //$("#div_hide").fadeToggle();
         $("#error_tip").text("密码不可为空");
         return;
@@ -89,25 +93,31 @@ $(document).ready(function () {
               $.cookie("user",data.user,{expires: 2});
             }
             $("#error_hide").addClass("hidden");
-            $("#div_hide").removeClass("hidden");
             $("#success_hide").removeClass("hidden");
+            // $("#success_hide").css("width","100%");
+            // $("#success_hide").css("height","100%");
+            // $("#success_hide").css("font-size", "14px");
             $("#success_tip").text(data.message);
             //location.href = 'index.html';
             setTimeout("location.href = 'index.html'",500);
           }
           if(data.status=="error"){
-            $("#div_hide").removeClass("hidden");
             $("#error_hide").removeClass("hidden");
+            // $("#error_hide").css("width", "100%");
+            // $("#error_hide").css("height", "100%");
+            // $("#error_hide").css("font-size", "14px");
             $("#error_tip").text(data.message);
             //return;
           }
         },
         error:function(XMLResponse){
-          $("#div_hide").removeClass("hidden");
-            $("#error_hide").removeClass("hidden");
-            $("#error_tip").text("抱歉，服务器异常。\nXMLResponse_Status:"+XMLResponse.status);
-            console.log("error_status:"+XMLResponse.status);
-            return;
+          $("#error_hide").removeClass("hidden");
+          // $("#error_hide").css("width", "100%");
+          // $("#error_hide").css("height", "100%");
+          // $("#error_hide").css("font-size", "14px");
+          $("#error_tip").text("抱歉，服务器异常。\nXMLResponse_Status:"+XMLResponse.status);
+          console.log("error_status:"+XMLResponse.status);
+          return;
         }
        });
       }

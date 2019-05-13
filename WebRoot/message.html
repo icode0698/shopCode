@@ -8,11 +8,11 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css'/>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css_own/message.css" rel="stylesheet">
     <link href="css_own/common.css" rel="stylesheet">
-    <title></title>
+    <title>给我们留言</title>
 </head>
 <body>
     <nav class="navbar navbar-default navbar-fixed-top wow slideInDown" role="navigation">
@@ -76,6 +76,24 @@
             </div>
         </div>
     </div>
+    <div id="message_div" class="container container_color">
+        <form>
+            <h1><span class="label label-primary">留言内容</span></h1>
+            <textarea id="message" class="form-control" rows="10"></textarea>
+            <button id="btn" type="button" class="btn btn-success">立即提交</button>
+            <button type="reset" class="btn btn-default">重置</button>
+        </form>
+        <div id="error_hide" class="alert alert-danger hidden" role="alert">
+            <strong id="error_tip"></strong>
+        </div>
+    </div>
+    <div id="success_div" class="container container_color text-center hidden">
+        <i class="fa fa-check fa-5x"></i>
+        <p class="p_padding">
+            <span style="font-size: 18px;" id="success_tip"></span>
+            <button id="again" type="button" class="btn btn-info">再次编辑</button>
+        </p>
+    </div>
     <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -86,7 +104,7 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="js_own/common.js"></script>
-    <script src=""></script>
+    <script src="js_own/message.js"></script>
     <script>
         new WOW().init();
     </script>

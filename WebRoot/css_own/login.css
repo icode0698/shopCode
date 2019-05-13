@@ -74,3 +74,12 @@ body{
 .div_help{
   height: 280px;
 }
+/* .div_animate{
+  height: 0px;
+  width: 0px;
+  transition:height .15s ease-in-out .15s,width .15s ease-in-out .15s,color .15s ease-in-out,font-size .15s ease-in-out;
+  -moz-transition: height .15s ease-in-out .15s,width .15s ease-in-out .15s,color .15s ease-in-out,font-size .15s ease-in-out;
+  -webkit-transition: height .15s ease-in-out .15s,width .15s ease-in-out .15s,color .15s ease-in-out,font-size .15s ease-in-out;
+  -o-transition: height .15s ease-in-out .15s,width .15s ease-in-out .15s,color .15s ease-in-out,font-size .15s ease-in-out; 
+  font-size: 0px;
+} */

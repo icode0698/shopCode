@@ -56,7 +56,9 @@ $(function () {
                 // console.log(data.status);
                 // console.log(data.message.length);
                 // 生成购物车列表
+                let numOrigin = [];
                 for (var i = 0; i < data.message.length; i++) {
+                    numOrigin[i] = data.message[i].num;
                     let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="trolleytr'+i+'"><td><div class="checkbox checkbox-primary"><input type="checkbox" name="goods" value="' + data.message[i].id + '" id="' + i + '" class="checkbox_goods">'
                         + '<label for="' + i + '"><img id="img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods"></label></div>'
                         + '</td><td><strong id="goodsName'+i+'">' + data.message[i].goodsName + '</strong><br>'
@@ -145,28 +147,29 @@ $(function () {
                         // console.log("num_plus:" + $("#num" + i).val());
                     });
                     // 处理数量变化
-                    // input绑定oninput和propertychange
-                    $("#num"+i).bind("input propertychange",function(event){
+                    // input绑定oninput和propertychange,动态更新小计和总价,防止num输入非数字字符
+                    $("#num"+i).bind("input propertychange",function(){
                         console.log($("#num"+i).val());
-                        if(isNaN($("#num"+i).val())||$("#num"+i).val()<=0){
-                            $("#total"+i).text("0.00");
-                            $("#numtd"+i).addClass("danger");
-                            $("#numtd"+i).addClass("tdradius");
-                        }
-                        else if($("#num"+i).val()>parseInt($("#stock"+i).text())){
-                            $("#num"+i).val(parseInt($("#stock"+i).text()));
-                            $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
-                            $("#numtd"+i).removeClass("danger");
-                            $("#numtd"+i).removeClass("tdradius");
-                            $("#trolleytr" + i).removeClass("danger");
+                        console.log(isNaN($("#num"+i).val()));
+                        if(isNaN($("#num"+i).val())){
+                            $("#num"+i).val(1);
+                            // $("#total"+i).text("0.00");
+                            // $("#numtd"+i).addClass("danger");
+                            // $("#numtd"+i).addClass("tdradius");
                         }
                         else {
-                            // 更新tr小计
-                            $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
-                            $("#numtd"+i).removeClass("danger");
-                            $("#numtd"+i).removeClass("tdradius");
-                            $("#trolleytr" + i).removeClass("danger");
+                            if ($("#num" + i).val() > parseInt($("#stock" + i).text())) {
+                                $("#num" + i).val(parseInt($("#stock" + i).text()));
+                            }
+                            else {
+                                $("#" + i).prop("disabled", false);
+                            }
                         }
+                        // 更新tr小计
+                        $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
+                        $("#numtd"+i).removeClass("danger");
+                        $("#numtd"+i).removeClass("tdradius");
+                        $("#trolleytr" + i).removeClass("danger");
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
                             // 更新table总计
@@ -180,9 +183,31 @@ $(function () {
                             }
                             // console.log("amount:"+amount);
                         });
-                        if(amount!=0){
-                            $("#amount").text(amount.toFixed(2));
+                        $("#amount").text(amount.toFixed(2));
+                    });
+                    // 防止num输入0和小数
+                    $("#num"+i).blur(function(){
+                        if($("#num"+i).val()==0){
+                            $("#num"+i).val(numOrigin[i]);
                         }
+                        var reg = new RegExp("\\.");
+                        if(reg.test($("#num"+i).val())){
+                            layer.msg("请不要输入小数", {time: 1200, shift: 6}, function(){});
+                            $("#num"+i).val(numOrigin[i]);
+                        }
+                        // 动态更新小计和总价
+                        $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
+                        $("#numtd"+i).removeClass("danger");
+                        $("#numtd"+i).removeClass("tdradius");
+                        $("#trolleytr" + i).removeClass("danger");
+                        let amount = 0;
+                        $.each($("input:checkbox[name='goods']"),function(){
+                            if($(this).prop("checked")){
+                                let i = $(this).attr("id");
+                                amount = amount+parseFloat($("#total"+i).text());
+                            }
+                        });
+                        $("#amount").text(amount.toFixed(2));
                     });
                     // input绑定onchange
                     // $("#num"+i).on("change",function(){
@@ -409,7 +434,7 @@ $(function () {
                 });
                 for(let j=0; j<pageNum; j++){
                     contentHeader = '<div class="tab-pane fade in" id="orderPage'+j+'"><div class="table-responsive table_border"><table id="orderTable'+j+'" class="table table-hover tab-pane fade in">'
-                        +'<thead data-aos="zoom-in"><tr><th>图片</th><th>商品</th><th>价格</th><th>数量</th><th>已支付</th><th>操作</th></tr></thead><tbody id="order_trs'+j+'">';
+                        +'<thead><tr><th>图片</th><th>商品</th><th>价格</th><th>数量</th><th>已支付</th><th>操作</th></tr></thead><tbody id="order_trs'+j+'">';
                     contentSum = '';
                     for (let i = itemNum*j; i < itemNum*(j+1)&&i<data.message.length; i++) {
                         let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'

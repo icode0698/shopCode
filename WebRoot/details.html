@@ -47,9 +47,9 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a href="personal.html">个人空间</a></li>
-                                <li><a href="about.html">关于我们</a></li>
-                                <li><a href="personal.html">给我们留言</a></li>
+                                <li><a href="personal.html" target="_blank">个人空间</a></li>
+                                <li><a href="about.html" target="_blank">关于我们</a></li>
+                                <li><a href="message.html" target="_blank">给我们留言</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><button type="button" class="btn btn-danger btn_out" data-toggle="modal"
                                         data-target="#myModal">退出登录</button></li>
@@ -85,7 +85,7 @@
                 <div class="text_flex">
                     <h2><span id="goodsName"></span><small id="brand"></small></h2>
                     <h1><div class="label label-success"><span>￥</span><span id="price" ></span></div></h1>
-                    <form>
+                    <form action="" onsubmit="return false">
                         <h3 ><span class="label label-default">选择颜色</span></h3>
                         <p id="color">
 
@@ -103,7 +103,7 @@
                             <div class="btn-group">
                                 <button id="num_minus" type="button" class="btn btn-default" disabled="true"><span class="glyphicon glyphicon-minus"></span></button>
                                 <div class="btn-group">
-                                    <input id="num" type="text" class="form-control input_size text-center" value='1'>
+                                    <input id="num" type="text" class="form-control input_size text-center" value=1>
                                 </div>
                                 <button id="num_plus" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
                             </div>
