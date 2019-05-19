@@ -8,11 +8,12 @@ $(function () {
             type: "ajax_whether",
             message: "getStatus"
         }, success: function (data) {
-            console.log("session:"+data.user);
+            console.log(data);
             if (data.status == "success") {
                 $("#login_no").addClass("hidden");
                 $("#login_yes").removeClass("hidden");
-                $("#span_user").text("我(" + data.user + ")");
+                $("#span_user").text(data.nickName);
+                $("#headPic").attr("src",data.headPic);
             }
         }, error: function () {
             console.log("服务器异常\najax_whether:" + XMLResponse.status);

@@ -101,6 +101,83 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>shop.Message</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Info</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Info</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ModifyInfo</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.ModifyInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Upload</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Upload</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Word</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Word</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SelectBrand</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SelectBrand</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminLogin</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.AdminLogin</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>LoginOut</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.LoginOut</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminStatus</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.AdminStatus</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SelectSpu</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SelectSpu</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SelectSku</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SelectSku</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SelectOrder</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SelectOrder</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -181,5 +258,53 @@
     <servlet-name>Message</servlet-name>
     <url-pattern>/servlet/Message</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Info</servlet-name>
+    <url-pattern>/servlet/Info</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ModifyInfo</servlet-name>
+    <url-pattern>/servlet/ModifyInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Upload</servlet-name>
+    <url-pattern>/servlet/Upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Word</servlet-name>
+    <url-pattern>/servlet/Word</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectBrand</servlet-name>
+    <url-pattern>/servlet/SelectBrand</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminLogin</servlet-name>
+    <url-pattern>/servlet/AdminLogin</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>LoginOut</servlet-name>
+    <url-pattern>/servlet/LoginOut</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminStatus</servlet-name>
+    <url-pattern>/servlet/AdminStatus</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectSpu</servlet-name>
+    <url-pattern>/servlet/SelectSpu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectSku</servlet-name>
+    <url-pattern>/servlet/SelectSku</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectOrder</servlet-name>
+    <url-pattern>/servlet/SelectOrder</url-pattern>
+  </servlet-mapping>
+
+	<listener>
+	    <listener-class>listener.SessionListener</listener-class>
+	</listener>
 
 </web-app>

@@ -58,3 +58,30 @@ body {
 .btn_margin{
     margin-right: 5px;
 }
+.h1_margin{
+    margin-bottom: 20px !important;
+}
+.p_line{
+    text-indent:2em;
+    line-height: 1.6;
+    font-size: 16px;
+}
+.content_color{
+    background-color: #eee;
+    padding-top: 5px !important;
+    padding-bottom: 10px !important;
+    margin-top: 5px;
+    margin-bottom: 10px;
+}
+.p_padding{
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.layui-upload-img {
+    width: 92px;
+    height: 92px;
+    margin: 0 10px 10px 0;
+    border-radius: 100%;
+}

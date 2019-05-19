@@ -1,8 +1,12 @@
 $(function () {
     // 声明购物车全局变量
+    var user = "";
     var idList= [];
     var purchase = {};
     var lengthIndex = 0;
+    layui.use(['layer','table'], function () {
+        var layer = layui.layer
+            ,table = layui.table;
     // 判断登录状态
     $.ajax({
         type: "post",
@@ -12,11 +16,15 @@ $(function () {
             type: "ajax_whether",
             message: "getStatus"
         }, success: function (data) {
+            user = data.user;
             console.log(data);
             if (data.status == "success") {
                 trolleyList();
                 // orderList();
                 $("#li_info").on("click",function(){
+                    $("#userInfo").removeClass("hidden");
+                    $("#modifyInfo").addClass("hidden");
+                    $("#success_div").addClass("hidden");
                     info();
                 });
                 $("#li_trolley").on("click",function(){
@@ -43,6 +51,7 @@ $(function () {
             console.log("服务器异常\najax_whether:" + XMLResponse.status);
         }
     });
+});
     function trolleyList() {
         $("#trolley_trs").empty();
         $.ajax({
@@ -152,24 +161,20 @@ $(function () {
                         console.log($("#num"+i).val());
                         console.log(isNaN($("#num"+i).val()));
                         if(isNaN($("#num"+i).val())){
-                            $("#num"+i).val(1);
+                            $("#num"+i).val(numOrigin[i]);
                             // $("#total"+i).text("0.00");
                             // $("#numtd"+i).addClass("danger");
                             // $("#numtd"+i).addClass("tdradius");
                         }
-                        else {
-                            if ($("#num" + i).val() > parseInt($("#stock" + i).text())) {
-                                $("#num" + i).val(parseInt($("#stock" + i).text()));
-                            }
-                            else {
-                                $("#" + i).prop("disabled", false);
-                            }
+                        else if($("#num" + i).val() > parseInt($("#stock" + i).text())){
+                            $("#num" + i).val(parseInt($("#stock" + i).text()));
                         }
+                            $("#" + i).prop("disabled", false);
+                            $("#numtd" + i).removeClass("danger");
+                            $("#numtd" + i).removeClass("tdradius");
+                            $("#trolleytr" + i).removeClass("danger");
                         // 更新tr小计
                         $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
-                        $("#numtd"+i).removeClass("danger");
-                        $("#numtd"+i).removeClass("tdradius");
-                        $("#trolleytr" + i).removeClass("danger");
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
                             // 更新table总计
@@ -197,9 +202,17 @@ $(function () {
                         }
                         // 动态更新小计和总价
                         $("#total" + i).text(($("#unit" + i).text() * $("#num" + i).val()).toFixed(2));
-                        $("#numtd"+i).removeClass("danger");
-                        $("#numtd"+i).removeClass("tdradius");
-                        $("#trolleytr" + i).removeClass("danger");
+                        if ($("#num" + i).val() <= parseInt($("#stock" + i).text())) {
+                            $("#numtd" + i).removeClass("danger");
+                            $("#numtd" + i).removeClass("tdradius");
+                            $("#trolleytr" + i).removeClass("danger");
+                        }
+                        else{
+                            $("#" + i).prop("disabled", true);
+                            $("#numtd" + i).addClass("danger");
+                            $("#numtd" + i).addClass("tdradius");
+                            $("#trolleytr" + i).addClass("danger");
+                        }
                         let amount = 0;
                         $.each($("input:checkbox[name='goods']"),function(){
                             if($(this).prop("checked")){
@@ -393,8 +406,103 @@ $(function () {
             }
         });
     }
+    // layui表单验证
+    layui.use('form', function () {
+        var form = layui.form;
+        form.verify({
+            nickname: function (value) {
+                if(/^\s+/.test(value)){
+                 return '昵称不能是连续的空格';
+                }
+            }
+            //我们既支持上述函数式的方式，也支持下述数组的形式
+            //数组的两个值分别代表：[正则匹配、匹配不符时的提示文字]
+            , pass: [
+                /^[\S]{6,20}$/
+                , '6到20位字符，不能有空格'
+            ]
+            ,orginsame: function(){
+                if($("#orginpass").val()==$("#newpass").val()){
+                    return "新密码建议不要和旧密码相同";
+                }
+            }
+            ,same:function(){
+                if($("#repass").val()!=$("#newpass").val()){
+                    return "新密码两次输入不一致";
+                }
+            }
+        });
+        form.on('submit(ensure)', function(data){
+            console.log(data.field);
+            $.ajax({
+                type: "post",
+                dataType: "json",
+                url: "servlet/ModifyInfo",
+                data: {
+                    type: "ajax_modifyinfo",
+                    nickName: data.field.nickname,
+                    orginPass: data.field.orginpass,
+                    newPass: data.field.newpass
+                }, success: function (data) {
+                    if(data.status=="success"){
+                        info();
+                        $("#userInfo").addClass("hidden");
+                        $("#modifyInfo").addClass("hidden");
+                        $("#success_div").removeClass("hidden");
+                    }
+                    else{
+                        layer.alert(data.message,{icon:2});
+                    }
+                }, error: function () {
+                    console.log("服务器异常\najax_whether:" + XMLResponse.status);
+                    return;
+                }
+            });
+            return false; 
+          });
+    });
+    // 返回个人信息
+    $("#goto").on("click", function () {
+        info();
+        $("#userInfo").removeClass("hidden");
+        $("#modifyInfo").addClass("hidden");
+        $("#success_div").addClass("hidden");
+    });
+    $("#modify").on("click", function () {
+        $("#userInfo").addClass("hidden");
+        $("#modifyInfo").removeClass("hidden");
+        $("#success_div").addClass("hidden");
+    });
+    // 重新修改
+    $("#again").on("click", function () {
+        $("#userInfo").addClass("hidden");
+        $("#modifyInfo").removeClass("hidden");
+        $("#success_div").addClass("hidden");
+    });
     function info(){
-
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: "servlet/Info",
+            data: {
+                type: "ajax_info"
+            }, success: function (data) {
+                if(data.status=="success"){
+                    $("#user").text(data.user);
+                    $("#nickName").text(data.nickName);
+                    $("#lastTime").text(data.lastTime);
+                    $("#regTime").text(data.regTime);
+                    $("#viewCount").text(data.viewCount);
+                    $("#demo").attr("src",data.headPic);
+                }
+                else{
+                    layer.msg("服务器异常，请稍候再试。");
+                }
+            }, error: function () {
+                console.log("服务器异常\najax_whether:" + XMLResponse.status);
+                return;
+            }
+        });
     }
     function orderList(){
         $("#ordertab").empty();
@@ -434,10 +542,17 @@ $(function () {
                 });
                 for(let j=0; j<pageNum; j++){
                     contentHeader = '<div class="tab-pane fade in" id="orderPage'+j+'"><div class="table-responsive table_border"><table id="orderTable'+j+'" class="table table-hover tab-pane fade in">'
-                        +'<thead><tr><th>图片</th><th>商品</th><th>价格</th><th>数量</th><th>已支付</th><th>操作</th></tr></thead><tbody id="order_trs'+j+'">';
+                        +'<thead><tr><th>序号</th><th>图片</th><th>商品</th><th>价格</th><th>数量</th><th>已支付</th><th>操作</th></tr></thead><tbody id="order_trs'+j+'">';
                     contentSum = '';
                     for (let i = itemNum*j; i < itemNum*(j+1)&&i<data.message.length; i++) {
-                        let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
+                        let orderNumber = "";
+                        if(i<9){
+                            orderNumber = "0"+(i+1);
+                        }
+                        else{
+                            orderNumber = i+1;
+                        }
+                        let content = '<tr class="wow slideInRight" data-wow-duration="0.7s" id="order_tr'+i+'"><td>'+orderNumber+'</td><td><img id="order_img'+i+'" value="'+data.message[i].sku+'"src="' + data.message[i].imgList[0] + '" alt="" class="img_goods">'
                             + '</td><td><strong id="strong'+i+'" value="success"><span value="'+data.message[i].spu+'" id="order_goodsName'+i+'">' + data.message[i].goodsName + '</span></strong><br>'
                             + '<p id="p'+i+'"><span id="order_color' + i + '">' + data.message[i].color + '</span><span id="order_screen' + i + '">' + data.message[i].screen +'</span><span id="order_storage' + i + '">'+ data.message[i].storage + '</span></p>'
                             + '</td><td>￥<span id="order_unit' + i + '"></span>'
@@ -519,7 +634,7 @@ $(function () {
                     // 删除订单
                     $("#delete" + i).on("click", function (e) {
                         e.stopPropagation();
-                        var contentDelte = "订单编号：" + data.message[i].id;
+                        var contentDelte = "订单编号：" + data.message[i].id + "，确定删除订单吗？";
                         layer.confirm(contentDelte, {
                             title: "删除订单",
                             btn: ["确定删除", "再看看"]
@@ -554,5 +669,32 @@ $(function () {
     function about(){
 
     }
-
+    // 上传图片
+    layui.use('upload', function(){
+        upload = layui.upload;
+        //普通图片上传
+        var uploadInst = upload.render({
+            elem: '#uppic'
+            , url: 'servlet/Upload'
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $("#pictip").text(file.name);
+                    $('#demo').attr('src', result); //图片链接（base64）
+                    console.log(file);
+                });
+            }
+            , done: function (data) {
+                if(data.status=="success"){
+                    return layer.msg('上传成功',{icon:1});
+                }
+                if (data.status=="fail") {
+                    return layer.msg('上传失败，请稍候再试',{icon:2});
+                }
+            }
+            , error: function () {
+                return layer.msg('上传失败，请稍候再试',{icon:2});
+            }
+        });
+    });
 });

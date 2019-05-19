@@ -9,6 +9,7 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css' />
     <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./layui/css/layui.css"  media="all">
     <!-- <link href="css/dashboard.css" rel="stylesheet"> -->
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css/awesome-bootstrap-checkbox.css" rel="stylesheet">
@@ -31,7 +32,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Shop</a>
+                <a class="navbar-brand" style="padding:10px;margin-right: 5px;" href="index.html"><i class="fa fa-cart-plus fa-2x" aria-hidden="true"></i></a>
             </div>
             <div id="navbar" class="navbar-collapse collapse">
                 <ul id="myTab" class="nav navbar-nav navbar-right">
@@ -40,20 +41,118 @@
                     <li id="li_order"><a href="#order" data-toggle="tab">我的订单</a></li>
                     <li id="li_about"><a href="#about" data-toggle="tab">关于</a></li>
                 </ul>
-                <form class="navbar-form navbar-right">
-                    <input type="text" class="form-control" placeholder="Search...">
-                </form>
             </div>
         </div>
     </nav>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in " id="info">
-
+            <div class="container" style="font-size: 15px;">
+                <div class="col-sm-3">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li role="presentation" class="active"><a href="#user_info" data-toggle="pill">个人信息</a></li>
+                        <li role="presentation"><a href="#picture" data-toggle="pill">上传头像</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-9 tab-content">
+                    <div class="tab-pane fade in active" id="user_info">
+                        <div class="content_color" id="userInfo">
+                            <form class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">用户名：</label>
+                                    <label id="user" class="col-sm-9 control-label" style="text-align:left;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">昵称：</label>
+                                    <label id="nickName" class="col-sm-9 control-label" style="text-align:left;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">注册时间：</label>
+                                    <label id="regTime" class="col-sm-9 control-label" style="text-align:left;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">上次登录时间：</label>
+                                    <label id="lastTime" class="col-sm-9 control-label" style="text-align:left;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">浏览次数：</label>
+                                    <label id="viewCount" class="col-sm-9 control-label" style="text-align:left;"></label>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-3 col-sm-9">
+                                        <button id="modify" type="button" class="btn btn-info">修改个人信息</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="modifyInfo" class="hidden">
+                            <form class="layui-form layui-form-pane" action="">
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">新昵称</label>
+                                    <div class="layui-input-inline">
+                                        <input type="text" name="nickname" lay-verify="required|nickname" lay-verType="tips"
+                                            placeholder="请输入新昵称" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">原密码</label>
+                                    <div class="layui-input-inline">
+                                        <input id="orginpass" type="password" name="orginpass" lay-verify="required" lay-verType="tips"
+                                            placeholder="请输入原密码" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">新密码</label>
+                                    <div class="layui-input-inline">
+                                        <input id="newpass" type="password" name="newpass" lay-verify="required|pass|orginsame"
+                                            lay-verType="tips" placeholder="请输入新密码" autocomplete="off" class="layui-input">
+                                    </div>
+                                    <div class="layui-form-mid layui-word-aux">6到20位字符，不能有空格</div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <label class="layui-form-label">确认新密码</label>
+                                    <div class="layui-input-inline">
+                                        <input id="repass" type="password" name="repass" lay-verify="required|same" lay-verType="tips"
+                                            placeholder="请确认新密码" autocomplete="off" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="layui-form-item">
+                                    <button class="layui-btn" type="reset">重置</button>
+                                    <button class="layui-btn" lay-submit="" lay-filter="ensure">确认修改</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="success_div" class="container container_color text-center hidden">
+                            <i class="fa fa-check fa-5x"></i>
+                            <p class="p_padding">
+                                <span style="font-size: 18px;" id="success_tip"></span>
+                                <button id="goto" type="button" class="btn btn-info">返回个人信息页面</button>
+                                <button id="again" type="button" class="btn btn-info">重新修改</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="picture">
+                        <div class="content_color" >
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="layui-upload col-sm-9">
+                                    <button type="button" class="layui-btn" id="uppic">
+                                        <i class="layui-icon">&#xe67c;</i>上传图片
+                                    </button>
+                                    <span id="pictip">未选择文件</span>
+                                    <div class="layui-upload-list">
+                                        <img class="layui-upload-img" id="demo">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="tab-pane fade in active" id="trolley">
             <div class="container">
                 <div class="table-responsive table_border">
-                    <table class="table">
+                    <table class="table" lay-filter="trolley">
                         <thead data-aos="zoom-in">
                             <tr>
                                 <th>
@@ -111,70 +210,28 @@
         </div>
 
         <div class="tab-pane fade in" id="about">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="main">
-                        <h1 class="page-header">数据统计</h1>
-                        <div class="row placeholders">
-                            <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
-                                <h4>Label</h4>
-                                <span class="text-muted">Something else</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
-                                <h4>Label</h4>
-                                <span class="text-muted">Something else</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
-                                <h4>Label</h4>
-                                <span class="text-muted">Something else</span>
-                            </div>
-                            <div class="col-xs-6 col-sm-3 placeholder">
-                                <img src="" width="200" height="200" class="img-responsive"
-                                    alt="Generic placeholder thumbnail">
-                                <h4>Label</h4>
-                                <span class="text-muted">Something else</span>
-                            </div>
-                        </div>
-
-                        <h2 class="sub-header">订单信息</h2>
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Header</th>
-                                        <th>Header</th>
-                                        <th>Header</th>
-                                        <th>Header</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1,001</td>
-                                        <td>Lorem</td>
-                                        <td>ipsum</td>
-                                        <td>dolor</td>
-                                        <td>sit</td>
-                                    </tr>
-                                    <tr>
-                                        <td>1,002</td>
-                                        <td>amet</td>
-                                        <td>consectetur</td>
-                                        <td>adipiscing</td>
-                                        <td>elit</td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <div class="container">
+                <h1 class="h1_margin wow slideInRight" data-wow-delay="" style="margin-top: 5px !important;"><span class="label label-info">开发目的</span></h1>
+                <p class="p_line wow slideInRight" data-wow-delay="0.05s">
+                    目前互联网技术飞速发展，借助互联网信息的高速传播，企业和个体商户可以更好地将自己的产品推广开来，
+                    加速自身的发展，也就是说，网上商城站点的规划和建设这一个课题，成为了现在乃至以后很长一段时间里，
+                    企业和个体商户一个重要的建设对象，我这次的毕业设计主要是实现电子产品网上商城，
+                    做到兼容PC端和手机端，减少再次为手机端开发应用的成本。
+                </p>
+                <h1 class="h1_margin wow slideInRight" data-wow-delay="0.1s"><span class="label label-info">开发进展</span></h1>
+                <p class="p_line wow slideInRight" data-wow-delay=0.15s">
+                    本系统将使用前后端分离的开发模式，前端部分使用HTML静态页面，后端使用Java servlet作为性能支撑和技术支撑，
+                    采用MySQL数据库作为数据存储，提供数据支持，MySQL数据库在Web应用开发上有着较大的优势；
+                    服务器方面，采用Nginx和Tomcat的组合，Nginx可以负责反向代理，负载均衡和动态与静态资源的分配，大幅提高系统的并发性，
+                    Tomcat作为servlet的容器；框架方面，使用Bootstrap作为基础框架，jQuery框架及其衍生框架，Layui，Vue.js，ElementUI等作为辅助框架，构建整个Web应用。
+                </p>
+                <p class="p_line wow slideInRight" data-wow-delay="0.2s">
+                    本系统重在于用户UI交互，限于时间以及个人能力，对系统的某些方面做得不够好。
+                </p>
+                <h1 class="h1_margin wow slideInRight" data-wow-delay="0.25s"><span class="label label-info">鸣谢</span></h1>
+                <p class="p_line wow slideInRight" data-wow-delay="0.3s">
+                    十分感谢毕业设计过程中老师和同学的帮助，同时也很感谢各种开源框架和开源社区，让我站在了巨人的肩膀上，看得更远。
+                </p>
             </div>
         </div>
 
@@ -186,9 +243,10 @@
     <script src='js/nprogress.js'></script>
     <!-- Bootstrap core CSS -->
     <script src="js/bootstrap.min.js"></script>
+    <script src="./layui/layui.js" charset="utf-8"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="layer/layer.js"></script>
+    <!-- <script src="layer/layer.js"></script> -->
     <script src="js/aos.js"></script>
     <!-- <script src="js_own/common.js"></script> -->
     <script src="js_own/personal.js"></script>

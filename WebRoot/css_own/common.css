@@ -1,16 +1,5 @@
-.navbar-brand{
-    font-size: 24px;
-    z-index: 100;
-    transition: font-size 0.2s;
-    -moz-transition: font-size 0.2s;	/* Firefox 4 */
-    -webkit-transition: font-size 0.2s;	/* Safari 和 Chrome */
-    -o-transition: font-size 0.2s;
-}
-.navbar-brand:hover{
-    font-size: 32px;
-}
 .tran{
-    font-size: 16px;
+    font-size: 14px;
     z-index: 100;
     transition: font-size 0.2s;
     -moz-transition: font-size 0.2s;	/* Firefox 4 */
@@ -18,7 +7,7 @@
     -o-transition: font-size 0.2s;
 }
 .tran:hover{
-    font-size: 22px;
+    font-size: 20px;
 }
 .btn_out{
     margin: 3px 20px;

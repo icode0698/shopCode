@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="css/loaders.min.css">
     <style>
         body{
-            background-image:url('../pic/background.png');
+            /* background-image:url('../pic/background.png'); */
+            margin: 10px 10px 10px 10px;
             background-repeat:no-repeat;
             background-position:center;
         }
@@ -132,9 +133,6 @@
             position: relative;
             margin-top: 20px;
         }
-        body {
-            background-color: #40479a;
-        }
             h2{text-align: center;color: aliceblue}
         .main {
             width: 60em;
@@ -228,11 +226,17 @@
                     
                 </tbody>
             </table> -->
+            <!-- <div aos="zoom-in">
+                <span>123456789</span>
+            </div>
             <div class="slice">
                 <div data-loader="arrow-circle"></div>
                 <div>data-loader="arrow-circle"</div>
             </div>
-            <input type="text" name="user" id="user" value=123>
+            <input type="text" name="user" id="user" value=123> -->
+            <img style="border-radius: 10px;" src="pic/test.png">
+            <p id="content">生成word文件</p>
+            <button id="begin" type="button">点击生成</button>
             <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/aos.js"></script>
         <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -248,6 +252,11 @@
         AOS.init();
         </script>
         <script >
+            $(function(){
+                $("#begin").on("click",function(){
+                    location.href= "servlet/Word?content="+$("#content").text();
+                });
+            });
                 function isInteger(num) {
                     console.log(typeof num);
                     return typeof num == 'number' && num % 1 == 0;

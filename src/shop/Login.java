@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
@@ -80,7 +82,7 @@ public class Login extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		HttpSession session = request.getSession();
-		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		//HashMap<String, String> map = new HashMap<String, String>(); 
 		/*PrintWriter out = response.getWriter();
 		map.put("type", type+"_servlet");
@@ -100,6 +102,10 @@ public class Login extends HttpServlet {
 					json.put("message", "登录成功");
 					session.setAttribute("user", user);
 					rs.close();
+					pstmt = conn.prepareStatement("update user set currentTime=? where user=?");
+					pstmt.setString(1, df.format(new Date()));
+					pstmt.setString(2, user);
+					pstmt.executeUpdate();
 					pstmt = conn.prepareStatement("select viewCount from user where user=?");
 					pstmt.setString(1, user);
 					rs = pstmt.executeQuery();

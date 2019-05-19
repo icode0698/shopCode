@@ -10,6 +10,7 @@
     <link rel="icon" href="shop.png">
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css'/>
+    <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css_own/index.css" rel="stylesheet">
@@ -26,14 +27,17 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span style="width:60px;height: 46px;"></span>
-                <a class="navbar-brand" href="index.html">Shop</a>
+                <a class="navbar-brand" style="padding:10px;margin-right: 5px;" href="index.html"><img style="height: 100%;" src="pic/shop.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="example-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active tran"><a href="#">首页</a></li>
-                    <li class="tran"><a href="#">分类</a></li>
+                    <li class="active tran"><a href="index.html">首页</a></li>
+                    <li class="tran"><a href="category.html">分类</a></li>
                     <li class="tran"><a href="personal.html" target="_blank">个人空间</a></li>
                 </ul>
+                <form class="navbar-form navbar-left">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
                 <form class="navbar-form navbar-right nav_margin">
                     <div id="login_no" class="">
                         <button id="top_btn_login" type="button" class="btn btn-success">登录</button>
@@ -41,9 +45,10 @@
                     </div>
                     <div id="login_yes" class="hidden">
                         <div class="dropdown">
-                            <button id="btn_user" class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1"
+                            <button id="btn_user" style="height: 100%;" class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                <span id="span_user"></span>
+                                <span id="span_user"></span>&nbsp;&nbsp;
+                                <img id="headPic" style="border-radius:100%;height: 18px;" alt=""></a>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -59,12 +64,12 @@
             </div>
         </div>
     </nav>
-    <div class="container-fluid">
-        <div class="row visible-on">
+    <div class="container jumbotron_color">
+        <!-- <div class="row visible-on">
             <div class="col-md-2 text-center hidden-xs">
                 <label for=""></label>
-            </div>
-            <div class="col-md-8 jumbotron_color wow pulse" sytle="padding-left:2px;padding-right:2px;">
+            </div> -->
+            <div class="jumbotron_color wow pulse" sytle="padding-left:5px;padding-right:5px;">
                 <div id="myCarousel" class="carousel slide wow pulse" data-ride="carousel">
                     <!-- 轮播（Carousel）指标 -->
                     <ol class="carousel-indicators">
@@ -142,10 +147,10 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 text-center hidden-xs">
+            <!-- <div class="col-md-2 text-center hidden-xs">
                 <label for=""></label>
-            </div>
-        </div>
+            </div> -->
+        <!-- </div> -->
     </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
