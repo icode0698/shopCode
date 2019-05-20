@@ -167,6 +167,69 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>admin.SelectOrder</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>NowBrand</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.NowBrand</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InsertBrand</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.InsertBrand</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NowSpu</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.NowSpu</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InsertSpu</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.InsertSpu</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DetailsPic</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.DetailsPic</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InsertImg</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.InsertImg</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NowImg</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.NowImg</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>InsertValue</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.InsertValue</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>NowValue</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.NowValue</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
 
 
 
@@ -301,6 +364,42 @@
   <servlet-mapping>
     <servlet-name>SelectOrder</servlet-name>
     <url-pattern>/servlet/SelectOrder</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NowBrand</servlet-name>
+    <url-pattern>/servlet/NowBrand</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InsertBrand</servlet-name>
+    <url-pattern>/servlet/InsertBrand</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NowSpu</servlet-name>
+    <url-pattern>/servlet/NowSpu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InsertSpu</servlet-name>
+    <url-pattern>/servlet/InsertSpu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DetailsPic</servlet-name>
+    <url-pattern>/servlet/DetailsPic</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InsertImg</servlet-name>
+    <url-pattern>/servlet/InsertImg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NowImg</servlet-name>
+    <url-pattern>/servlet/NowImg</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InsertValue</servlet-name>
+    <url-pattern>/servlet/InsertValue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>NowValue</servlet-name>
+    <url-pattern>/servlet/NowValue</url-pattern>
   </servlet-mapping>
 
 	<listener>

@@ -39,6 +39,7 @@ $(function () {
         }
     }
     let stock;
+
     //ajax获取商品参数信息
     $.ajax({
         type: "post",
@@ -55,6 +56,7 @@ $(function () {
             para.goods = data.message[0].goodsName;
             // console.log(para.goods);
             $(document).attr("title", data.message[0].goodsName);
+            $("#detailspic").attr("src",data.message[0].imgList[0]);
             $("#goodsName").text(data.message[0].goodsName);
             $("#brand").text(" " + data.message[0].brandName);
             // 初始化颜色

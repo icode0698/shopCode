@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <title>查询所有商品SPU</title>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-card" style="padding:16px;">
+            <blockquote class="layui-elem-quote layui-text">
+                为保证品牌ID数据格式一致，请输入的ID以1开头，当前最新的ID为<a href="" id="now"></a>，如无特殊需求，请保持数据格式一致。
+            </blockquote>
+            <form id="brandform" class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">品牌ID</label>
+                    <div class="layui-input-inline">
+                        <input id="brandID" type="text" name="brand" lay-verify="required" placeholder="请输入"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">品牌名称</label>
+                    <div class="layui-input-inline">
+                        <input id="brandName" type="text" name="brandname" lay-verify="required" placeholder="请输入"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" type="reset">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="ensure" id="insert">立即添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../../../../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/insertbrand.js"></script>
+    <script src="../../layuiadmin/layui/layui.js"></script>
+</body>
+
+</html>

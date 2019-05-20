@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../layuiadmin/style/admin.css" media="all">
+    <title>查询所有商品SPU</title>
+    <style>
+        .layui-upload-img {
+            width: 92px;
+            height: 92px;
+            margin: 0 10px 10px 0;
+            border-radius: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layui-fluid">
+        <div class="layui-card" style="padding:16px;">
+            <blockquote class="layui-elem-quote layui-text">
+                为保证商品SPU数据格式一致，请输入的SPU以5开头，当前最新的SPU为<a href="" id="now"></a>，如无特殊需求，请保持数据格式一致。
+            </blockquote>
+            <form id="brandform" class="layui-form layui-form-pane" action="">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品SPU</label>
+                    <div class="layui-input-inline">
+                        <input id="spu" type="text" name="spu" lay-verify="required" placeholder="请输入"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-inline">
+                        <input id="name" type="text" name="name" lay-verify="required" placeholder="请输入"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属品牌</label>
+                    <div class="layui-input-inline">
+                        <select id="brandlist" name="brand">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">所属分类</label>
+                    <div class="layui-input-inline">
+                        <select id="categorylist" name="category">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">存储属性</label>
+                    <div id="storagediv" class="layui-input-block">
+                        <!-- <input type="checkbox" name="like1[write]" lay-skin="primary" title="写作">
+                        <input type="checkbox" name="like1[read]" lay-skin="primary" title="阅读">
+                        <input type="checkbox" name="like1[game]" lay-skin="primary" title="游戏"> -->
+                    </div>
+                </div>
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">颜色属性</label>
+                    <div id="colordiv" class="layui-input-block">
+                        
+                    </div>
+                </div>
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">屏幕属性</label>
+                    <div id="screendiv" class="layui-input-block">
+                        
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">图片ID</label>
+                    <div class="layui-input-inline">
+                        <input id="pic" type="text" name="pic" lay-verify="required" placeholder="请输入"
+                            autocomplete="off" class="layui-input">
+                    </div>
+                    <div id="pictipdiv" style="display: none" class="layui-form-mid layui-word-aux">当前最新的imgID为<a
+                            style="color:#01AAED" href="" id="picidtip"></a>，如无特殊需求，请保持数据格式一致。</div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-upload">
+                        <button type="button" class="layui-btn layui-btn-normal" id="choose">选择文件</button>
+                        <!-- <button type="button" class="layui-btn" id="test9">开始上传</button> -->
+                        <span id="pictip" class="layui-word-aux">未选择文件</span>
+                        <div class="layui-upload-list">
+                            <img class="layui-upload-img" id="demo">
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <button class="layui-btn" type="reset">重置</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="ensure" id="insert">立即添加</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="../../../../../js/jquery-3.3.1.min.js"></script>
+    <script src="../../js/insertspu.js"></script>
+    <script src="../../layuiadmin/layui/layui.js"></script>
+</body>
+
+</html>
