@@ -221,6 +221,34 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>admin.NowValue</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>InsertPrice</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.InsertPrice</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdatePrice</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.UpdatePrice</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateStock</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.UpdateStock</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateBrandName</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.UpdateBrandName</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -400,6 +428,22 @@
   <servlet-mapping>
     <servlet-name>NowValue</servlet-name>
     <url-pattern>/servlet/NowValue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>InsertPrice</servlet-name>
+    <url-pattern>/servlet/InsertPrice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdatePrice</servlet-name>
+    <url-pattern>/servlet/UpdatePrice</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateStock</servlet-name>
+    <url-pattern>/servlet/UpdateStock</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateBrandName</servlet-name>
+    <url-pattern>/servlet/UpdateBrandName</url-pattern>
   </servlet-mapping>
 
 	<listener>

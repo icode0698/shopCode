@@ -157,7 +157,7 @@ public class InsertSpu extends HttpServlet {
 					}
 				}
 				json.put("status", "success");
-				json.put("message", "商品SPU添加成功，SKU已同步生成，需要更新价格和库存量");
+				json.put("message", "商品SPU添加成功，SKU已同步生成，需要添加价格和库存量");
 			}
 			else{
 				json.put("status", "fail");

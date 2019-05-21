@@ -11,7 +11,7 @@ $(function () {
         arr = res[i].split("=");
         para[arr[0]] = arr[1];//实现key value相对应
     }
-   // console.log(para);
+    // console.log(para);
     $("#goodsID").text(para.spu);
     // 页面转化url中空格%20为正常空格
     // var temp = para.goods.split("%20");
@@ -29,16 +29,16 @@ $(function () {
         location.href = "register.html";
     });
     // 判断整数
-    function isInteger(num){
-        console.log("++++++"+num);
-        if(isNaN(num)){
+    function isInteger(num) {
+        console.log("++++++" + num);
+        if (isNaN(num)) {
             return false;
         }
         else {
-            return num%1 == 0;
+            return num % 1 == 0;
         }
     }
-    let stock;
+    let stock = 0;
 
     //ajax获取商品参数信息
     $.ajax({
@@ -56,7 +56,7 @@ $(function () {
             para.goods = data.message[0].goodsName;
             // console.log(para.goods);
             $(document).attr("title", data.message[0].goodsName);
-            $("#detailspic").attr("src",data.message[0].imgList[0]);
+            $("#detailspic").attr("src", data.message[0].imgList[0]);
             $("#goodsName").text(data.message[0].goodsName);
             $("#brand").text(" " + data.message[0].brandName);
             // 初始化颜色
@@ -178,23 +178,33 @@ $(function () {
             success: function (data) {
                 console.log(data);
                 stock = data.stock;
-                $("#price").text(data.price);
-                $("#stock").text(data.stock);
-                if(stock<10){
-                    $("#stock").removeClass("text-primary");
-                    $("#stock").addClass("text-danger");
-                }
-                if ($("#num").val() >= stock) {
-                    $("#num_plus").attr("disabled", true);
+                if (data.status == "success") {
+                    $("#price").text(data.price);
+                    $("#stock").text(data.stock);
+                    if (stock < 10) {
+                        $("#stock").removeClass("text-primary");
+                        $("#stock").addClass("text-danger");
+                    }
+                    if ($("#num").val() >= stock) {
+                        $("#num_plus").attr("disabled", true);
+                    }
+                    else {
+                        $("#num_plus").attr("disabled", false);
+                    }
                 }
                 else {
-                    $("#num_plus").attr("disabled", false);
+                    $("#price").text("0.00");
+                    $("#stock").text("0");
+                    $("#btn_join").attr("disabled", true);
+                    $("#btn_purchase").attr("disabled", true);
                 }
             },
             error: function (data) {
                 console.log($("input:radio[name='color']:checked").val());
-                $("#price").text("￥?????");
+                $("#price").text("?????");
                 $("#stock").text("????");
+                $("#btn_join").attr("disabled", true);
+                $("#btn_purchase").attr("disabled", true);
             }
         });
     }
@@ -220,7 +230,7 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
-                        if(stock<10){
+                        if (stock < 10) {
                             $("#stock").removeClass("text-primary");
                             $("#stock").addClass("text-danger");
                         }
@@ -232,14 +242,18 @@ $(function () {
                         }
                     }
                     else {
-                        $("#price").text("￥?????");
-                        $("#stock").text("????");
+                        $("#price").text("0.00");
+                        $("#stock").text("0");
+                        $("#btn_join").attr("disabled", true);
+                        $("#btn_purchase").attr("disabled", true);
                     }
                 },
                 error: function (data) {
                     console.log(data + "&&" + XMLResponse.status);
-                    $("#price").text("￥?????");
+                    $("#price").text("?????");
                     $("#stock").text("????");
+                    $("#btn_join").attr("disabled", true);
+                    $("#btn_purchase").attr("disabled", true);
                 }
             });
         });
@@ -261,7 +275,7 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
-                        if(stock<10){
+                        if (stock < 10) {
                             $("#stock").removeClass("text-primary");
                             $("#stock").addClass("text-danger");
                         }
@@ -273,14 +287,18 @@ $(function () {
                         }
                     }
                     else {
-                        $("#price").text("￥?????");
-                        $("#stock").text("????");
+                        $("#price").text("0.00");
+                        $("#stock").text(data.stock);
+                        $("#btn_join").attr("disabled", true);
+                        $("#btn_purchase").attr("disabled", true);
                     }
                 },
                 error: function (data) {
                     console.log(data + "&&" + XMLResponse.status);
-                    $("#price").text("￥?????");
+                    $("#price").text("?????");
                     $("#stock").text("????");
+                    $("#btn_join").attr("disabled", true);
+                    $("#btn_purchase").attr("disabled", true);
                 }
             });
         });
@@ -302,7 +320,7 @@ $(function () {
                         stock = data.stock;
                         $("#price").text(data.price);
                         $("#stock").text(data.stock);
-                        if(stock<10){
+                        if (stock < 10) {
                             $("#stock").removeClass("text-primary");
                             $("#stock").addClass("text-danger");
                         }
@@ -314,37 +332,43 @@ $(function () {
                         }
                     }
                     else {
-                        $("#price").text("￥?????");
-                        $("#stock").text("????");
+                        $("#price").text("0.00");
+                        $("#stock").text(data.stock);
+                        $("#btn_join").attr("disabled", true);
+                        $("#btn_purchase").attr("disabled", true);
                     }
                 },
                 error: function (data) {
                     console.log(data + "&&" + XMLResponse.status);
-                    $("#price").text("￥?????");
+                    $("#price").text("?????");
                     $("#stock").text("????");
+                    $("#btn_join").attr("disabled", true);
+                    $("#btn_purchase").attr("disabled", true);
                 }
             });
         });
     }
     // 防止num输入非数字字符
-    $("#num").bind("input propertychange",function(){
+    $("#num").bind("input propertychange", function () {
         // console.log(isInteger($("#num").val()));
-        if(isNaN($("#num").val())||$("#num").val()<0){
+        if (isNaN($("#num").val()) || $("#num").val() < 0) {
             $("#num").val(1);
         }
     });
     // 防止num输入0和小数
-    $("#num").blur(function(){
-        if($("#num").val()==0){
+    $("#num").blur(function () {
+        if ($("#num").val() == 0) {
             $("#num").val(1);
         }
         var reg = new RegExp("\\.");
-        if(reg.test($("#num").val())){
-            layer.msg("请不要输入小数", {time: 1200, shift: 6}, function(){});
+        if (reg.test($("#num").val())) {
+            layer.msg("请不要输入小数", { time: 1200, shift: 6 }, function () { });
             $("#num").val(1);
         }
     });
     $("#btn_join").on("click", function () {
+        console.log($("#num").val());
+        console.log(stock);
         if ($("#num").val() > stock) {
             layer.msg("购买数量超过库存量");
             return;
@@ -433,7 +457,7 @@ $(function () {
                         // console.log(para.goods);
                         var layerContent = "商品名称：" + para.goods + "<br>" + "品牌：" + $("#brand").text() + "<br>" + "存储容量：" + $("input:radio[name='storage']:checked").val() + "<br>"
                             + "颜色：" + $("input:radio[name='color']:checked").val() + "<br>" + "屏幕尺寸：" + $("input:radio[name='screen']:checked").val() + "<br>"
-                            + "购买数量：" + $("#num").val() + "<br>" + "价格：￥" + $("#price").text()+ "<br>" + "小计：￥" + (parseFloat($("#price").text())*parseFloat($("#num").val())).toFixed(2);
+                            + "购买数量：" + $("#num").val() + "<br>" + "价格：￥" + $("#price").text() + "<br>" + "小计：￥" + (parseFloat($("#price").text()) * parseFloat($("#num").val())).toFixed(2);
                         layer.confirm(layerContent, {
                             anim: 1,
                             title: "确认订单",
