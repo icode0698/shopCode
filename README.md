@@ -1,2 +1,2 @@
 # shop
-Bootstrap and jQuery
+jQuery,Bootstrap,Layui,Java Servlet and Ajax.
