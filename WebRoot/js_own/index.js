@@ -25,8 +25,8 @@ $(function () {
             console.log("message.length:"+data.message.length);
             //$("#phone_row").empty();
             for(var i=0;i<data.message.length;i++){
-                var content = '<div class="col-md-6 col_border">' +
-                    '<div class="div_out">' +
+                var content = '<div class="col-md-6 col_border ">' +
+                    '<div class="div_out wow slideInUp">' +
                     '<img class="img_radius" src="'+data.message[i].imgList[0]+'" alt="item" />' +
                     '<div id="in'+i+'" class="div_in">' +
                     '<div id="div_text'+i+'" class="div_text">' +
@@ -82,7 +82,7 @@ $(function () {
                 $("#phone_row").empty();//先清空div，防止重复添加
                 for(var i=0;i<data.message.length;i++){
                     var content = '<div class="col-md-6 col_border">' +
-                        '<div class="div_out">' +
+                        '<div class="div_out wow slideInUp">' +
                         '<img class="img_radius" src="'+data.message[i].imgList[0]+'" alt="item" />' +
                         '<div id="in'+i+'" class="div_in">' +
                         '<div id="div_text'+i+'" class="div_text">' +
@@ -116,7 +116,7 @@ $(function () {
                 $("#tablet_row").empty();
                 for(var i=0;i<data.message.length;i++){
                     var content = '<div class="col-md-6 col_border">' +
-                        '<div class="div_out">' +
+                        '<div class="div_out wow slideInUp">' +
                         '<img class="img_radius" src="'+data.message[i].imgList[0]+'" alt="item" />' +
                         '<div id="in'+i+'" class="div_in">' +
                         '<div id="div_text'+i+'" class="div_text">' +
@@ -150,7 +150,7 @@ $(function () {
                 console.log("message.length:"+data.message.length);
                 $("#laptop_row").empty();
                 for(var i=0;i<data.message.length;i++){
-                    var content = '<div class="col-md-6 col_border">' +
+                    var content = '<div class="col-md-6 col_border wow slideInUp">' +
                         '<div class="div_out">' +
                         '<img class="img_radius" src="'+data.message[i].imgList[0]+'" alt="item" />' +
                         '<div id="in'+i+'" class="div_in">' +

@@ -16,7 +16,7 @@
     <div class="layui-fluid">
         <div class="layui-card" style="padding:16px;">
             <blockquote class="layui-elem-quote layui-text">
-                当前页面支持更新<a href="">品牌名称</a>，单击表格相应字段即可进行修改，鼠标离开后自动更新。
+                当前页面支持更新<a href="">价格 库存量</a>，单击表格相应字段即可进行修改，鼠标离开后自动更新。
             </blockquote>
             <table class="layui-table" lay-filter="sku">
                 <thead>
@@ -29,8 +29,8 @@
                         <th lay-data="{field: 'storage', sort: true}">存储容量</th>
                         <th lay-data="{field: 'color', sort: true}">外观颜色</th>
                         <th lay-data="{field: 'screen', sort: true}">屏幕尺寸</th>
-                        <th lay-data="{field: 'price', sort: true}">价格</th>
-                        <th lay-data="{field: 'stock', sort: true}">库存量</th>
+                        <th lay-data="{field: 'price', edit: 'text', sort: true}">价格￥</th>
+                        <th lay-data="{field: 'stock', edit: 'text', sort: true}">库存量</th>
                     </tr>
                 </thead>
                 <tbody id="trs">

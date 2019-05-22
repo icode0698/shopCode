@@ -16,7 +16,8 @@
     <div class="layui-fluid">
         <div class="layui-card" style="padding:16px;">
             <blockquote class="layui-elem-quote layui-text">
-                当前页面支持更新<a href="">品牌名称</a>，单击表格相应字段即可进行修改，鼠标离开后自动更新。
+                当前页面支持更新<a href="">商品名称 所属分类 所属品牌</a>，单击表格相应字段即可进行修改，鼠标离开后自动更新。<br>
+                请注意数据库要存在该字段才能更新成功，所有名称信息可在查询模块查看。
             </blockquote>
             <table class="layui-table" lay-filter="spu">
                 <colgroup>
@@ -27,9 +28,9 @@
                 <thead>
                     <tr>
                         <th lay-data="{field: 'spu', sort: true}">商品SPU</th>
-                        <th lay-data="{field: 'name', sort: true}">商品名称</th>
-                        <th lay-data="{field: 'categroy', sort: true}">所属分类</th>
-                        <th lay-data="{field: 'brand', sort: true}">所属品牌</th>
+                        <th lay-data="{field: 'name', edit: 'text', sort: true}">商品名称</th>
+                        <th lay-data="{field: 'category', edit: 'text', sort: true}">所属分类</th>
+                        <th lay-data="{field: 'brand', edit: 'text', sort: true}">所属品牌</th>
                         <th lay-data="{field: 'time', sort: true}">加入时间</th>
                     </tr>
                 </thead>

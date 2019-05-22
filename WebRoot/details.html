@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Language" content="zh-CN" />
@@ -7,13 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="shop.png">
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link rel='stylesheet' href='css/nprogress.css'/>
+    <link rel='stylesheet' href='css/nprogress.css' />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
     <link href="css_own/details.css" rel="stylesheet">
     <link href="css_own/common.css" rel="stylesheet">
     <title></title>
 </head>
+
 <body>
     <nav class="navbar navbar-default navbar-fixed-top wow slideInDown" role="navigation">
         <div class="container">
@@ -30,8 +32,10 @@
             </div>
             <div class="collapse navbar-collapse" id="example-navbar-collapse">
                 <ul class="nav navbar-nav">
-                    <li class="active tran"><a href="#">首页</a></li>
-                    <li class="tran"><a href="#">分类</a></li>
+                    <li class="active tran"><a href="index.html" target="_blank">首页</a></li>
+                    <li class="tran"><a href="category.html" target="_blank">分类</a></li>
+                    <li class="tran"><a href="search.html" target="_blank">搜索</a></li>
+                    <li class="tran"><a href="message.html" target="_blank">给我们留言</a></li>
                     <li class="tran"><a href="personal.html" target="_blank">个人空间</a></li>
                 </ul>
                 <form class="navbar-form navbar-left">
@@ -52,7 +56,6 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="personal.html" target="_blank">个人空间</a></li>
-                                <li><a href="about.html" target="_blank">关于我们</a></li>
                                 <li><a href="message.html" target="_blank">给我们留言</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><button type="button" class="btn btn-danger btn_out" data-toggle="modal"
@@ -85,12 +88,14 @@
             <div class="col-md-6">
                 <img id="detailspic" class="img_size" alt="">
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="text_flex">
                     <h2><span id="goodsName"></span><small id="brand"></small></h2>
-                    <h1><div class="label label-success"><span>￥</span><span id="price" >0.00</span></div></h1>
+                    <h1>
+                        <div class="label label-success"><span>￥</span><span id="price">0.00</span></div>
+                    </h1>
                     <form action="" onsubmit="return false">
-                        <h3 ><span class="label label-default">选择颜色</span></h3>
+                        <h3><span class="label label-default">选择颜色</span></h3>
                         <p id="color">
 
                         </p>
@@ -105,11 +110,13 @@
                         <h3>
                             <span class="label label-default">购买数量</span>
                             <div class="btn-group">
-                                <button id="num_minus" type="button" class="btn btn-default" disabled="true"><span class="glyphicon glyphicon-minus"></span></button>
+                                <button id="num_minus" type="button" class="btn btn-default" disabled="true"><span
+                                        class="glyphicon glyphicon-minus"></span></button>
                                 <div class="btn-group">
                                     <input id="num" type="text" class="form-control input_size text-center" value=1>
                                 </div>
-                                <button id="num_plus" type="button" class="btn btn-default"><span class="glyphicon glyphicon-plus"></span></button>
+                                <button id="num_plus" type="button" class="btn btn-default"><span
+                                        class="glyphicon glyphicon-plus"></span></button>
                             </div>
                         </h3>
                         <h3>
@@ -123,10 +130,10 @@
                         </p>
                     </form>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
-    
+
     <div class="container jumbotron_color">
         <ul id="myTab" class="nav nav-tabs wow bounceInUp">
             <li id="introduce" class="active"><a href="#" data-toggle="tab">商品介绍</a></li>
@@ -140,7 +147,7 @@
     <script src='js/nprogress.js'></script>
     <!-- Bootstrap core CSS -->
     <script src="js/bootstrap.min.js"></script>
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="layer/layer.js"></script>
     <script src="js_own/details.js"></script>
@@ -150,4 +157,5 @@
     </script>
     <script src="js_own/nprogressapply.js"></script>
 </body>
+
 </html>

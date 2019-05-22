@@ -1,4 +1,4 @@
-package admin;
+package shop;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,16 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Sku;
+import adminbean.Value;
 import api.DataLink;
-import api.SpIDToValue;
+import bean.DetailsBean;
 
-public class SelectSku extends HttpServlet {
+public class Category extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public SelectSku() {
+	public Category() {
 		super();
 	}
 
@@ -65,48 +65,34 @@ public class SelectSku extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		ArrayList<Sku> skuList = new ArrayList<Sku>();
 		DataLink dataLink = new DataLink();
 		Connection conn = dataLink.linkData();
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		ArrayList<Value> categoryList = new ArrayList<Value>();
+		ArrayList<Value> brandList = new ArrayList<Value>();
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		try {
-			PreparedStatement stmt = conn.prepareStatement("select * from price");
-			PreparedStatement tempStmt;
-			ResultSet rs = stmt.executeQuery();
-			ResultSet tempRs;
+			stmt = conn.prepareStatement("select categoryID, categoryName from category");
+			rs = stmt.executeQuery();
 			while(rs.next()){
-				Sku sku = new Sku();
-				sku.setSKU(rs.getInt(1));
-				sku.setGoodsID(rs.getInt(2));
-				sku.setPrice(rs.getFloat(6));
-				sku.setStock(rs.getInt(7));
-				tempStmt = conn.prepareStatement("select goodsName,categoryID,brandID from goods where goodsID=?");
-				tempStmt.setInt(1, rs.getInt(2));
-				tempRs = tempStmt.executeQuery();
-				while(tempRs.next()){
-					sku.setGoodsName(tempRs.getString(1));
-					tempStmt = conn.prepareStatement("select categoryName from category where categoryID=?");
-					tempStmt.setInt(1, tempRs.getInt(2));
-					ResultSet rsIn = tempStmt.executeQuery();
-					while(rsIn.next()){
-						sku.setCategoryName(rsIn.getString(1));
-					}
-					tempStmt = conn.prepareStatement("select brandName from brand where brandID=?");
-					tempStmt.setInt(1, tempRs.getInt(3));
-					rsIn = tempStmt.executeQuery();
-					while(rsIn.next()){
-						sku.setBrandName(rsIn.getString(1));
-					}
-				}
-				SpIDToValue spIDToValue = new SpIDToValue();
-				sku.setStorage(spIDToValue.getSpValue(rs.getInt(3)));
-				sku.setColor(spIDToValue.getSpValue(rs.getInt(4)));
-				sku.setScreen(spIDToValue.getSpValue(rs.getInt(5)));
-				skuList.add(sku);
+				Value category = new Value();
+				category.setId(rs.getInt(1));
+				category.setName(rs.getString(2));
+				categoryList.add(category);
 			}
 			json.put("status", "success");
-			json.put("message", skuList);
+			json.put("categoryList", categoryList);
+			stmt = conn.prepareStatement("select brandID, brandName from brand");
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Value brand = new Value();
+				brand.setId(rs.getInt(1));
+				brand.setName(rs.getString(2));
+				brandList.add(brand);
+			}
+			json.put("brandList", brandList);
 			out.write(json.toString());
 			out.flush();
 			out.close();

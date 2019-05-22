@@ -245,6 +245,41 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>admin.UpdateBrandName</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>UpdateSpu</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.UpdateSpu</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SelectValue</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SelectValue</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>UpdateValue</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.UpdateValue</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Category</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Category</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Goods</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Goods</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -444,6 +479,26 @@
   <servlet-mapping>
     <servlet-name>UpdateBrandName</servlet-name>
     <url-pattern>/servlet/UpdateBrandName</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateSpu</servlet-name>
+    <url-pattern>/servlet/UpdateSpu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SelectValue</servlet-name>
+    <url-pattern>/servlet/SelectValue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UpdateValue</servlet-name>
+    <url-pattern>/servlet/UpdateValue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Category</servlet-name>
+    <url-pattern>/servlet/Category</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Goods</servlet-name>
+    <url-pattern>/servlet/Goods</url-pattern>
   </servlet-mapping>
 
 	<listener>

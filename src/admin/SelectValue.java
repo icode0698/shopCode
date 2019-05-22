@@ -14,16 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Sku;
+import adminbean.Value;
 import api.DataLink;
-import api.SpIDToValue;
 
-public class SelectSku extends HttpServlet {
-
+public class SelectValue extends HttpServlet {
+	public static int storageID = 31000000;
+	public static int colorID = 32000000;
+	public static int screenID = 33000000;
 	/**
 		 * Constructor of the object.
 		 */
-	public SelectSku() {
+	public SelectValue() {
 		super();
 	}
 
@@ -65,48 +66,48 @@ public class SelectSku extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		ArrayList<Sku> skuList = new ArrayList<Sku>();
-		DataLink dataLink = new DataLink();
-		Connection conn = dataLink.linkData();
-		PrintWriter out = response.getWriter();
+		ArrayList<Value> storageList = new ArrayList<Value>();
+		ArrayList<Value> colorList = new ArrayList<Value>();
+		ArrayList<Value> screenList = new ArrayList<Value>();
 		JSONObject json = new JSONObject();
+		PrintWriter out = response.getWriter();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		DataLink dataLink = new DataLink();
+		ResultSet rs = null;
+		conn = dataLink.linkData();
 		try {
-			PreparedStatement stmt = conn.prepareStatement("select * from price");
-			PreparedStatement tempStmt;
-			ResultSet rs = stmt.executeQuery();
-			ResultSet tempRs;
+			stmt = conn.prepareStatement("select valueID, value from parametervalue where parameterID=?");
+			stmt.setInt(1, storageID);
+			rs = stmt.executeQuery();
 			while(rs.next()){
-				Sku sku = new Sku();
-				sku.setSKU(rs.getInt(1));
-				sku.setGoodsID(rs.getInt(2));
-				sku.setPrice(rs.getFloat(6));
-				sku.setStock(rs.getInt(7));
-				tempStmt = conn.prepareStatement("select goodsName,categoryID,brandID from goods where goodsID=?");
-				tempStmt.setInt(1, rs.getInt(2));
-				tempRs = tempStmt.executeQuery();
-				while(tempRs.next()){
-					sku.setGoodsName(tempRs.getString(1));
-					tempStmt = conn.prepareStatement("select categoryName from category where categoryID=?");
-					tempStmt.setInt(1, tempRs.getInt(2));
-					ResultSet rsIn = tempStmt.executeQuery();
-					while(rsIn.next()){
-						sku.setCategoryName(rsIn.getString(1));
-					}
-					tempStmt = conn.prepareStatement("select brandName from brand where brandID=?");
-					tempStmt.setInt(1, tempRs.getInt(3));
-					rsIn = tempStmt.executeQuery();
-					while(rsIn.next()){
-						sku.setBrandName(rsIn.getString(1));
-					}
-				}
-				SpIDToValue spIDToValue = new SpIDToValue();
-				sku.setStorage(spIDToValue.getSpValue(rs.getInt(3)));
-				sku.setColor(spIDToValue.getSpValue(rs.getInt(4)));
-				sku.setScreen(spIDToValue.getSpValue(rs.getInt(5)));
-				skuList.add(sku);
+				Value storageValue = new Value();
+				storageValue.setId(rs.getInt(1));
+				storageValue.setName(rs.getString(2));
+				storageList.add(storageValue);
 			}
 			json.put("status", "success");
-			json.put("message", skuList);
+			json.put("storageList", storageList);
+			stmt = conn.prepareStatement("select valueID, value from parametervalue where parameterID=?");
+			stmt.setInt(1, colorID);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Value colorValue = new Value();
+				colorValue.setId(rs.getInt(1));
+				colorValue.setName(rs.getString(2));
+				colorList.add(colorValue);
+			}
+			json.put("colorList", colorList);
+			stmt = conn.prepareStatement("select valueID, value from parametervalue where parameterID=?");
+			stmt.setInt(1, screenID);
+			rs = stmt.executeQuery();
+			while(rs.next()){
+				Value screenValue = new Value();
+				screenValue.setId(rs.getInt(1));
+				screenValue.setName(rs.getString(2));
+				screenList.add(screenValue);
+			}
+			json.put("screenList", screenList);
 			out.write(json.toString());
 			out.flush();
 			out.close();

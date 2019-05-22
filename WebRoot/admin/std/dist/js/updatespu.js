@@ -22,15 +22,17 @@ $(function () {
                         , cellMinWidth: 40
                     }); 
                     table.on('edit(spu)', function (obj) {
-                        var id = obj.data.id;
-                        var brandName = obj.value //得到修改后的值
+                        var id = obj.data.spu;
+                        var field = obj.field;
+                        var value = obj.value //得到修改后的值
                         $.ajax({
                             type: "post",
                             dataType: "json",
                             url: "../../../../../servlet/UpdateSpu",
                             data: {
+                                type: field,
                                 id: id,
-                                brandName: brandName
+                                data: value  
                             }, success: function (data) {
                                 console.log(data);
                                 if (data.status == "success") {
