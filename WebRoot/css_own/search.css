@@ -1,0 +1,12 @@
+body{
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.jumbotron_color{
+    color: inherit;
+    background-color: #eee;
+    padding-top: 16px; 
+    padding-left: 10px;
+    border-radius: 6px;
+    padding-bottom: 16px;
+}

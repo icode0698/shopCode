@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -18,12 +17,12 @@ import org.json.JSONObject;
 import api.DataLink;
 import bean.RecommendBean;
 
-public class Goods extends HttpServlet {
+public class SearchValue extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Goods() {
+	public SearchValue() {
 		super();
 	}
 
@@ -47,7 +46,7 @@ public class Goods extends HttpServlet {
 		 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		doPost(request, response);
+		doPost(request, response);request.setCharacterEncoding("UTF-8");
 	}
 
 	/**
@@ -61,82 +60,59 @@ public class Goods extends HttpServlet {
 		 * @throws IOException if an error occurred
 		 */
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		DataLink dataLink = new DataLink();
-		Connection conn = dataLink.linkData();
+		String value = request.getParameter("value");
+		System.out.println("+++++++++++"+value);
+		ArrayList<RecommendBean> itemList = new ArrayList<RecommendBean>();
+		int categoryID = 0;
+		int brandID = 0;
+		int categoryNum = 0;
+		int brandNum = 0;
+		int goodsNum = 0;
+		int goodsID = 0;
+		String goodsName = "";
+		PrintWriter out = response.getWriter();
+		JSONObject json = new JSONObject();
+		Connection conn = null;
 		PreparedStatement stmt = null;
 		PreparedStatement stmtIn = null;
 		ResultSet rs = null;
+		ResultSet rsTemp = null;
 		ResultSet rsIn = null;
-		int goodsID;
-		String goodsName;
-		int brandID = Integer.parseInt(request.getParameter("brand"));
-		int categoryID = Integer.parseInt(request.getParameter("category"));
-		ArrayList<RecommendBean> itemList = new ArrayList<RecommendBean>();
-		PrintWriter out = response.getWriter();
-		JSONObject json = new JSONObject();
-		try{
-			if(categoryID==0){
-				if(brandID==0){
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods");
-					rs = stmt.executeQuery();
-					while(rs.next()){
-						ArrayList<String> imgList = new ArrayList<String>();
-						RecommendBean recommendBean = new RecommendBean();
-						goodsID = rs.getInt(1);
-						recommendBean.setGoodsID(goodsID);
-						goodsName = rs.getString(2);
-						recommendBean.setGoodsName(goodsName);
-						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
-						stmtIn.setInt(1, goodsID);
-						rsIn = stmtIn.executeQuery();
-						while(rsIn.next()){
-							imgList.add(rsIn.getString(1));
-							recommendBean.setImgList(imgList);
-						}
-						itemList.add(recommendBean);
-					}
-					json.put("status", "success");
-					json.put("message", itemList);
-				}
-				else{
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods where brandID=?");
-					stmt.setInt(1, brandID);
-					rs = stmt.executeQuery();
-					while(rs.next()){
-						ArrayList<String> imgList = new ArrayList<String>();
-						RecommendBean recommendBean = new RecommendBean();
-						goodsID = rs.getInt(1);
-						recommendBean.setGoodsID(goodsID);
-						goodsName = rs.getString(2);
-						recommendBean.setGoodsName(goodsName);
-						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
-						stmtIn.setInt(1, goodsID);
-						rsIn = stmtIn.executeQuery();
-						while(rsIn.next()){
-							imgList.add(rsIn.getString(1));
-							recommendBean.setImgList(imgList);
-						}
-						itemList.add(recommendBean);
-					}
-					json.put("status", "success");
-					json.put("message", itemList);
-				}
-			}
-			else{
-				if(brandID==0){
+		DataLink dataLink = new DataLink();
+		conn = dataLink.linkData();
+		try {
+			stmt = conn.prepareStatement("select count(*) from category where categoryName like ?");
+			stmt.setString(1, '%'+value+'%');
+			rs = stmt.executeQuery();
+			rs.next();
+			categoryNum = rs.getInt(1);
+			stmt = conn.prepareStatement("select count(*) from brand where brandName like ?");
+			stmt.setString(1, '%'+value+'%');
+			rs = stmt.executeQuery();
+			rs.next();
+			brandNum = rs.getInt(1);
+			stmt = conn.prepareStatement("select count(*) from goods where upper(goodsName) like upper(?)");
+			stmt.setString(1, '%'+value+'%');
+			rs = stmt.executeQuery();
+			rs.next();
+			goodsNum = rs.getInt(1);
+			if(categoryNum>0){
+				stmt = conn.prepareStatement("select categoryID from category where categoryName like ?");
+				stmt.setString(1, '%'+value+'%');
+				rs = stmt.executeQuery();
+				while(rs.next()){
+					categoryID = rs.getInt(1);
 					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=?");
 					stmt.setInt(1, categoryID);
-					rs = stmt.executeQuery();
-					while(rs.next()){
+					rsTemp = stmt.executeQuery();
+					while(rsTemp.next()){
 						ArrayList<String> imgList = new ArrayList<String>();
 						RecommendBean recommendBean = new RecommendBean();
-						goodsID = rs.getInt(1);
+						goodsID = rsTemp.getInt(1);
 						recommendBean.setGoodsID(goodsID);
-						goodsName = rs.getString(2);
+						goodsName = rsTemp.getString(2);
 						recommendBean.setGoodsName(goodsName);
 						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
 						stmtIn.setInt(1, goodsID);
@@ -147,45 +123,72 @@ public class Goods extends HttpServlet {
 						}
 						itemList.add(recommendBean);
 					}
-					json.put("status", "success");
-					json.put("message", itemList);
-				}
-				else{
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=? and brandID=?");
-					stmt.setInt(1, categoryID);
-					stmt.setInt(2, brandID);
-					rs = stmt.executeQuery();
-					while(rs.next()){
-						ArrayList<String> imgList = new ArrayList<String>();
-						RecommendBean recommendBean = new RecommendBean();
-						goodsID = rs.getInt(1);
-						recommendBean.setGoodsID(goodsID);
-						goodsName = rs.getString(2);
-						recommendBean.setGoodsName(goodsName);
-						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
-						stmtIn.setInt(1, goodsID);
-						rsIn = stmtIn.executeQuery();
-						while(rsIn.next()){
-							imgList.add(rsIn.getString(1));
-							recommendBean.setImgList(imgList);
-						}
-						itemList.add(recommendBean);
-					}
-					json.put("status", "success");
-					json.put("message", itemList);
 				}
 			}
+			else if(brandNum>0){
+				stmt = conn.prepareStatement("select brandID from brand where brandName like ?");
+				stmt.setString(1, '%'+value+'%');
+				rs = stmt.executeQuery();
+				while(rs.next()){
+					brandID = rs.getInt(1);
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods where brandID=?");
+					stmt.setInt(1, brandID);
+					rsTemp = stmt.executeQuery();
+					while(rsTemp.next()){
+						ArrayList<String> imgList = new ArrayList<String>();
+						RecommendBean recommendBean = new RecommendBean();
+						goodsID = rsTemp.getInt(1);
+						recommendBean.setGoodsID(goodsID);
+						goodsName = rsTemp.getString(2);
+						recommendBean.setGoodsName(goodsName);
+						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
+						stmtIn.setInt(1, goodsID);
+						rsIn = stmtIn.executeQuery();
+						while(rsIn.next()){
+							imgList.add(rsIn.getString(1));
+							recommendBean.setImgList(imgList);
+						}
+						itemList.add(recommendBean);
+					}
+				}
+			}
+			else if(goodsNum>0){
+				stmt = conn.prepareStatement("select goodsID from goods where upper(goodsName) like upper(?)");
+				stmt.setString(1, '%'+value+'%');
+				rs = stmt.executeQuery();
+				while(rs.next()){
+					goodsID = rs.getInt(1);
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods where goodsID=?");
+					stmt.setInt(1, goodsID);
+					rsTemp = stmt.executeQuery();
+					while(rsTemp.next()){
+						ArrayList<String> imgList = new ArrayList<String>();
+						RecommendBean recommendBean = new RecommendBean();
+						goodsID = rsTemp.getInt(1);
+						recommendBean.setGoodsID(goodsID);
+						goodsName = rsTemp.getString(2);
+						recommendBean.setGoodsName(goodsName);
+						stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
+						stmtIn.setInt(1, goodsID);
+						rsIn = stmtIn.executeQuery();
+						while(rsIn.next()){
+							imgList.add(rsIn.getString(1));
+							recommendBean.setImgList(imgList);
+						}
+						itemList.add(recommendBean);
+					}
+				}
+			}
+			json.put("status", "success");
+			json.put("message", itemList);
 			out.write(json.toString());
 			out.flush();
 			out.close();
-		}catch(SQLException e){
-			e.getMessage();
-			json.put("status","failed");
-			json.put("message", "服务器异常");
-			out.write(json.toString());
-			out.flush();
-			out.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
+		
 	}
 
 	/**

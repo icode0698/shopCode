@@ -275,6 +275,20 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>shop.Goods</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>SearchNum</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.SearchNum</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SearchValue</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.SearchValue</servlet-class>
+  </servlet>
+
+
 
 
 
@@ -499,6 +513,14 @@
   <servlet-mapping>
     <servlet-name>Goods</servlet-name>
     <url-pattern>/servlet/Goods</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchNum</servlet-name>
+    <url-pattern>/servlet/SearchNum</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SearchValue</servlet-name>
+    <url-pattern>/servlet/SearchValue</url-pattern>
   </servlet-mapping>
 
 	<listener>

@@ -128,7 +128,13 @@ public class Upload extends HttpServlet {
                     // 处理不在表单中的字段
                     if (!item.isFormField()) {
                         //String fileName = new File(item.getName()).getName();
-                    	String user = request.getSession().getAttribute("user").toString();
+                    	String user = "";
+                    	if(request.getSession().getAttribute("temp")!=null){
+                    		user = request.getSession().getAttribute("temp").toString();
+                    	}
+                    	else{
+                        	user = request.getSession().getAttribute("user").toString();
+                    	}
                     	String originFileName = new File(item.getName()).getName();    
                 		String fileType = originFileName.substring(originFileName.lastIndexOf("."),originFileName.length()); 
                         String fileName = user+fileType;
@@ -146,7 +152,9 @@ public class Upload extends HttpServlet {
                         PreparedStatement stmt = conn.prepareStatement("update user set headPic=? where user=?");
                         stmt.setString(1, UPLOAD_DIRECTORY + File.separator + fileName);
                         stmt.setString(2, user);
-                        stmt.executeUpdate();
+                        int index = stmt.executeUpdate();
+                        System.out.println("index"+index);
+                        request.getSession().removeAttribute("temp");
                         json.put("status", "success");
                         json.put("message", "头像上传成功");
                         out.write(json.toString());

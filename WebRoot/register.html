@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,18 @@
     <link href="css/signin.css" rel="stylesheet">
     <link rel="icon" href="shop.png">
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-    <link rel='stylesheet' href='css/nprogress.css'/>
+    <link rel='stylesheet' href='css/nprogress.css' />
+    <link rel="stylesheet" href="./layui/css/layui.css" media="all">
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css_own/register.css" media="all">
 </head>
+
 <body>
     <div class="container">
-        <form class="form-signin" onsubmit="return false">
+        <blockquote class="layui-elem-quote">用户注册</blockquote>
+        <!-- <form class="form-signin" onsubmit="return false">
             <h2 class="form-signin-heading wow bounceInDown">Register Your Account</h2>
             <label>用户名</label>
             <input type="text" id="user" class="form-control wow bounceInLeft" placeholder="UserID" autofocus>
@@ -32,6 +37,54 @@
             </div>
             </div>
             </div>
+        </form> -->
+        <form class="layui-form layui-form-pane" action="" style="padding-top:20px;">
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="user" lay-verify="required|nickname" lay-verType="tips"
+                        placeholder="请输入用户名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">用户名是用户唯一的ID，注册成功后将不允许更改</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-inline">
+                    <input id="nickname" type="text" name="nickname" lay-verify="required|nickname" lay-verType="tips"
+                        placeholder="请输入昵称" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <div class="layui-input-inline">
+                    <input id="pass" type="password" name="pass" lay-verify="required|pass" lay-verType="tips"
+                        placeholder="请输入密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-mid layui-word-aux">6到20位字符，不能有空格</div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">确认密码</label>
+                <div class="layui-input-inline">
+                    <input id="repass" type="password" name="repass" lay-verify="required|same" lay-verType="tips"
+                        placeholder="请确认密码" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">头像</label>
+                <div class="layui-upload">
+                    <button type="button" class="layui-btn layui-btn-normal" id="choose">选择文件</button>
+                    <!-- <button type="button" class="layui-btn" id="test9">开始上传</button> -->
+                    <span id="pictip" class="layui-word-aux">未选择文件</span>
+                    <div class="layui-upload-list">
+                        <img class="layui-upload-img" src="headpic/user.png" id="demo">
+                    </div>
+                </div>
+                <div class="layui-form-mid layui-word-aux">不上传头像，则使用服务器设置的默认头像</div>
+            </div>
+            <div class="layui-form-item">
+                <button class="layui-btn" type="reset">重置</button>
+                <button id="ensure" class="layui-btn" lay-submit="" lay-filter="ensure">立即注册</button>
+            </div>
         </form>
     </div> <!-- /container -->
 
@@ -42,70 +95,12 @@
     <script src="js/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script> 
-      new WOW().init();
+    <script src="./layui/layui.js" charset="utf-8"></script>
+    <script>
+        new WOW().init();
     </script>
     <script src="js_own/nprogressapply.js"></script>
-    <script src=""></script>
-    <script>
-        $(function(){
-          $("#sub").click(function(){
-            var user = $("#user").val();
-            console.log("user:"+user);
-            console.log("password:"+password);
-            console.log(user=="");
-            console.log($("#password").val()=="");
-            if(user==""){
-                $("#div_hide").removeClass("hidden");
-                $("#error_hide").removeClass("hidden");
-                $("#error_tip").text("UserID不可为空");
-                return;
-            }
-            if($("#password").val()==""){
-                $("#div_hide").removeClass("hidden");
-                $("#error_hide").removeClass("hidden");
-                $("#error_tip").text("Password不可为空");
-                return;
-            }
-            else{
-                $.ajax({
-                    type: "post",
-                    url: "servlet/Register",
-                    dataType: "json",
-                    async: false,
-                    data:{
-                    "user": user,
-                    "password": $("#password").val(),
-                    type: "ajax_register"
-                    },
-                    success:function(data){
-                        console.log("json.status:"+data.status);
-                        console.log("json.user:"+data.user);
-                        if(data.status=="success"){
-                            $("#error_hide").addClass("hidden");
-                            $("#div_hide").removeClass("hidden");
-                            $("#success_hide").removeClass("hidden");
-                            $("#success_tip").text(data.message);
-                            setTimeout("location.href = 'index.html'",1000);
-                        }
-                        if(data.status=="error"){
-                            $("#div_hide").removeClass("hidden");
-                            $("#error_hide").removeClass("hidden");
-                            $("#error_tip").text(data.message);
-                            //return;
-                        }
-                    },
-                    error:function(XMLResponse){
-                        $("#div_hide").removeClass("hidden");
-                        $("#error_hide").removeClass("hidden");
-                        $("#error_tip").text("抱歉，服务器异常\nXMLResponse_status:"+XMLResponse.status);
-                        console.log("error_status:"+XMLResponse.status);
-                        //return;
-                    }
-                });
-            }
-          }); 
-        });
-    </script>
+    <script src="js_own/register.js"></script>
 </body>
+
 </html>
