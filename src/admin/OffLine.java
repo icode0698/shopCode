@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -14,15 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Order;
 import api.DataLink;
+import api.LastTime;
 
-public class SelectOrder extends HttpServlet {
+public class OffLine extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public SelectOrder() {
+	public OffLine() {
 		super();
 	}
 
@@ -64,67 +63,35 @@ public class SelectOrder extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		String message = request.getParameter("message");
-		String value = request.getParameter("value");
 		String user = request.getParameter("user");
-		ArrayList<Order> orderList = new ArrayList<Order>();
 		DataLink dataLink = new DataLink();
-		Connection conn = dataLink.linkData();
+		Connection conn = null;
+		PreparedStatement stmt = null;
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
 		try {
-			if(value==null||"".equals(value)){
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop order by id desc");
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where user=? order by id desc");
-					stmt.setString(1, user);
-				}
+			conn = dataLink.linkData();
+			stmt = conn.prepareStatement("update user set online=? where user=?");
+			stmt.setBoolean(1, false);
+			stmt.setString(2, user);
+			int index = stmt.executeUpdate();
+			if(index>0){
+//				request.getSession().removeAttribute("user");
+//				LastTime lastTime = new LastTime(request.getSession());
+//				lastTime.update();
+				json.put("status", "success");
+				json.put("message", "用户下线成功");
 			}
 			else{
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop where id=? order by id desc");
-					stmt.setString(1, value);
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where id=? and user=? order by id desc");
-					stmt.setString(1, value);
-					stmt.setString(2, user);
-				}
+				json.put("status", "fail");
+				json.put("message", "操作出现错误");
 			}
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Order order = new Order();
-				order.setId(rs.getString(1));
-				order.setUser(rs.getString(2));
-				order.setSku(rs.getInt(3));
-				order.setGoodsName(rs.getString(4));
-				order.setCategoryName(rs.getString(5));
-				order.setBrandName(rs.getString(6));
-				order.setStorage(rs.getString(7));
-				order.setColor(rs.getString(8));
-				order.setScreen(rs.getString(9));
-				order.setNum(rs.getInt(10));
-				order.setUnitPrice(rs.getFloat(11));
-				order.setTotalPrice(rs.getFloat(12));
-				order.setPay(rs.getBoolean(13));
-				order.setCreateTime(rs.getString(14));
-				order.setPaymentTime(rs.getString(15));
-				orderList.add(order);
-			}
-			json.put("status", "success");
-			json.put("code","0");
-			json.put("message", orderList);
+			stmt.close();
+			conn.close();
 			out.write(json.toString());
 			out.flush();
 			out.close();
-			stmt.close();
-			rs.close();
-			conn.close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}

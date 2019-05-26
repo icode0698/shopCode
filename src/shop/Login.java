@@ -92,19 +92,20 @@ public class Login extends HttpServlet {
 		DataLink dataLink = new DataLink();
 		conn = dataLink.linkData();
 		try{
-			pstmt = conn.prepareStatement("select password from user where user=?");
+			pstmt = conn.prepareStatement("select password,online from user where user=?");
 			pstmt.setString(1, user);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
-				if(password.equals(rs.getString(1))){
+				if(password.equals(rs.getString(1))&&rs.getBoolean(2)==false){
 					json.put("status", "success");
 					json.put("user", user);
 					json.put("message", "登录成功");
 					session.setAttribute("user", user);
 					rs.close();
-					pstmt = conn.prepareStatement("update user set currentTime=? where user=?");
+					pstmt = conn.prepareStatement("update user set currentTime=?, online=? where user=?");
 					pstmt.setString(1, df.format(new Date()));
-					pstmt.setString(2, user);
+					pstmt.setBoolean(2, true);
+					pstmt.setString(3, user);
 					pstmt.executeUpdate();
 					pstmt = conn.prepareStatement("select viewCount from user where user=?");
 					pstmt.setString(1, user);
@@ -125,6 +126,14 @@ public class Login extends HttpServlet {
 					out.flush();
 					out.close();
 				}	
+				else if(rs.getBoolean(2)==true){
+					json.put("status", "error");
+					json.put("user", user);
+					json.put("message", "当前用户已处于在线状态");
+					out.write(json.toString());
+					out.flush();
+					out.close();
+				}
 				else{
 					json.put("status", "error");
 					json.put("user", user);

@@ -54,6 +54,7 @@ $(function () {
 });
     function trolleyList() {
         $("#trolley_trs").empty();
+        $("#allgoods").prop("checked",false);
         $.ajax({
             type: "post",
             url: "servlet/Trolley",

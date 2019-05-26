@@ -14,15 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Order;
+import adminbean.Info;
+import adminbean.Message;
+import adminbean.User;
 import api.DataLink;
 
-public class SelectOrder extends HttpServlet {
+public class AdminInfo extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public SelectOrder() {
+	public AdminInfo() {
 		super();
 	}
 
@@ -64,66 +66,28 @@ public class SelectOrder extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		String message = request.getParameter("message");
-		String value = request.getParameter("value");
-		String user = request.getParameter("user");
-		ArrayList<Order> orderList = new ArrayList<Order>();
+		String type = request.getParameter("type");
 		DataLink dataLink = new DataLink();
 		Connection conn = dataLink.linkData();
-		PrintWriter out = response.getWriter();
-		JSONObject json = new JSONObject();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		ArrayList<Info> infoList = new ArrayList<Info>();
+		PrintWriter out = response.getWriter();
+		JSONObject json = new JSONObject();
 		try {
-			if(value==null||"".equals(value)){
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop order by id desc");
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where user=? order by id desc");
-					stmt.setString(1, user);
-				}
-			}
-			else{
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop where id=? order by id desc");
-					stmt.setString(1, value);
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where id=? and user=? order by id desc");
-					stmt.setString(1, value);
-					stmt.setString(2, user);
-				}
-			}
+			stmt = conn.prepareStatement("select * from admininfo");
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				Order order = new Order();
-				order.setId(rs.getString(1));
-				order.setUser(rs.getString(2));
-				order.setSku(rs.getInt(3));
-				order.setGoodsName(rs.getString(4));
-				order.setCategoryName(rs.getString(5));
-				order.setBrandName(rs.getString(6));
-				order.setStorage(rs.getString(7));
-				order.setColor(rs.getString(8));
-				order.setScreen(rs.getString(9));
-				order.setNum(rs.getInt(10));
-				order.setUnitPrice(rs.getFloat(11));
-				order.setTotalPrice(rs.getFloat(12));
-				order.setPay(rs.getBoolean(13));
-				order.setCreateTime(rs.getString(14));
-				order.setPaymentTime(rs.getString(15));
-				orderList.add(order);
+				Info info = new Info();
+				info.setType(rs.getString(1));
+				info.setInfo(rs.getString(2));
+				infoList.add(info);
 			}
 			json.put("status", "success");
-			json.put("code","0");
-			json.put("message", orderList);
+			json.put("message", infoList);
 			out.write(json.toString());
 			out.flush();
 			out.close();
-			stmt.close();
-			rs.close();
-			conn.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

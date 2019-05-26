@@ -18,6 +18,15 @@
             <blockquote class="layui-elem-quote layui-text">
                 当前页面支持更新<a href="">价格 库存量</a>，单击表格相应字段即可进行修改，鼠标离开后自动更新。
             </blockquote>
+            <blockquote class="layui-elem-quote layui-text">
+                商品SKU可以通过<a href="" id="now">分类 所属SPU 商品SKU </a>进行筛选，其中，所属SPU 商品SKU不可以输入非数字字符，如果输入会直接替换。<br>
+                搜索的优先级别：分类 > 所属SPU > 商品SKU，不填则默认查询所有。
+            </blockquote>
+            <form onsubmit="return false;" style="margin-bottom:5px;">
+                分类： <input id="category" type="text">&nbsp; 所属SPU： <input id="spu" type="text">&nbsp; 商品SKU： <input
+                    id="sku" type="text">
+                <button id="getsku" type="submit">搜索</button>
+            </form>
             <table class="layui-table" lay-filter="sku">
                 <thead>
                     <tr>

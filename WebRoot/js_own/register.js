@@ -70,7 +70,14 @@ $(function () {
                         // picIndex: picIndex
                     }, success: function (data) {
                         if(data.status=="success"){
-                            layer.alert(data.message,{icon:1});
+                    layer.confirm(data.message, {
+                        icon: 1,
+                        btn: ["前往登录", "浏览首页"]
+                    }, function () {
+                        location.href = 'login.html';
+                    }, function () {
+                        location.href = 'index.html';
+                    });
                         }
                         else{
                             layer.alert(data.message,{icon:2});

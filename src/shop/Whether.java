@@ -84,13 +84,15 @@ public class Whether extends HttpServlet {
 				Connection conn = dataLink.linkData();
 				String nickName = "";
 				String headPic = "";
+				boolean online = false;
 				try {
-					PreparedStatement stmt = conn.prepareStatement("select nickName, headPic from user where user=?");
+					PreparedStatement stmt = conn.prepareStatement("select nickName, headPic, online from user where user=?");
 					stmt.setString(1, user);
 					ResultSet rs = stmt.executeQuery();
 					while(rs.next()){
 						nickName = rs.getString(1);
 						headPic = rs.getString(2);
+						online = rs.getBoolean(3);
 					}
 					rs.close();
 					stmt.close();
@@ -103,6 +105,7 @@ public class Whether extends HttpServlet {
 				json.put("user", user);
 				json.put("nickName", nickName);
 				json.put("headPic", headPic);
+				json.put("online", online);
 				json.put("message", "用户已登录");
 				out.write(json.toString());
 				out.flush();

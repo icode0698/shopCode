@@ -19,8 +19,9 @@ public class LastTime {
 		PreparedStatement stmt = null;
 		try {
 			conn = dataLink.linkData();
-			stmt = conn.prepareStatement("update user set lastTime=currentTime where user=?");
-			stmt.setString(1, user);
+			stmt = conn.prepareStatement("update user set lastTime=currentTime,online=? where user=?");
+			stmt.setBoolean(1, false);
+			stmt.setString(2, user);
 			stmt.executeUpdate();
 			stmt.close();
 			conn.close();

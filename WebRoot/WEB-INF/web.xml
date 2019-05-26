@@ -287,6 +287,41 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>shop.SearchValue</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Control</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.Control</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>AdminInfo</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.AdminInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>SkuBelong</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.SkuBelong</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>DeleteSpu</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.DeleteSpu</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OffLine</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>admin.OffLine</servlet-class>
+  </servlet>
+
+
+
+
+
 
 
 
@@ -521,6 +556,26 @@
   <servlet-mapping>
     <servlet-name>SearchValue</servlet-name>
     <url-pattern>/servlet/SearchValue</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Control</servlet-name>
+    <url-pattern>/servlet/Control</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminInfo</servlet-name>
+    <url-pattern>/servlet/AdminInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SkuBelong</servlet-name>
+    <url-pattern>/servlet/SkuBelong</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DeleteSpu</servlet-name>
+    <url-pattern>/servlet/DeleteSpu</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OffLine</servlet-name>
+    <url-pattern>/servlet/OffLine</url-pattern>
   </servlet-mapping>
 
 	<listener>

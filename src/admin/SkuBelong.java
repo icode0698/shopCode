@@ -14,15 +14,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Order;
+import adminbean.Message;
+import adminbean.Sku;
+import adminbean.User;
 import api.DataLink;
+import api.SpIDToValue;
 
-public class SelectOrder extends HttpServlet {
+public class SkuBelong extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public SelectOrder() {
+	public SkuBelong() {
 		super();
 	}
 
@@ -64,66 +67,55 @@ public class SelectOrder extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		String message = request.getParameter("message");
-		String value = request.getParameter("value");
-		String user = request.getParameter("user");
-		ArrayList<Order> orderList = new ArrayList<Order>();
+		int spu = Integer.parseInt(request.getParameter("spu"));
 		DataLink dataLink = new DataLink();
 		Connection conn = dataLink.linkData();
+		ArrayList<Message> messageList = new ArrayList<Message>();
+		ArrayList<User> userList = new ArrayList<User>();
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
+		ArrayList<Sku> skuList = new ArrayList<Sku>();
 		try {
-			if(value==null||"".equals(value)){
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop order by id desc");
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where user=? order by id desc");
-					stmt.setString(1, user);
-				}
-			}
-			else{
-				if(user==null||"".equals(user)){
-					stmt = conn.prepareStatement("select * from shop where id=? order by id desc");
-					stmt.setString(1, value);
-				}
-				else{
-					stmt = conn.prepareStatement("select * from shop where id=? and user=? order by id desc");
-					stmt.setString(1, value);
-					stmt.setString(2, user);
-				}
-			}
-			rs = stmt.executeQuery();
+			PreparedStatement stmt = conn.prepareStatement("select * from price where goodsID=?");
+			stmt.setInt(1, spu);
+			PreparedStatement tempStmt;
+			ResultSet rs = stmt.executeQuery();
+			ResultSet tempRs;
 			while(rs.next()){
-				Order order = new Order();
-				order.setId(rs.getString(1));
-				order.setUser(rs.getString(2));
-				order.setSku(rs.getInt(3));
-				order.setGoodsName(rs.getString(4));
-				order.setCategoryName(rs.getString(5));
-				order.setBrandName(rs.getString(6));
-				order.setStorage(rs.getString(7));
-				order.setColor(rs.getString(8));
-				order.setScreen(rs.getString(9));
-				order.setNum(rs.getInt(10));
-				order.setUnitPrice(rs.getFloat(11));
-				order.setTotalPrice(rs.getFloat(12));
-				order.setPay(rs.getBoolean(13));
-				order.setCreateTime(rs.getString(14));
-				order.setPaymentTime(rs.getString(15));
-				orderList.add(order);
+				Sku sku = new Sku();
+				sku.setSKU(rs.getInt(1));
+				sku.setGoodsID(rs.getInt(2));
+				sku.setPrice(rs.getFloat(6));
+				sku.setStock(rs.getInt(7));
+				tempStmt = conn.prepareStatement("select goodsName,categoryID,brandID from goods where goodsID=?");
+				tempStmt.setInt(1, rs.getInt(2));
+				tempRs = tempStmt.executeQuery();
+				while(tempRs.next()){
+					sku.setGoodsName(tempRs.getString(1));
+					tempStmt = conn.prepareStatement("select categoryName from category where categoryID=?");
+					tempStmt.setInt(1, tempRs.getInt(2));
+					ResultSet rsIn = tempStmt.executeQuery();
+					while(rsIn.next()){
+						sku.setCategoryName(rsIn.getString(1));
+					}
+					tempStmt = conn.prepareStatement("select brandName from brand where brandID=?");
+					tempStmt.setInt(1, tempRs.getInt(3));
+					rsIn = tempStmt.executeQuery();
+					while(rsIn.next()){
+						sku.setBrandName(rsIn.getString(1));
+					}
+				}
+				SpIDToValue spIDToValue = new SpIDToValue();
+				sku.setStorage(spIDToValue.getSpValue(rs.getInt(3)));
+				sku.setColor(spIDToValue.getSpValue(rs.getInt(4)));
+				sku.setScreen(spIDToValue.getSpValue(rs.getInt(5)));
+				skuList.add(sku);
 			}
 			json.put("status", "success");
-			json.put("code","0");
-			json.put("message", orderList);
+			json.put("message", skuList);
 			out.write(json.toString());
 			out.flush();
 			out.close();
-			stmt.close();
-			rs.close();
-			conn.close();
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
