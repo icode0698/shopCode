@@ -14,16 +14,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONObject;
 
-import adminbean.Value;
 import api.DataLink;
-import bean.DetailsBean;
+import api.SkuToSpu;
+import bean.RecommendBean;
 
-public class Category extends HttpServlet {
+public class Search extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Category() {
+	public Search() {
 		super();
 	}
 
@@ -65,34 +65,39 @@ public class Category extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		response.setCharacterEncoding("utf-8");
-		DataLink dataLink = new DataLink();
-		Connection conn = dataLink.linkData();
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		ArrayList<Value> categoryList = new ArrayList<Value>();
-		ArrayList<Value> brandList = new ArrayList<Value>();
+		ArrayList<RecommendBean> itemList = new ArrayList<RecommendBean>();
+		int goodsID = 0;
+		String goodsName = "";
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		PreparedStatement stmtIn = null;
+		ResultSet rs = null;
+		ResultSet rsIn = null;
+		DataLink dataLink = new DataLink();
+		conn = dataLink.linkData();
 		try {
-			stmt = conn.prepareStatement("select categoryID, categoryName from category");
+			stmt = conn.prepareStatement("select goodsID, goodsName from goods");
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				Value category = new Value();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				categoryList.add(category);
+				ArrayList<String> imgList = new ArrayList<String>();
+				RecommendBean recommendBean = new RecommendBean();
+				goodsID = rs.getInt(1);
+				recommendBean.setGoodsID(goodsID);
+				goodsName = rs.getString(2);
+				recommendBean.setGoodsName(goodsName);
+				stmtIn = conn.prepareStatement("select imgSrc from img where goodsID=?");
+				stmtIn.setInt(1, goodsID);
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					imgList.add(rsIn.getString(1));
+					recommendBean.setImgList(imgList);
+				}
+				itemList.add(recommendBean);
 			}
 			json.put("status", "success");
-			json.put("categoryList", categoryList);
-			stmt = conn.prepareStatement("select brandID, brandName from brand order by insertTime desc");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value brand = new Value();
-				brand.setId(rs.getInt(1));
-				brand.setName(rs.getString(2));
-				brandList.add(brand);
-			}
-			json.put("brandList", brandList);
+			json.put("message", itemList);
 			out.write(json.toString());
 			out.flush();
 			out.close();

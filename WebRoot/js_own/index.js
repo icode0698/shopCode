@@ -59,12 +59,6 @@ $(function () {
     $("#a_right").mouseout(function () {
         $("#span_right").stop().fadeOut("fast");
     });
-    $("#top_btn_login").click(function () {
-        location.href = "login.html";
-    });
-    $("#top_btn_reg").click(function () {
-        location.href = "register.html";
-    });
     // 处理分类的个性推荐
     $("#phone").click(function () {
         $.ajax({
@@ -95,8 +89,8 @@ $(function () {
                     $("#phone_row").append(content);
                 }
             },
-            error: function () {
-                console.log("ajax_item_status:"+XMLResponse.status);
+            error: function (data) {
+                console.log("ajax_item_status:"+data.status);
             }
         });
     });
@@ -130,8 +124,8 @@ $(function () {
                     
                 }
             },
-            error: function () {
-                console.log("ajax_item_status:"+XMLResponse.status);
+            error: function (data) {
+                console.log("ajax_item_status:"+data.status);
             }
         });
     });

@@ -11,19 +11,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import adminbean.Value;
 import api.DataLink;
-import bean.DetailsBean;
+import api.SkuToSpu;
+import bean.RecommendBean;
 
-public class Category extends HttpServlet {
+public class OrderInfo extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Category() {
+	public OrderInfo() {
 		super();
 	}
 
@@ -69,37 +70,53 @@ public class Category extends HttpServlet {
 		Connection conn = dataLink.linkData();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		ArrayList<Value> categoryList = new ArrayList<Value>();
-		ArrayList<Value> brandList = new ArrayList<Value>();
+		HttpSession session = request.getSession();
+		String user = "";
+		String id = request.getParameter("id");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		try {
-			stmt = conn.prepareStatement("select categoryID, categoryName from category");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value category = new Value();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				categoryList.add(category);
-			}
-			json.put("status", "success");
-			json.put("categoryList", categoryList);
-			stmt = conn.prepareStatement("select brandID, brandName from brand order by insertTime desc");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value brand = new Value();
-				brand.setId(rs.getInt(1));
-				brand.setName(rs.getString(2));
-				brandList.add(brand);
-			}
-			json.put("brandList", brandList);
-			out.write(json.toString());
-			out.flush();
-			out.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+		if(session.getAttribute("user")==null){
+			json.put("status", "fail");
+			json.put("message", "用户未登录或登录会话超时");
+			
 		}
+		else {
+			user = session.getAttribute("user").toString();
+			try {
+				stmt = conn.prepareStatement("select count(*) from shop where id=? and user=?");
+				stmt.setString(1, id);
+				stmt.setString(2, user);
+				rs = stmt.executeQuery();
+				rs.next();
+				if(rs.getInt(1)==0){
+					json.put("status", "fail");
+					json.put("message", "没有找到相关订单");
+				}
+				else{
+					stmt = conn.prepareStatement("select sku, goodsName, storage, color, screen from shop where id=? and user=?");
+					stmt.setString(1, id);
+					stmt.setString(2, user);
+					rs = stmt.executeQuery();
+					while(rs.next()){
+						json.put("status", "success");
+						json.put("sku", rs.getInt(1));
+						SkuToSpu skuToSpu = new SkuToSpu(rs.getInt(1));
+						int spu = skuToSpu.getSpu();
+						json.put("spu", spu);
+						json.put("goodsName", rs.getString(2));
+						json.put("storage", rs.getString(3));
+						json.put("color", rs.getString(4));
+						json.put("screen", rs.getString(5));
+					}
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}
+		out.write(json.toString());
+		out.flush();
+		out.close();
 	}
 
 	/**

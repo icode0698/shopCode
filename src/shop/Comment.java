@@ -5,25 +5,24 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import adminbean.Value;
 import api.DataLink;
-import bean.DetailsBean;
+import api.SkuToSpu;
 
-public class Category extends HttpServlet {
+public class Comment extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Category() {
+	public Comment() {
 		super();
 	}
 
@@ -69,37 +68,46 @@ public class Category extends HttpServlet {
 		Connection conn = dataLink.linkData();
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
-		ArrayList<Value> categoryList = new ArrayList<Value>();
-		ArrayList<Value> brandList = new ArrayList<Value>();
+		HttpSession session = request.getSession();
+		String user = "";
+		float rateValue = Float.parseFloat(request.getParameter("rateValue"));
+		String commentContent = request.getParameter("commentContent");
+		int sku = Integer.parseInt(request.getParameter("sku"));
+		int spu = Integer.parseInt(request.getParameter("spu"));
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		try {
-			stmt = conn.prepareStatement("select categoryID, categoryName from category");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value category = new Value();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				categoryList.add(category);
-			}
-			json.put("status", "success");
-			json.put("categoryList", categoryList);
-			stmt = conn.prepareStatement("select brandID, brandName from brand order by insertTime desc");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value brand = new Value();
-				brand.setId(rs.getInt(1));
-				brand.setName(rs.getString(2));
-				brandList.add(brand);
-			}
-			json.put("brandList", brandList);
-			out.write(json.toString());
-			out.flush();
-			out.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
+		if(session.getAttribute("user")==null){
+			json.put("status", "fail");
+			json.put("message", "用户未登录或登录会话超时");
 		}
+		else {
+			user = session.getAttribute("user").toString();
+			try {
+				stmt = conn.prepareStatement("insert into comment(user, sku, spu, comment, rateValue) values(?, ?, ?, ?, ?)");
+				stmt.setString(1, user);
+				stmt.setInt(2, sku);
+				stmt.setInt(3, spu);
+				stmt.setString(4, commentContent);
+				stmt.setFloat(5, rateValue);
+				int index = stmt.executeUpdate();
+				if(index>0){
+					json.put("status", "success");
+					json.put("message", "商品评价成功");
+				}
+				else{
+					json.put("status", "fail");
+					json.put("message", "商品评价出现错误");
+				}
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+				json.put("status", "fail");
+				json.put("message", "商品评价出现未知错误，请联系管理员");
+			}
+		}
+		out.write(json.toString());
+		out.flush();
+		out.close();
 	}
 
 	/**

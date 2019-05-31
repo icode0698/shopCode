@@ -115,7 +115,7 @@ $(function () {
                         lengthIndex++;
                     }
                 });
-                //console.log("lengthIndex:"+lengthIndex);
+                // console.log("lengthIndex:"+lengthIndex);
                 // 初始化组件控制
                 for (let i = 0; i < data.message.length; i++) {
                     // 加减按钮控制input的num
@@ -560,7 +560,8 @@ $(function () {
                             + '</td><td><span id="num'+i+'">'+ data.message[i].num+'</span>'
                             + '</td><td><strong>￥<span id="order_total' + i + '"></span></strong>'
                             + '</td><td><button id="delete' + i + '"type="button" class="btn btn-danger btn_margin" value="' + data.message[i].id + '">删除订单</button>'
-                            + '<button id="again' + i + '"type="button" class="btn btn-success btn_margin" value="' + data.message[i].id + '">再次购买</button></td></tr>';
+                            + '<button id="again' + i + '"type="button" class="btn btn-success btn_margin" value="' + data.message[i].id + '">再次购买</button>'
+                            + '<button id="comment' + i + '"type="button" class="btn btn-info btn_margin" value="' + data.message[i].id + '">评价</button></td></tr>';
                         contentSum = contentSum + content;
                         // console.log(content);
                         // $("#ordertab").append(content);
@@ -628,8 +629,15 @@ $(function () {
                         //阻止click事件冒泡
                         e.stopPropagation();
                         // console.log($("#strong"+i).attr("value"));
-                        var url = 'details.html?spu=' + $("#order_goodsName" + i).attr("value");
+                        let url = 'details.html?spu=' + $("#order_goodsName" + i).attr("value");
                         // console.log(url);
+                        window.open(url);
+                    });
+                    // 评价
+                    $("#comment" + i).on("click", function (e) {
+                        //阻止click事件冒泡
+                        e.stopPropagation();
+                        let url = 'comment.html?id=' + $(this).attr("value");
                         window.open(url);
                     });
                     // 删除订单

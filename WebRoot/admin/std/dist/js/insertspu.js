@@ -94,6 +94,7 @@ $(function () {
         });
         form.on('submit(ensure)', function (res) {
             // console.log(res.field);
+            layer.load();
             let storageList = [];
             let colorList = [];
             let screenList = [];
@@ -124,6 +125,7 @@ $(function () {
                     screenList: JSON.stringify(screenList)
                 }, success: function (data) {
                     console.log(data);
+                    layer.closeAll('loading');
                     if (data.status == "success") {
                         layer.alert(data.message, {icon:1}, function () { location.href="";});
                         return false;

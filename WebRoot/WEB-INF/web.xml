@@ -317,6 +317,34 @@
     <description>This is the description of my J2EE component</description>
     <servlet-class>admin.OffLine</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>Search</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Search</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>OrderInfo</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.OrderInfo</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>Comment</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.Comment</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>ShowComment</servlet-name>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <description>This is the description of my J2EE component</description>
+    <servlet-class>shop.ShowComment</servlet-class>
+  </servlet>
+
+
+
+
 
 
 
@@ -576,6 +604,22 @@
   <servlet-mapping>
     <servlet-name>OffLine</servlet-name>
     <url-pattern>/servlet/OffLine</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Search</servlet-name>
+    <url-pattern>/servlet/Search</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OrderInfo</servlet-name>
+    <url-pattern>/servlet/OrderInfo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Comment</servlet-name>
+    <url-pattern>/servlet/Comment</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowComment</servlet-name>
+    <url-pattern>/servlet/ShowComment</url-pattern>
   </servlet-mapping>
 
 	<listener>

@@ -73,16 +73,19 @@ public class DeleteSpu extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		try {
-			stmt = conn.prepareStatement("delete from goodsValue where goodsID=?");
+			stmt = conn.prepareStatement("delete from price where goodsID=?");
 			stmt.setInt(1, spu);
 			int i = stmt.executeUpdate();
-			stmt = conn.prepareStatement("delete from img where goodsID=?");
+			stmt = conn.prepareStatement("delete from goodsValue where goodsID=?");
 			stmt.setInt(1, spu);
 			int j = stmt.executeUpdate();
-			stmt = conn.prepareStatement("delete from goods where goodsID=?");
+			stmt = conn.prepareStatement("delete from img where goodsID=?");
 			stmt.setInt(1, spu);
 			int k = stmt.executeUpdate();
-			if(i>0&&j>0&&k>0){
+			stmt = conn.prepareStatement("delete from goods where goodsID=?");
+			stmt.setInt(1, spu);
+			int l = stmt.executeUpdate();
+			if(i>0||j>0||k>0||l>0){
 				json.put("status", "success");
 				json.put("message", "商品信息删除成功");
 			}

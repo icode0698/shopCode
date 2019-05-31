@@ -110,13 +110,14 @@ $(document).ready(function () {
             //return;
           }
         },
-        error:function(XMLResponse){
+        error:function(data){
+          console.log(data);
           $("#error_hide").removeClass("hidden");
           // $("#error_hide").css("width", "100%");
           // $("#error_hide").css("height", "100%");
           // $("#error_hide").css("font-size", "14px");
-          $("#error_tip").text("抱歉，服务器异常。\nXMLResponse_Status:"+XMLResponse.status);
-          console.log("error_status:"+XMLResponse.status);
+          $("#error_tip").text("抱歉，服务器异常。\nXMLResponse_Status:"+data.status);
+          // console.log("error_status:"+data.status);
           return;
         }
        });

@@ -9,12 +9,12 @@
     <link href="assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
     <link rel='stylesheet' href='css/nprogress.css' />
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/animate.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./layui/css/layui.css" media="all">
     <link href="css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
-    <link href="css_own/category.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css_own/message.css" rel="stylesheet">
     <link href="css_own/common.css" rel="stylesheet">
-    <title>分类</title>
+    <title>给我们留言</title>
 </head>
 
 <body>
@@ -30,16 +30,19 @@
                 </button>
                 <span style="width:60px;height: 46px;"></span>
                 <a class="navbar-brand" style="padding:10px;margin-right: 5px;" href="index.html"><img
-                    style="height: 100%;" src="pic/shop.png" alt=""></a>
+                        style="height: 100%;" src="pic/shop.png" alt=""></a>
             </div>
             <div class="collapse navbar-collapse" id="example-navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="tran"><a href="index.html" target="_blank">首页</a></li>
-                    <li class="active tran"><a href="category.html" target="_blank">分类</a></li>
+                    <li class="tran"><a href="category.html" target="_blank">分类</a></li>
                     <li class="tran"><a href="search.html" target="_blank">搜索</a></li>
                     <li class="tran"><a href="message.html" target="_blank">给我们留言</a></li>
                     <li class="tran"><a href="personal.html" target="_blank">个人空间</a></li>
                 </ul>
+                <form class="navbar-form navbar-left">
+                    <input type="text" class="form-control" placeholder="Search...">
+                </form>
                 <form class="navbar-form navbar-right nav_margin">
                     <div id="login_no" class="">
                         <button id="top_btn_login" type="button" class="btn btn-success">登录</button>
@@ -55,7 +58,7 @@
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
                                 <li><a href="personal.html" target="_blank">个人空间</a></li>
-                                <li><a href="message.html" target="_blank">给我们留言</a></li>
+                                <li><a href="personal.html" target="_blank">给我们留言</a></li>
                                 <li role="separator" class="divider"></li>
                                 <li><button type="button" class="btn btn-danger btn_out" data-toggle="modal"
                                         data-target="#myModal">退出登录</button></li>
@@ -66,34 +69,6 @@
             </div>
         </div>
     </nav>
-    <div class="container">
-        <div class="row jumbotron_color">
-            <form>
-                <h3><span class="label label-default">分类</span></h3>
-                <p id="category">
-                    <label id="label_category" for="radio_category" class="btn btn-primary btn_margin">不限</label>
-                    <input type="radio" class="radio_display" name="category" id="radio_category" value="0" checked="checked" />
-                </p>
-                <h3><span class="label label-default">品牌</span></h3>
-                <p id="brand">
-                    <label id="label_brand" for="radio_brand" class="btn btn-primary btn_margin">不限</label>
-                    <input type="radio" class="radio_display" name="brand" id="radio_brand" value="0" checked="checked"/>
-                </p>
-            </form>
-        </div>
-        <div id="tip" style="margin-top:10px;"></div>
-        <div class="row" id="goods" style="margin-top:10px;">
-            <!-- <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <img src="pic/item.png" alt="...">
-                    <div class="caption">
-                        <h3>Thumbnail label</h3>
-                        <p><a href="#" class="btn btn-primary" role="button">Button</a>
-                    </div>
-                </div>
-            </div> -->
-        </div>
-    </div>
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -110,6 +85,39 @@
             </div>
         </div>
     </div>
+    <div id="message_div" class="container">
+            <blockquote class="layui-elem-quote layui-text">
+                当前评价商品的名称为<span id="goods" style="font-size:16px;color:#01AAED;"></span>
+                ，SKU为<span id="sku" style="font-size:16px;color:#01AAED;">0</span>
+                , 所属SPU为<span id="spu" style="font-size:16px;color:#01AAED;">0</span>
+                ，具体参数为<span id="color" style="font-size:16px;color:#01AAED;"></span>
+                &nbsp;<span id="storage" style="font-size:16px;color:#01AAED;"></span>
+                &nbsp;<span id="screen" style="font-size:16px;color:#01AAED;"></span>
+            </blockquote>
+            <div style="margin-top:20px;">
+                <form id="brandform" class="layui-form layui-form-pane" action="">
+                    <div style="margin-left:5px;margin-bottom: 10px;"><span style="margin-right:20px;">商品评分</span><div id="commentRate"></div></div>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label" style="margin-bottom:0px;">评价内容</label>
+                        <div class="layui-input-block">
+                            <textarea id="commentContent" style="margin-top:0px !important;" name="commentContent" placeholder="请输入评价内容" lay-verify="required"
+                                class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="layui-btn" type="reset">重置</button>
+                        <button class="layui-btn" lay-submit="" lay-filter="ensure" id="insert">立即评价</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+    <div id="success_div" class="container container_color text-center hidden">
+        <i class="fa fa-check fa-5x"></i>
+        <p class="p_padding">
+            <span style="font-size: 18px;" id="success_tip"></span>
+            <button id="again" type="button" class="btn btn-link">再次编辑</button>
+        </p>
+    </div>
     <script src="js/wow.min.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="assets/js/ie-emulation-modes-warning.js"></script>
@@ -120,9 +128,8 @@
     <!-- <script src="layer/layer.js"></script> -->
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
-    <script src="./layui/layui.js" charset="utf-8"></script>
     <script src="js_own/common.js"></script>
-    <script src="js_own/category.js"></script>
+    <script src="js_own/comment.js"></script>
     <script>
         new WOW().init();
     </script>

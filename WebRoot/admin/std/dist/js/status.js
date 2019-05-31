@@ -13,6 +13,8 @@ $(function () {
                 }
                 else {
                     layer.alert(data.message, { icon: 2 }, function () { location.href = 'login.html'; return; });
+                    setTimeout(function() { location.href = 'login.html';}, 1000);
+                    return;
                 }
             },
             error: function (XMLResponse) {

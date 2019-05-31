@@ -11,19 +11,21 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
-import adminbean.Value;
 import api.DataLink;
-import bean.DetailsBean;
+import api.SkuStock;
+import api.SpIDToValue;
+import bean.CommentBean;
 
-public class Category extends HttpServlet {
+public class ShowComment extends HttpServlet {
 
 	/**
 		 * Constructor of the object.
 		 */
-	public Category() {
+	public ShowComment() {
 		super();
 	}
 
@@ -68,38 +70,54 @@ public class Category extends HttpServlet {
 		DataLink dataLink = new DataLink();
 		Connection conn = dataLink.linkData();
 		PreparedStatement stmt = null;
+		PreparedStatement stmtIn = null;
 		ResultSet rs = null;
-		ArrayList<Value> categoryList = new ArrayList<Value>();
-		ArrayList<Value> brandList = new ArrayList<Value>();
+		ResultSet rsIn = null;
+		int spu = Integer.parseInt(request.getParameter("spu"));
+		SpIDToValue spIDToValue = new SpIDToValue();
+		ArrayList<CommentBean> commentList = new ArrayList<CommentBean>();
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		try {
-			stmt = conn.prepareStatement("select categoryID, categoryName from category");
+			stmt = conn.prepareStatement("select * from comment where spu=? order by createTime desc");
+			stmt.setInt(1, spu);
 			rs = stmt.executeQuery();
 			while(rs.next()){
-				Value category = new Value();
-				category.setId(rs.getInt(1));
-				category.setName(rs.getString(2));
-				categoryList.add(category);
+				CommentBean commentBean = new CommentBean();
+				commentBean.setId(rs.getInt(1));
+				commentBean.setUser(rs.getString(2));
+				stmtIn = conn.prepareStatement("select headPic from user where user=?");
+				stmtIn.setString(1, rs.getString(2));
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					commentBean.setHeadPic(rsIn.getString(1));
+				}
+				commentBean.setSku(rs.getInt(3));
+				stmtIn = conn.prepareStatement("select spID1,spID2,spID3 from price where sku=?");
+				stmtIn.setInt(1, rs.getInt(3));
+				rsIn = stmtIn.executeQuery();
+				while(rsIn.next()){
+					commentBean.setStorage(spIDToValue.getSpValue(rsIn.getInt(1)));
+					commentBean.setColor(spIDToValue.getSpValue(rsIn.getInt(2)));
+					commentBean.setScreen(spIDToValue.getSpValue(rsIn.getInt(3)));
+				}
+				commentBean.setSpu(rs.getInt(4));
+				commentBean.setComment(rs.getString(5));
+				commentBean.setRateValue(rs.getFloat(6));
+				commentBean.setCreateTime(rs.getString(7));
+				commentList.add(commentBean);
 			}
 			json.put("status", "success");
-			json.put("categoryList", categoryList);
-			stmt = conn.prepareStatement("select brandID, brandName from brand order by insertTime desc");
-			rs = stmt.executeQuery();
-			while(rs.next()){
-				Value brand = new Value();
-				brand.setId(rs.getInt(1));
-				brand.setName(rs.getString(2));
-				brandList.add(brand);
-			}
-			json.put("brandList", brandList);
-			out.write(json.toString());
-			out.flush();
-			out.close();
+			json.put("message", commentList);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
+			json.put("status", "error");
+			json.put("message", "商品评价加载出现未知错误");
 		}
+		out.write(json.toString());
+		out.flush();
+		out.close();
 	}
 
 	/**

@@ -81,7 +81,7 @@ public class Goods extends HttpServlet {
 		try{
 			if(categoryID==0){
 				if(brandID==0){
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods");
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods order by insertTime desc");
 					rs = stmt.executeQuery();
 					while(rs.next()){
 						ArrayList<String> imgList = new ArrayList<String>();
@@ -103,7 +103,7 @@ public class Goods extends HttpServlet {
 					json.put("message", itemList);
 				}
 				else{
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods where brandID=?");
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods where brandID=? order by insertTime desc");
 					stmt.setInt(1, brandID);
 					rs = stmt.executeQuery();
 					while(rs.next()){
@@ -128,7 +128,7 @@ public class Goods extends HttpServlet {
 			}
 			else{
 				if(brandID==0){
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=?");
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=? order by insertTime desc");
 					stmt.setInt(1, categoryID);
 					rs = stmt.executeQuery();
 					while(rs.next()){
@@ -151,7 +151,7 @@ public class Goods extends HttpServlet {
 					json.put("message", itemList);
 				}
 				else{
-					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=? and brandID=?");
+					stmt = conn.prepareStatement("select goodsID, goodsName from goods where categoryID=? and brandID=? order by insertTime desc");
 					stmt.setInt(1, categoryID);
 					stmt.setInt(2, brandID);
 					rs = stmt.executeQuery();

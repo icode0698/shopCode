@@ -33,3 +33,13 @@ body{
 .stock_size{
     font-size: 16px;
 }
+.bs-callout-info {
+    border-left-color: #1b809e !important;
+}
+.bs-callout {
+    padding: 20px;
+    margin: 20px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px;
+}
