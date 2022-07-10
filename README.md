@@ -33,14 +33,14 @@ eclipse或者idea手动添加项目目录下libs依赖
 
 # 8. 访问项目
 打开浏览器输入：http://localhost:8080/index.html
+```
 ![image](https://github.com/icode0698/shopCode/blob/master/index.png)
-
+```
 # 9. 特别注意
 由于项目一开始使用Eclipse开发，所以在导入IDEA后除了需要配置项目依赖，还需要配置打包的内容和目录
+```
 ![image](https://github.com/icode0698/shopCode/blob/master/idea_dir.png)
 ![image](https://github.com/icode0698/shopCode/blob/master/idea_web.png)
 ![image](https://github.com/icode0698/shopCode/blob/master/idea_put.png)
-
-```
 
 ------
