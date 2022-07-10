@@ -7,7 +7,7 @@
 # 回顾（2022年7月10日）
 - **回顾自己的毕业设计，项目整体比较简单，却是当时参加工作必不可少的知识储备，大学期间用基础知识重复造的轮子让自己在工作中可以更快的学习和理解新框架，所以很感谢当时导师的建议；**
 - **工作以来，在GitHub上fork了一些优秀的开源项目，空闲时间部署在自己电脑上反复研究，工作中也借鉴了一些优秀的代码，不得不说Spring全家桶很强大，使用它来开发企业级Webapp会便捷很多，自己学了几年也是菜鸟级别，向GitHub上的大佬继续学习；**
-- **2022年7月10日自己突发奇想，想给毕业设计添加上自己的感想和详细介绍；**
+- **给毕业设计添加上自己的感想和详细介绍；**
 
 ## 开发部署
 
@@ -33,9 +33,13 @@ eclipse或者idea手动添加项目目录下libs依赖
 
 # 8. 访问项目
 打开浏览器输入：http://localhost:8080/index.html
+![image](https://github.com/icode0698/shopCode/blob/master/index.png)
 
-# 8. 特别注意
+# 9. 特别注意
 由于项目一开始使用Eclipse开发，所以在导入IDEA后除了需要配置项目依赖，还需要配置打包的内容和目录
+![image](https://github.com/icode0698/shopCode/blob/master/idea_dir.png)
+![image](https://github.com/icode0698/shopCode/blob/master/idea_web.png)
+![image](https://github.com/icode0698/shopCode/blob/master/idea_put.png)
 
 ```
 
