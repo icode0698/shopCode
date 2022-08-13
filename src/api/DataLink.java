@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DataLink {
 	String url = "jdbc:mysql://localhost/shop_online?serverTimezone=UTC&useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true";
 	String userName = "root";
-	String password = "123456";
+	String password = "root";
 	Connection conn = null;
 	public String getUserName() {
 		return userName;
