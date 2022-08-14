@@ -7,7 +7,6 @@ $(function () {
         getMessage("message", $("#messagetime").val());
         $("#usertime").on("change", function () {
             console.log($("#usertime").val());
-            $("#usertrs").empty();
             getData("user", $("#usertime").val());
         });
         $("#messagetime").on("change", function () {
@@ -63,7 +62,6 @@ $(function () {
                 success: function (data) {
                     console.log(data);
                     if (data.status == "success") {
-                        $("#messagetrs").empty();
                         if (data.message.length == 0) {
                             table.init('message', {
                                 page: true
@@ -82,6 +80,7 @@ $(function () {
                                 , limit: 10
                                 , cellMinWidth: 40
                             });
+                            $("#messagetrs").empty();
                         }
                     }
                     else {
@@ -128,11 +127,12 @@ $(function () {
                                     + '<td>' + data.message[i].lastTime + '</td><td>' + online + '</td><td>' + data.message[i].viewCount + '</td></tr>';
                                 $("#usertrs").append(content);
                             }
-                            // table.init('user', {
-                            //     page: true
-                            //     , limit: 10
-                            //     , cellMinWidth: 40
-                            // });
+                            table.init('user', {
+                                page: true
+                                , limit: 10
+                                , cellMinWidth: 40
+                            });
+                            $("#usertrs").empty();
                             for (let i = 0; i < data.message.length; i++) {
                                 console.log(i);
                                 $("#" + data.message[i].user).on("click", function () {

@@ -143,7 +143,7 @@ public class Login extends HttpServlet {
 					out.close();
 				}
 			}
-		}catch (SQLException e) {System.out.println(e.getMessage());}
+		}catch (SQLException e) {e.printStackTrace();}
 		
 	}
 
