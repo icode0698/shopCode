@@ -1,5 +1,3 @@
-![image](https://github.com/icode0698/shopCode/blob/master/index.png)
-
 # shop（2019年6月）
 - **shop项目是大学做的毕业设计，界面响应式布局，对于JavaWeb初学者是比较好的选择；**
 - **项目使用前后端分离的开发模式，对初学者十分友好，无需复杂的操作步骤，简单配置项目依赖就可以轻松启动项目；**
@@ -15,9 +13,7 @@
 
 ```
 # 1. 克隆项目
-```
-![image](https://github.com/icode0698/shopCode/blob/master/index.png)
-```
+
 # 2. 导入项目依赖
 eclipse或者idea手动添加项目目录下libs依赖
 
