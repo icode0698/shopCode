@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import api.BCryptUtil;
 import org.json.JSONObject;
 
 import api.DataLink;
@@ -79,7 +80,7 @@ public class AdminLogin extends HttpServlet {
 			pstmt.setString(1, admin);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
-				if(password.equals(rs.getString(1))){
+				if(BCryptUtil.checkpw(password, rs.getString(1))){
 					json.put("status", "success");
 					json.put("admin", admin);
 					json.put("message", "登录成功");

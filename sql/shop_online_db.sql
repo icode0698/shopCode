@@ -31,7 +31,7 @@ CREATE TABLE `admin`  (
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
-INSERT INTO `admin` VALUES ('admin', 'admin', '超级管理员');
+INSERT INTO `admin` VALUES ('admin', '$2a$10$SOZcxufYTFtgtKmgVqfuxOe34m2pjhLM6DoII0pI.9kKZKJTEsPZ2', '超级管理员');
 
 -- ----------------------------
 -- Table structure for admininfo
@@ -789,11 +789,11 @@ CREATE TABLE `user`  (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1023762184', 'lalala123', 'y', 'headpic\\user.png', '2019-05-28 22:53:26', '2022-07-08 22:33:20', '2022-07-08 22:33:20', 17, 0);
-INSERT INTO `user` VALUES ('20153333', 'lalala123', 'y', 'headpic\\user.png', '2019-05-28 22:54:11', '2022-07-08 22:32:45', '2022-07-08 22:32:45', 22, 0);
-INSERT INTO `user` VALUES ('SystemTest', '123456', '系统测试账号', 'headpic\\SystemTest.png', '2019-03-28 14:33:49', '2022-07-08 22:35:12', '2022-07-08 22:35:12', 207, 0);
-INSERT INTO `user` VALUES ('l', '123456', 'l', 'headpic\\l.jpg', '2019-05-27 21:03:52', '2022-07-08 22:30:27', '2022-07-08 22:30:27', 30, 0);
-INSERT INTO `user` VALUES ('l0810', 'l', 'l', 'headpic\\l0810.jpg', '2019-05-29 22:34:22', '2022-07-08 22:31:59', '2022-07-08 22:31:59', 17, 0);
-INSERT INTO `user` VALUES ('sakura', 'ygy123456789', 'y', 'headpic\\user.png', '2019-05-28 22:53:23', '2022-07-08 22:34:48', '2022-07-08 22:34:48', 19, 0);
+INSERT INTO `user` VALUES ('1023762184', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', 'y', 'headpic\\user.png', '2019-05-28 22:53:26', '2022-07-08 22:33:20', '2022-07-08 22:33:20', 17, 0);
+INSERT INTO `user` VALUES ('20153333', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', 'y', 'headpic\\user.png', '2019-05-28 22:54:11', '2022-07-08 22:32:45', '2022-07-08 22:32:45', 22, 0);
+INSERT INTO `user` VALUES ('SystemTest', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', '系统测试账号', 'headpic\\SystemTest.png', '2019-03-28 14:33:49', '2022-07-08 22:35:12', '2022-07-08 22:35:12', 207, 0);
+INSERT INTO `user` VALUES ('l', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', 'l', 'headpic\\l.jpg', '2019-05-27 21:03:52', '2022-07-08 22:30:27', '2022-07-08 22:30:27', 30, 0);
+INSERT INTO `user` VALUES ('l0810', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', 'l', 'headpic\\l0810.jpg', '2019-05-29 22:34:22', '2022-07-08 22:31:59', '2022-07-08 22:31:59', 17, 0);
+INSERT INTO `user` VALUES ('sakura', '$2a$10$oQDkBU.9CNH1fGddsl.0..vst2SLC7Jk1c7edy.X.xgyRGZBCy7o2', 'y', 'headpic\\user.png', '2019-05-28 22:53:23', '2022-07-08 22:34:48', '2022-07-08 22:34:48', 19, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
